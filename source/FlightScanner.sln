@@ -9,6 +9,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{868F9828
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlightScanner.AirportCodes.Cli.IntegrationTests", "..\tests\FlightScanner.AirportCodes.Cli.IntegrationTests\FlightScanner.AirportCodes.Cli.IntegrationTests.csproj", "{7454DFA5-E290-4EC5-81C8-D8DF28F76FEE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlightScanner.Persistence", "FlightScanner.Persistence\FlightScanner.Persistence.csproj", "{7D970B8E-BDD5-4339-883C-B716CE8EDEA7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlightScanner.Domain", "FlightScanner.Domain\FlightScanner.Domain.csproj", "{0778BAE4-7BAB-4DFD-9AC7-930BF273204E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,6 +27,14 @@ Global
 		{7454DFA5-E290-4EC5-81C8-D8DF28F76FEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7454DFA5-E290-4EC5-81C8-D8DF28F76FEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7454DFA5-E290-4EC5-81C8-D8DF28F76FEE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D970B8E-BDD5-4339-883C-B716CE8EDEA7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D970B8E-BDD5-4339-883C-B716CE8EDEA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D970B8E-BDD5-4339-883C-B716CE8EDEA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D970B8E-BDD5-4339-883C-B716CE8EDEA7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0778BAE4-7BAB-4DFD-9AC7-930BF273204E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0778BAE4-7BAB-4DFD-9AC7-930BF273204E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0778BAE4-7BAB-4DFD-9AC7-930BF273204E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0778BAE4-7BAB-4DFD-9AC7-930BF273204E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
