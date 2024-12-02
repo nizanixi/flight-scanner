@@ -1,0 +1,58 @@
+name: Upload database
+
+on:
+  workflow_dispatch:
+    # Allows the workflow to be triggered manually
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Setup .NET SDK
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '8.0.x' # Use the appropriate .NET version for your project
+
+    - name: Restore dependencies
+      run: dotnet restore source/FlightScanner.AirportCodes.Cli
+
+    - name: Build the project
+      run: dotnet build --configuration Release source/FlightScanner.AirportCodes.Cli
+
+    - name: Publish the executable
+      run: dotnet publish --configuration Release --output source/FlightScanner.AirportCodes.Cli/Release source/FlightScanner.AirportCodes.Cli
+
+    - name: Upload Release directory as artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: ReleaseFiles
+        path: source/FlightScanner.AirportCodes.Cli/Release
+
+  run-exe-and-upload-database:
+    runs-on: ubuntu-latest
+    needs: build-and-release
+
+    steps:
+    - name: Download Release artifact
+      uses: actions/download-artifact@v3
+      with:
+        name: ReleaseFiles
+        path: source/FlightScanner.AirportCodes.Cli/Release
+
+    - name: Set executable permission
+      run: chmod +x source/FlightScanner.AirportCodes.Cli/Release/FlightScanner.AirportCodes.Cli
+
+    - name: Run the executable with connection string
+      run: |
+        cd source/FlightScanner.AirportCodes.Cli/Release
+        ./FlightScanner.AirportCodes.Cli "Data Source=IataAirportCodesDatabase;Version=3;"
+
+    - name: Upload output data as artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: IataAirportCodesDatabase
+        path: source/FlightScanner.AirportCodes.Cli/Release/IataAirportCodesDatabase

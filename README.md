@@ -1,7 +1,7 @@
 # Flight Scanner
 
 ## Usage
-1. Use CLI project to generate database file with IATA codes from [Wikipedia](https://en.wikipedia.org/wiki/List_of_airports_by_IATA_code:_A) page
+1. Use CLI project to generate database file locally with IATA codes from [Wikipedia](https://en.wikipedia.org/wiki/List_of_airports_by_IATA_code:_A) page. This file can also be downloaded from GitHub action artifacts after running action 'Upload database'.
 
 ## Architecture
 - **CLI project** - it is responsible for scraping data from wikipedia page and exporting it to database file. This is done since IATA codes sholdn't be taken from resource that almost everyone can edit. This database file can afterwards be used on server side of application.
