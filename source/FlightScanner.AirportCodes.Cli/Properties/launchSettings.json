@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "FlightScanner.AirportCodes.Cli": {
+      "commandName": "Project",
+      "commandLineArgs": "\"Data Source=airports.db;Version=3;\""
+    }
+  }
+}

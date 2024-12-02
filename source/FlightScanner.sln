@@ -3,12 +3,34 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlightScanner.AirportCodes.Cli", "FlightScanner.AirportCodes.Cli\FlightScanner.AirportCodes.Cli.csproj", "{DB93236A-8E0C-4095-910B-3D43EFEB47DC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{868F9828-5536-4F4F-AEF8-14EFDF29C167}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlightScanner.AirportCodes.Cli.IntegrationTests", "..\tests\FlightScanner.AirportCodes.Cli.IntegrationTests\FlightScanner.AirportCodes.Cli.IntegrationTests.csproj", "{7454DFA5-E290-4EC5-81C8-D8DF28F76FEE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DB93236A-8E0C-4095-910B-3D43EFEB47DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB93236A-8E0C-4095-910B-3D43EFEB47DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB93236A-8E0C-4095-910B-3D43EFEB47DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB93236A-8E0C-4095-910B-3D43EFEB47DC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7454DFA5-E290-4EC5-81C8-D8DF28F76FEE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7454DFA5-E290-4EC5-81C8-D8DF28F76FEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7454DFA5-E290-4EC5-81C8-D8DF28F76FEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7454DFA5-E290-4EC5-81C8-D8DF28F76FEE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{7454DFA5-E290-4EC5-81C8-D8DF28F76FEE} = {868F9828-5536-4F4F-AEF8-14EFDF29C167}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {787BD4BE-AE24-4A95-8DEB-9484F8821055}
 	EndGlobalSection
 EndGlobal
