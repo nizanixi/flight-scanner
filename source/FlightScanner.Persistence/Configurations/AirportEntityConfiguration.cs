@@ -1,12 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
-using FlightScanner.Domain.Models;
+using FlightScanner.Domain.Entities;
 
 namespace FlightScanner.Persistence.Configurations;
 
-public class AirportEntityConfiguration : IEntityTypeConfiguration<Airport>
+public class AirportEntityConfiguration : IEntityTypeConfiguration<AirportEntity>
 {
-    public void Configure(EntityTypeBuilder<Airport> builder)
+    public void Configure(EntityTypeBuilder<AirportEntity> builder)
     {
         builder.HasKey(e => e.IataCode);
         builder.Property(e => e.IataCode)

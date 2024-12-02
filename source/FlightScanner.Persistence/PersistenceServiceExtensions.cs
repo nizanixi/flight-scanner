@@ -1,4 +1,6 @@
-﻿using FlightScanner.Persistence.Database;
+﻿using FlightScanner.Domain.Repositories;
+using FlightScanner.Persistence.Database;
+using FlightScanner.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
@@ -15,6 +17,8 @@ public static class PersistenceServiceExtensions
 
     public static IServiceCollection AddInfrastructureProjectServices(this IServiceCollection services)
     {
+        services.AddScoped<IAirportRepository, AirportRepository>();
+
         services.AddDbContext<AirportsDbContext>(optionsBuilder =>
         {
             optionsBuilder.UseSqlite($"Data Source={s_databaseFilePath}");

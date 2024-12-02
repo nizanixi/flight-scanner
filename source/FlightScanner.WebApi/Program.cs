@@ -1,4 +1,10 @@
-﻿internal class Program
+﻿using FlightsScanner.Application.Constants;
+using FlightsScanner.Application.Infrastructure;
+using FlightsScanner.Application.Services.Contracts;
+using FlightScanner.Persistence;
+using FlightsScanner.Application.Airports.Queries.GetAirport;
+
+internal class Program
 {
     private static void Main(string[] args)
     {
@@ -17,6 +23,21 @@
     {
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
+
+        builder.Services.AddControllers();
+
+        builder.Services.AddInfrastructureProjectServices();
+
+        builder.Services.AddMemoryCache(options =>
+        {
+            options.SizeLimit = CacheConstants.CACHE_LIMIT;
+        });
+        builder.Services.AddScoped<IInMemoryCacheService, InMemoryCacheService>();
+
+        builder.Services.AddMediatR(configuration =>
+        {
+            configuration.RegisterServicesFromAssemblies(typeof(GetAirportQuery).Assembly);
+        });
     }
 
     private static void ConfigureMiddleware(WebApplication app)
@@ -29,5 +50,7 @@
         }
 
         app.UseHttpsRedirection();
+
+        app.MapControllers();
     }
 }

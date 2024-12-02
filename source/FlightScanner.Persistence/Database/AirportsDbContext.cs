@@ -1,4 +1,4 @@
-﻿using FlightScanner.Domain.Models;
+﻿using FlightScanner.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace FlightScanner.Persistence.Database;
@@ -12,7 +12,7 @@ public class AirportsDbContext : DbContext
 
     #region Properties
 
-    public DbSet<Airport> Airports { get; set; }
+    public DbSet<AirportEntity> Airports { get; set; }
 
     #endregion
 

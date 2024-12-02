@@ -1,8 +1,8 @@
-﻿namespace FlightScanner.Domain.Models;
+﻿namespace FlightScanner.Domain.Entities;
 
-public class Airport
+public class AirportEntity
 {
-    public Airport(string iataCode, string? airportName, string? location)
+    public AirportEntity(string iataCode, string? airportName, string? location)
     {
         IataCode = iataCode;
         AirportName = airportName;
