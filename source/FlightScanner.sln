@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlightScanner.Persistence",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlightScanner.Domain", "FlightScanner.Domain\FlightScanner.Domain.csproj", "{0778BAE4-7BAB-4DFD-9AC7-930BF273204E}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlightScanner.WebApi", "FlightScanner.WebApi\FlightScanner.WebApi.csproj", "{8A92404B-9967-4249-BE31-6C0760007B55}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +37,10 @@ Global
 		{0778BAE4-7BAB-4DFD-9AC7-930BF273204E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0778BAE4-7BAB-4DFD-9AC7-930BF273204E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0778BAE4-7BAB-4DFD-9AC7-930BF273204E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8A92404B-9967-4249-BE31-6C0760007B55}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A92404B-9967-4249-BE31-6C0760007B55}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A92404B-9967-4249-BE31-6C0760007B55}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A92404B-9967-4249-BE31-6C0760007B55}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
