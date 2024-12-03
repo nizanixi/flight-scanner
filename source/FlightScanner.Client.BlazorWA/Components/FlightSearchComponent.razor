@@ -1,0 +1,106 @@
+﻿@inherits FlightSearchComponentBase
+
+<EditForm Model="FlightSearchData"
+          OnSubmit="SubmitForm">
+    <div>
+        <div class="currency-selector-group">
+            <label>
+                Currency
+            </label>
+            <InputSelect @bind-Value="@FlightSearchData.SelectedCurrency"
+                         class="form-control"
+                         style="width: fit-content;">
+                @foreach (var currency in Currencies)
+                {
+                    <option value="@currency">@currency</option>
+                }
+            </InputSelect>
+        </div>
+
+        <div>
+            <div class="row">
+                <div class="col">
+                    <label>
+                        Departure date
+                    </label>
+                    <InputDate @bind-Value="@FlightSearchData.DepartureDate"
+                               style="width: fit-content;"
+                               class="form-control"
+                               min="@MinimumDepartureDate"
+                               max="@MaximumDepartureDate" />
+                </div>
+
+                <div class="col">
+                    <label>
+                        Departure airport
+                    </label>
+                    <div>
+                        <InputSelect @bind-Value="FlightSearchData.DepartureAirportIataCode"
+                                     class="form-select"
+                                     style="width: fit-content;">
+                            <option value="" disabled>Select an option</option>
+                            @foreach (var iataCode in DropdownOptions)
+                            {
+                                <option value="@iataCode">@iataCode</option>
+                            }
+                        </InputSelect>
+                    </div>
+                </div>
+
+                <div class="col align-content-center">
+                    <Icon Name="IconName.ArrowLeftRight" />
+                </div>
+
+                <div class="col">
+                    <label>
+                        Destination airport
+                    </label>
+                    <div>
+                        <InputSelect @bind-Value="FlightSearchData.DestionationAirportIataCode"
+                                     class="form-select"
+                                     style="width: fit-content;">
+                            <option value="" disabled>Select an option</option>
+                            @foreach (var iataCode in DropdownOptions)
+                            {
+                                <option value="@iataCode">@iataCode</option>
+                            }
+                        </InputSelect>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <label>
+                        Return date
+                    </label>
+                    <InputDate @bind-Value="@FlightSearchData.ReturnDate"
+                               style="width: fit-content;"
+                               class="form-control"
+                               min="@MinimumReturnDate"
+                               max="@MaximumReturnDate" />
+                </div>
+
+                <div class="col">
+                    <label>
+                        Number of passengers
+                    </label>
+                    <InputNumber @bind-Value="@FlightSearchData.NumberOfPassengers"
+                                 class="form-control"
+                                 style="width: fit-content;" />
+                </div>
+
+                <div class="col align-content-end">
+                    <button type="submit"
+                            style="width:200px;"
+                            class="btn btn-primary">
+                        <div>
+                            <Icon Name="IconName.Search" />
+                        </div>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+</EditForm>

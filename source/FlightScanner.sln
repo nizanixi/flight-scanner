@@ -17,6 +17,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlightScanner.WebApi", "Fli
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlightsScanner.Application", "FlightsScanner.Application\FlightsScanner.Application.csproj", "{206F0DE9-7E35-4610-BC73-332324891C26}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlightScanner.Client.BlazorWA", "FlightScanner.Client.BlazorWA\FlightScanner.Client.BlazorWA.csproj", "{BD53845C-9B07-4936-B940-DA7B67483434}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,6 +49,10 @@ Global
 		{206F0DE9-7E35-4610-BC73-332324891C26}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{206F0DE9-7E35-4610-BC73-332324891C26}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{206F0DE9-7E35-4610-BC73-332324891C26}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BD53845C-9B07-4936-B940-DA7B67483434}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD53845C-9B07-4936-B940-DA7B67483434}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD53845C-9B07-4936-B940-DA7B67483434}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD53845C-9B07-4936-B940-DA7B67483434}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,11 @@
+﻿.currency-selector-group {
+    display: flex;
+    justify-content: end;
+    margin-right: 50px;
+    margin-bottom: 10px;
+    align-items: center;
+}
+
+    .currency-selector-group label {
+        margin-right: 8px;
+    }

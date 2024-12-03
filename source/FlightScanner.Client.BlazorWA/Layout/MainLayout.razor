@@ -1,0 +1,20 @@
+﻿@using FlightScanner.Client.BlazorWA.Components
+@inherits LayoutComponentBase
+
+<div class="page">
+    <main class="main">
+        <div class="page-row top-bar">
+            <label>
+                Flight Scanner
+            </label>
+        </div>
+
+        <div class="page-row search-form">
+            <FlightSearchComponent />
+        </div>
+
+        <div class="page-row grid-display">
+            <AvailableFlightsGridComponent />
+        </div>
+    </main>
+</div>
