@@ -28,7 +28,7 @@ public class InMemoryCacheService : IInMemoryCacheService
             .SetSize(CacheConstants.FLIGHT_ITEM_CACHE_SIZE);
     }
 
-    public async Task<T> TryGetCachedAirportItem<T>(string cacheKey, Func<Task<T>> getResultDelegate)
+    public async Task<T> TryGetCachedItem<T>(string cacheKey, Func<Task<T>> getResultDelegate)
     {
         MemoryCacheEntryOptions cacheExpiration;
         if (typeof(T) == typeof(AirportEntity))

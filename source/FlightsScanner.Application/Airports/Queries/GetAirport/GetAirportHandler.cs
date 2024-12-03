@@ -19,7 +19,7 @@ public class GetAirportHandler : IRequestHandler<GetAirportQuery, AirportEntity>
 
     public async Task<AirportEntity> Handle(GetAirportQuery request, CancellationToken cancellationToken)
     {
-        var airport = await _inMemoryCacheService.TryGetCachedAirportItem(
+        var airport = await _inMemoryCacheService.TryGetCachedItem(
             cacheKey: request.IataCode,
             getResultDelegate: () => _airportRepository.GetAirportWithIataCode(request.IataCode, cancellationToken));
 

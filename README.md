@@ -18,3 +18,4 @@
 
 ## Possible improvements
 - Use Infrastructure project to better decouple some logic like caching from Application
+- Discuss if any kind of authorization is needed
