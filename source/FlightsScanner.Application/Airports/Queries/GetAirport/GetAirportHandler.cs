@@ -1,27 +1,38 @@
 ﻿using FlightScanner.Domain.Entities;
 using FlightScanner.Domain.Exceptions;
 using FlightScanner.Domain.Repositories;
-using FlightsScanner.Application.Services.Contracts;
+using FlightsScanner.Application.Constants;
 using MediatR;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace FlightsScanner.Application.Airports.Queries.GetAirport;
 
 public class GetAirportHandler : IRequestHandler<GetAirportQuery, AirportEntity>
 {
     private readonly IAirportRepository _airportRepository;
-    private readonly IInMemoryCacheService _inMemoryCacheService;
+    private readonly IMemoryCache _memoryCache;
+    private readonly MemoryCacheEntryOptions _airportItemCacheEntryOptions;
 
-    public GetAirportHandler(IAirportRepository airportRepository, IInMemoryCacheService inMemoryCacheService)
+    public GetAirportHandler(IAirportRepository airportRepository, IMemoryCache memoryCache)
     {
         _airportRepository = airportRepository;
-        _inMemoryCacheService = inMemoryCacheService;
+        _memoryCache = memoryCache;
+
+        _airportItemCacheEntryOptions = new MemoryCacheEntryOptions()
+            .SetSlidingExpiration(TimeSpan.FromSeconds(CacheConstants.SLIDING_EXPIRATION_FOR_IATA_CODES_IN_SECONDS))
+            .SetAbsoluteExpiration(TimeSpan.FromHours(CacheConstants.ABSOLUTE_EXPIRATION_FOR_IATA_CODES_IN_MINUTES))
+            .SetPriority(CacheItemPriority.Normal)
+            .SetSize(CacheConstants.IATA_CODE_CACHE_SIZE);
     }
 
     public async Task<AirportEntity> Handle(GetAirportQuery request, CancellationToken cancellationToken)
     {
-        var airport = await _inMemoryCacheService.TryGetCachedItem(
-            cacheKey: request.IataCode,
-            getResultDelegate: () => _airportRepository.GetAirportWithIataCode(request.IataCode, cancellationToken));
+        if (_memoryCache.TryGetValue(request.IataCode, out AirportEntity? cachedItem) && cachedItem != null)
+        {
+            return cachedItem;
+        }
+
+        var airport = await _airportRepository.GetAirportWithIataCode(request.IataCode, cancellationToken);
 
         if (string.IsNullOrEmpty(airport.AirportName))
         {
@@ -32,6 +43,11 @@ public class GetAirportHandler : IRequestHandler<GetAirportQuery, AirportEntity>
         {
             throw new InvalidResponseException($"Airport with code {airport.IataCode} doesn't have location!");
         }
+
+        _memoryCache.Set(
+            key: request.IataCode,
+            value: airport,
+            options: _airportItemCacheEntryOptions);
 
         return airport;
     }

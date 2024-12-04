@@ -2,5 +2,6 @@
 
 public static class HttpClientConstants
 {
-    public const string AVIATIONSTACK_CLIENT_NAME = "Aviationstack API client";
+    public const string DEFAULT_HTTP_CLIENT_NAME = "Default HTTP client";
+    public const string AMADEUS_CLIENT_NAME = "Amadeus API client";
 }

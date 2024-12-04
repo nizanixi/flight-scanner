@@ -27,4 +27,16 @@ public static class CacheConstants
     public const int FLIGHT_ITEM_CACHE_SIZE = 10;
 
     #endregion
+
+    #region Flights
+
+    public const string AMADEUS_FLIGHT_SEARCH_API_KEY = "AmadeusFlightSearchApiKey";
+
+    public const int SLIDING_EXPIRATION_FOR_AMADEUS_AUTHORIZATION = 300;
+
+    public const int ABSOLUTE_EXPIRATION_FOR_AMADEUS_AUTHORIZATION = 1;
+
+    public const int AMADEUS_AUTHORIZATION_CACHE_SIZE = 1;
+
+    #endregion
 }

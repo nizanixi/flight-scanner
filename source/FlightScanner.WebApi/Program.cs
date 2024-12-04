@@ -1,5 +1,4 @@
 ﻿using FlightsScanner.Application.Constants;
-using FlightsScanner.Application.Infrastructure;
 using FlightsScanner.Application.Services.Contracts;
 using FlightScanner.Persistence;
 using FlightsScanner.Application.Airports.Queries.GetAirport;
@@ -7,6 +6,7 @@ using FlightScanner.Domain.Services;
 using FlightsScanner.Application.Services.Implementations;
 using FlightScanner.Domain.Entities;
 using FlightsScanner.Application.Flights.Queries.GetFlights;
+using FlightsScanner.Application.Authentication;
 
 internal class Program
 {
@@ -40,18 +40,25 @@ internal class Program
         {
             options.SizeLimit = CacheConstants.CACHE_LIMIT;
         });
-        builder.Services.AddScoped<IInMemoryCacheService, InMemoryCacheService>();
-        builder.Services.AddScoped<IFlightSearchService, AviationStackFlightSearchService>();
+        builder.Services.AddScoped<IFlightSearchService, AmadeusFlightSearchService>();
+        builder.Services.AddScoped<IAmadeusAuthorizatoinHandlerService, AmadeusAuthorizatoinHandlerService>();
 
         builder.Services.AddMediatR(configuration =>
         {
             configuration.RegisterServicesFromAssemblies(
                 typeof(GetAirportQuery).Assembly,
                 typeof(GetFlightsQuery).Assembly,
-                typeof(FlightEntity).Assembly);
+                typeof(FlightEntityDto).Assembly);
         });
 
-        builder.Services.AddHttpClient(HttpClientConstants.AVIATIONSTACK_CLIENT_NAME);
+        builder.Services.AddHttpClient(HttpClientConstants.DEFAULT_HTTP_CLIENT_NAME);
+        builder.Services.AddHttpClient(HttpClientConstants.AMADEUS_CLIENT_NAME)
+            .AddHttpMessageHandler(provider =>
+            {
+                var amadeusAuthorizatoinHandlerService = provider.GetRequiredService<IAmadeusAuthorizatoinHandlerService>();
+
+                return new AuthenticatedHttpClientHandler(amadeusAuthorizatoinHandlerService);
+            });
     }
 
     private static void ConfigureMiddleware(WebApplication app)

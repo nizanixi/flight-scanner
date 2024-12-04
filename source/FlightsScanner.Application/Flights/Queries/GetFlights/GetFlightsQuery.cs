@@ -3,13 +3,13 @@ using MediatR;
 
 namespace FlightsScanner.Application.Flights.Queries.GetFlights;
 
-public class GetFlightsQuery : IRequest<IReadOnlyList<FlightEntity>>
+public class GetFlightsQuery : IRequest<IReadOnlyList<FlightEntityDto>>
 {
     public GetFlightsQuery(
         string departureAirportIataCode,
         DateTime departureTime,
         string destinationAirportIataCode,
-        DateTime returnTripTime,
+        DateTime? returnTripTime,
         int numberOfPassengers,
         string currency)
     {
@@ -27,7 +27,7 @@ public class GetFlightsQuery : IRequest<IReadOnlyList<FlightEntity>>
 
     public string DestinationAirportIataCode { get; }
 
-    public DateTime ReturnTripTime { get; }
+    public DateTime? ReturnTripTime { get; }
 
     public int NumberOfPassengers { get; }
 

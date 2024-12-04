@@ -16,7 +16,3 @@
     - uses Repository pattern for decoupling access to database.
     - contains various middleware: caching, validation of input IATA code, invalid request oarameter to database filter, URI disconitinuation filter
 - **UI** - use Blazor Web Assembly as frontend technology
-
-## Possible improvements
-- Use Infrastructure project to better decouple some logic like caching from Application
-- Discuss if any kind of authorization is needed

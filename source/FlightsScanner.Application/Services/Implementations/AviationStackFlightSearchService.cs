@@ -10,7 +10,7 @@ namespace FlightsScanner.Application.Services.Implementations;
 
 public class AviationStackFlightSearchService : IFlightSearchService
 {
-    private const string AVIATIONSTACK_FLIGHT_SEARCH_API_KEY = "AviationStackFlightSearchApiKey";
+    private const string AVIATIONSTACK_FLIGHT_SEARCH_CONFIGURATION_KEY = "AviationStackFlightSearchApiKey";
     private const string AVIATIONSTACK_BASE_REQUEST_URI = "https://api.aviationstack.com/v1/flights";
     private const string API_KEY_TERM = "access_key";
     private const string DEPARTURE_AIRPORT_IATA_CODE_HEADER = "dep_iata";
@@ -24,11 +24,11 @@ public class AviationStackFlightSearchService : IFlightSearchService
     public AviationStackFlightSearchService(IConfiguration configuration, IHttpClientFactory httpClientFactory)
     {
         _httpClientFactory = httpClientFactory;
-        _aviationstackFlightSearchApiKey = configuration[AVIATIONSTACK_FLIGHT_SEARCH_API_KEY]
+        _aviationstackFlightSearchApiKey = configuration[AVIATIONSTACK_FLIGHT_SEARCH_CONFIGURATION_KEY]
             ?? throw new ArgumentNullException("Aviation stack API key not found!");
     }
 
-    public async Task<IReadOnlyList<FlightEntity>> GetFlights(string departureAirportIataCode, DateTime departureTime, string destinationAirportIataCode, DateTime returnTripTime, int numberOfPassengers, string currency)
+    public async Task<IReadOnlyList<FlightEntityDto>> GetFlights(string departureAirportIataCode, DateTime departureTime, string destinationAirportIataCode, DateTime? returnTripTime, int numberOfPassengers, string currency)
     {
         var requestUri = $"{AVIATIONSTACK_BASE_REQUEST_URI}?{API_KEY_TERM}={_aviationstackFlightSearchApiKey}";
 
@@ -39,7 +39,7 @@ public class AviationStackFlightSearchService : IFlightSearchService
         httpRequestMessage.Headers.Add(DEPARTURE_DATE_HEADER, departureTime.ToString(AVIATION_STACK_DATE_TIME_FORMAT));
         httpRequestMessage.Headers.Add(ARRIVAL_AIRPORT_IATA_CODE_HEADER, destinationAirportIataCode);
 
-        var httpClient = _httpClientFactory.CreateClient(HttpClientConstants.AVIATIONSTACK_CLIENT_NAME);
+        var httpClient = _httpClientFactory.CreateClient(HttpClientConstants.DEFAULT_HTTP_CLIENT_NAME);
         var httpResponse = await httpClient.SendAsync(httpRequestMessage);
         httpResponse.EnsureSuccessStatusCode();
 
@@ -50,16 +50,18 @@ public class AviationStackFlightSearchService : IFlightSearchService
             throw new InvalidResponseException("Flight search didn't find any flights!");
         }
 
-        var flights = new List<FlightEntity>();
+        var flights = new List<FlightEntityDto>();
         foreach (var flight in results.FlightInfoDtos)
         {
-            var flightEntity = new FlightEntity(
-                flight.DepartureAirport.Airport,
-                flight.DepartureAirport.IataCode,
-                flight.DepartureAirport.Sheduled,
-                flight.ArrivalAirport.Airport,
-                flight.ArrivalAirport.IataCode,
-                flight.ArrivalAirport.Sheduled);
+            var flightEntity = new FlightEntityDto(
+                departureAirportIataCode: flight.DepartureAirport.IataCode,
+                departureDate: DateTime.Parse(flight.DepartureAirport.Sheduled),
+                arrivalAirportIataCode: flight.ArrivalAirport.IataCode,
+                returnDate: DateTime.Parse(flight.ArrivalAirport.Sheduled),
+                numberOfStops: default,
+                numberOfBookableSeats: default,
+                currency: string.Empty,
+                price: default);
 
             flights.Add(flightEntity);
         }
