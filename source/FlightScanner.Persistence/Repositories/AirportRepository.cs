@@ -32,4 +32,19 @@ public class AirportRepository : IAirportRepository
 
         return airport;
     }
+
+    public async Task<IReadOnlyList<AirportEntity>> GetAllAirports(CancellationToken cancellationToken)
+    {
+        var airports = await _airportsDbContext
+            .Airports
+            .AsNoTracking()
+            .ToListAsync();
+
+        if (airports == null)
+        {
+            throw new NotFoundException(typeof(AirportEntity), "Airports");
+        }
+
+        return airports;
+    }
 }

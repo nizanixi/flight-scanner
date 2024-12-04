@@ -40,10 +40,10 @@ public class AvailableFlightsController : ControllerBase
             numberOfPassengers: numberOfPassengers,
             currency: currency);
 
-        var response = await _sender.Send(
+        var flightOffers = await _sender.Send(
             request: getFlightsQuery,
             cancellationToken: cancellationToken);
 
-        return Ok(response);
+        return Ok(flightOffers);
     }
 }

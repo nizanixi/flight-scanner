@@ -2,6 +2,7 @@
 using FlightScanner.WebApi.Filters;
 using FlightScanner.WebApi.Validation;
 using FlightsScanner.Application.Airports.Queries.GetAirport;
+using FlightsScanner.Application.Airports.Queries.GetAllAirports;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Mime;
@@ -29,10 +30,24 @@ public class AirportCodesController : ControllerBase
         [FromQuery][IataCodeValidation] string iataCode,
         CancellationToken cancellationToken)
     {
-        var response = await _sender.Send(
+        var foundAirport = await _sender.Send(
             request: new GetAirportQuery(iataCode),
             cancellationToken: cancellationToken);
 
-        return Ok(response);
+        return Ok(foundAirport);
+    }
+
+    [Produces(MediaTypeNames.Application.Json)]
+    [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(IReadOnlyList<AirportEntity>))]
+    [HttpGet]
+    [Route("all-airports")]
+    public async Task<IActionResult> GetAllAirport(
+        CancellationToken cancellationToken)
+    {
+        var airportsResponse = await _sender.Send(
+            request: new GetAllAirportsQuery(),
+            cancellationToken: cancellationToken);
+
+        return Ok(airportsResponse);
     }
 }
