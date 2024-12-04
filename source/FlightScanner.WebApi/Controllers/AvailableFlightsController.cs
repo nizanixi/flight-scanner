@@ -1,9 +1,9 @@
-﻿using FlightScanner.Domain.Entities;
+﻿using FlightScanner.DTOs.Exceptions;
+using FlightScanner.DTOs.Responses;
 using FlightScanner.WebApi.Validation;
 using FlightsScanner.Application.Flights.Queries.GetFlights;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using System.ComponentModel;
 using System.Net.Mime;
 
 namespace FlightScanner.WebApi.Controllers;
@@ -20,7 +20,9 @@ public class AvailableFlightsController : ControllerBase
     }
 
     [Produces(MediaTypeNames.Application.Json)]
-    [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(IReadOnlyList<FlightEntity>))]
+    [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(FoundFlightsResponseDto))]
+    [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ExceptionDto))]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ExceptionDto))]
     [HttpGet]
     [Route("flights")]
     public async Task<IActionResult> GetAvailableFlights(

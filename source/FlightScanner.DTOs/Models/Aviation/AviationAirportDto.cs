@@ -1,8 +1,8 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace FlightScanner.Domain.DTOs;
+namespace FlightScanner.DTOs.Models.Aviation;
 
-public class AirportDto
+public class AviationAirportDto
 {
     [JsonPropertyName("airport")]
     public string Airport { get; set; } = null!;

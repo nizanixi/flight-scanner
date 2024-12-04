@@ -1,4 +1,4 @@
-﻿using FlightScanner.Domain.DTOs;
+﻿using FlightScanner.DTOs.Responses;
 using FlightsScanner.Application.Constants;
 using FlightsScanner.Application.Services.Contracts;
 using Microsoft.Extensions.Caching.Memory;
@@ -70,7 +70,7 @@ public class AmadeusAuthorizatoinHandlerService : IAmadeusAuthorizatoinHandlerSe
 
         var httpResponse = await httpClient.PostAsync(requestUri, content);
         httpResponse.EnsureSuccessStatusCode();
-        var amadeusAuthorizationResponse = await httpResponse.Content.ReadFromJsonAsync<AmadeusAuthorizationResponse>();
+        var amadeusAuthorizationResponse = await httpResponse.Content.ReadFromJsonAsync<AmadeusAuthorizationResponseDto>();
 
         if (amadeusAuthorizationResponse == null)
         {

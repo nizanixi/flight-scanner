@@ -3,41 +3,43 @@
 @using FlightScanner.Client.BlazorWA.Models
 @using Microsoft.AspNetCore.Components.QuickGrid
 
+@if (FlightOfferVMs != null)
+{
+    <div>
+        <p>
+            <input type="search" @bind="DepartureAirportIataCodeFilter" @bind:event="oninput" />
+        </p>
 
-<div>
-    <p>
-        <input type="search" @bind="DepartureAirportIataCodeFilter" @bind:event="oninput" />
-    </p>
+        <QuickGrid Items="FlightOfferVMs" Pagination="PaginationModel">
+            <PropertyColumn Title="Departure airport"
+                            Property="@(f => f.DepartureAirportIataCode)"
+                            Sortable="false" />
+            <PropertyColumn Title="Departure date"
+                            Format="dd-MM-yyyy HH:MM"
+                            Property="@(f => f.DepartureDate)"
+                            Sortable="false" />
 
-    <QuickGrid Items="FlightOffers" Pagination="PaginationModel">
-        <PropertyColumn Title="Departure airport"
-                        Property="@(f => f.DepartureAirportIataCode)"
-                        Sortable="false" />
-        <PropertyColumn Title="Departure date"
-                        Format="dd-MM-yyyy HH:MM"
-                        Property="@(f => f.DepartureDate)"
-                        Sortable="false" />
+            <PropertyColumn Title="Arrival airport"
+                            Property="@(f => f.ArrivalAirportIataCode)"
+                            Sortable="false" />
+            <PropertyColumn Title="Arrival date"
+                            Format="dd-MM-yyyy HH:MM"
+                            Property="@(f => f.ReturnDate)"
+                            Sortable="false" />
 
-        <PropertyColumn Title="Arrival airport"
-                        Property="@(f => f.ArrivalAirportIataCode)"
-                        Sortable="false" />
-        <PropertyColumn Title="Arrival date"
-                        Format="dd-MM-yyyy HH:MM"
-                        Property="@(f => f.ArrivalDate)"
-                        Sortable="false" />
+            <PropertyColumn Title="Number of passengers"
+                            Property="@(f => f.NumberOfBookableSeats)"
+                            Sortable="true" />
+            <PropertyColumn Title="Number of stops"
+                            Property="@(f => f.NumberOfStops)"
+                            Sortable="true" />
 
-        <PropertyColumn Title="Number of passengers"
-                        Property="@(f => f.NumberOfBookableSeats)"
-                        Sortable="true" />
-        <PropertyColumn Title="Number of stops"
-                        Property="@(f => f.NumberOfStops)"
-                        Sortable="true" />
+            <PropertyColumn Property="@(f => f.Price)"
+                            Title="@CurrencyTitle"
+                            Sortable="true" />
+        </QuickGrid>
 
-        <PropertyColumn Property="@(f => f.Price)"
-                        Title="@CurrencyTitle"
-                        Sortable="true" />
-    </QuickGrid>
+        <Paginator State="PaginationModel" />
 
-    <Paginator State="PaginationModel" />
-
-</div>
+    </div>
+}

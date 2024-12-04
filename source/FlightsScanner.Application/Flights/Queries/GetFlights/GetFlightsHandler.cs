@@ -1,12 +1,12 @@
-﻿using FlightScanner.Domain.Entities;
-using FlightScanner.Domain.Services;
+﻿using FlightScanner.DTOs.Responses;
 using FlightsScanner.Application.Constants;
+using FlightsScanner.Application.Services.Contracts;
 using MediatR;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace FlightsScanner.Application.Flights.Queries.GetFlights;
 
-internal class GetFlightsHandler : IRequestHandler<GetFlightsQuery, IReadOnlyList<FlightEntityDto>>
+internal class GetFlightsHandler : IRequestHandler<GetFlightsQuery, FoundFlightsResponseDto>
 {
     private readonly IFlightSearchService _flightSearchService;
     private readonly IMemoryCache _memoryCache;
@@ -24,10 +24,10 @@ internal class GetFlightsHandler : IRequestHandler<GetFlightsQuery, IReadOnlyLis
             .SetSize(CacheConstants.FLIGHT_ITEM_CACHE_SIZE);
     }
 
-    public async Task<IReadOnlyList<FlightEntityDto>> Handle(GetFlightsQuery request, CancellationToken cancellationToken)
+    public async Task<FoundFlightsResponseDto> Handle(GetFlightsQuery request, CancellationToken cancellationToken)
     {
         var flightHashCodeKey = request.GetHashCode().ToString();
-        if (_memoryCache.TryGetValue(flightHashCodeKey, out List<FlightEntityDto>? cachedItem) && cachedItem != null)
+        if (_memoryCache.TryGetValue(flightHashCodeKey, out FoundFlightsResponseDto? cachedItem) && cachedItem != null)
         {
             return cachedItem;
         }

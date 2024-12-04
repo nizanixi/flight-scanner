@@ -1,8 +1,8 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace FlightScanner.Domain.DTOs;
+namespace FlightScanner.DTOs.Responses;
 
-public class AmadeusAuthorizationResponse
+public class AmadeusAuthorizationResponseDto
 {
     [JsonPropertyName("type")]
     public string Type { get; set; } = null!;

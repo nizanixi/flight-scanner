@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace FlightScanner.Domain.DTOs;
+namespace FlightScanner.DTOs.Models.Amadeus;
 
 public class AmadeusFlightOfferPriceDto
 {

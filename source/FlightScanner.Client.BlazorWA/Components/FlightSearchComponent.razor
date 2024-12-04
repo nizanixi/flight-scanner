@@ -1,13 +1,14 @@
 ﻿@inherits FlightSearchComponentBase
 
-<EditForm Model="FlightSearchData"
+<EditForm Enhance="true"
+          EditContext="FlightSearchEditContext"
           OnSubmit="SubmitForm">
     <div>
         <div class="currency-selector-group">
             <label>
                 Currency
             </label>
-            <InputSelect @bind-Value="@FlightSearchData.SelectedCurrency"
+            <InputSelect @bind-Value="FlightSearchVM.SelectedCurrency"
                          class="form-control"
                          style="width: fit-content;">
                 @foreach (var currency in Currencies)
@@ -23,7 +24,7 @@
                     <label>
                         Departure date
                     </label>
-                    <InputDate @bind-Value="@FlightSearchData.DepartureDate"
+                    <InputDate @bind-Value="FlightSearchVM.DepartureDate"
                                style="width: fit-content;"
                                class="form-control"
                                min="@MinimumDepartureDate"
@@ -35,13 +36,16 @@
                         Departure airport
                     </label>
                     <div>
-                        <InputSelect @bind-Value="FlightSearchData.DepartureAirportIataCode"
+                        <InputSelect @bind-Value="FlightSearchVM.DepartureAirportIataCode"
                                      class="form-select"
                                      style="width: fit-content;">
-                            <option value="" disabled>Select an option</option>
-                            @foreach (var iataCode in DropdownOptions)
+                            <option value="" selected disabled>Select an option</option>
+                            @if (AllAvailableAirportIataCodes != null)
                             {
-                                <option value="@iataCode">@iataCode</option>
+                                foreach (var iataCode in AllAvailableAirportIataCodes)
+                                {
+                                    <option value="@iataCode">@iataCode</option>
+                                }
                             }
                         </InputSelect>
                     </div>
@@ -56,13 +60,16 @@
                         Destination airport
                     </label>
                     <div>
-                        <InputSelect @bind-Value="FlightSearchData.DestionationAirportIataCode"
+                        <InputSelect @bind-Value="FlightSearchVM.DestionationAirportIataCode"
                                      class="form-select"
                                      style="width: fit-content;">
-                            <option value="" disabled>Select an option</option>
-                            @foreach (var iataCode in DropdownOptions)
+                            <option value="" selected disabled>Select an option</option>
+                            @if (AllAvailableAirportIataCodes != null)
                             {
-                                <option value="@iataCode">@iataCode</option>
+                                foreach (var iataCode in AllAvailableAirportIataCodes)
+                                {
+                                    <option value="@iataCode">@iataCode</option>
+                                }
                             }
                         </InputSelect>
                     </div>
@@ -72,7 +79,7 @@
                     <label>
                         Return date
                     </label>
-                    <InputDate @bind-Value="@FlightSearchData.ReturnDate"
+                    <InputDate @bind-Value="FlightSearchVM.ReturnDate"
                                style="width: fit-content;"
                                class="form-control"
                                min="@MinimumReturnDate"
@@ -83,7 +90,7 @@
                     <label>
                         Number of passengers
                     </label>
-                    <InputNumber @bind-Value="@FlightSearchData.NumberOfPassengers"
+                    <InputNumber @bind-Value="FlightSearchVM.NumberOfPassengers"
                                  class="form-control"
                                  style="width: fit-content;" />
                 </div>

@@ -1,21 +1,21 @@
 ﻿namespace FlightScanner.Client.BlazorWA.Models;
 
-public class FlightOffer
+public class FlightOfferViewModel
 {
-    public FlightOffer(
+    public FlightOfferViewModel(
         string departureAirportIataCode,
         DateTime departureDate,
         string arrivalAirportIataCode,
-        DateTime arrivalDate,
-        uint numberOfBookableSeats,
+        DateTime? returnDate,
+        int numberOfBookableSeats,
         int numberOfStops,
         string currency,
-        double price)
+        decimal price)
     {
         DepartureAirportIataCode = departureAirportIataCode;
         DepartureDate = departureDate;
         ArrivalAirportIataCode = arrivalAirportIataCode;
-        ArrivalDate = arrivalDate;
+        ReturnDate = returnDate;
         NumberOfBookableSeats = numberOfBookableSeats;
         NumberOfStops = numberOfStops;
         Currency = currency;
@@ -28,13 +28,13 @@ public class FlightOffer
 
     public string ArrivalAirportIataCode { get; }
 
-    public DateTime ArrivalDate { get; }
+    public DateTime? ReturnDate { get; }
 
-    public uint NumberOfBookableSeats { get; }
+    public int NumberOfBookableSeats { get; }
 
     public int NumberOfStops { get; }
 
     public string Currency { get; }
 
-    public double Price { get; }
+    public decimal Price { get; }
 }

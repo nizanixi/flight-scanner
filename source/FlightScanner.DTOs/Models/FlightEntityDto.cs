@@ -1,4 +1,4 @@
-﻿namespace FlightScanner.Domain.Entities;
+﻿namespace FlightScanner.DTOs.Models;
 
 public class FlightEntityDto
 {

@@ -2,11 +2,11 @@
 using FlightsScanner.Application.Services.Contracts;
 using FlightScanner.Persistence;
 using FlightsScanner.Application.Airports.Queries.GetAirport;
-using FlightScanner.Domain.Services;
 using FlightsScanner.Application.Services.Implementations;
-using FlightScanner.Domain.Entities;
 using FlightsScanner.Application.Flights.Queries.GetFlights;
 using FlightsScanner.Application.Authentication;
+using FlightScanner.WebApi.Middleware;
+using FlightScanner.DTOs.Models;
 
 internal class Program
 {
@@ -32,6 +32,17 @@ internal class Program
             .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
             .AddUserSecrets<Program>();
 
+        builder.Services.AddCors(options =>
+        {
+            options.AddDefaultPolicy(builder =>
+            {
+                builder
+                .AllowAnyOrigin()
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+            });
+        });
+
         builder.Services.AddControllers();
 
         builder.Services.AddInfrastructureProjectServices();
@@ -42,6 +53,8 @@ internal class Program
         });
         builder.Services.AddScoped<IFlightSearchService, AmadeusFlightSearchService>();
         builder.Services.AddScoped<IAmadeusAuthorizatoinHandlerService, AmadeusAuthorizatoinHandlerService>();
+
+        builder.Services.AddTransient<GlobalExceptionHandlerMiddleware>();
 
         builder.Services.AddMediatR(configuration =>
         {
@@ -73,5 +86,9 @@ internal class Program
         app.UseHttpsRedirection();
 
         app.MapControllers();
+
+        app.UseCors();
+
+        app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
     }
 }

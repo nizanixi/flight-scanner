@@ -1,4 +1,6 @@
 ﻿using FlightScanner.Domain.Entities;
+using FlightScanner.DTOs.Exceptions;
+using FlightScanner.DTOs.Responses;
 using FlightScanner.WebApi.Filters;
 using FlightScanner.WebApi.Validation;
 using FlightsScanner.Application.Airports.Queries.GetAirport;
@@ -23,6 +25,8 @@ public class AirportCodesController : ControllerBase
 
     [Produces(MediaTypeNames.Application.Json)]
     [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(AirportEntity))]
+    [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ExceptionDto))]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ExceptionDto))]
     [HttpGet]
     [Route("airport")]
     [CountriesWithClosedAirTrafficFilter]
@@ -38,7 +42,9 @@ public class AirportCodesController : ControllerBase
     }
 
     [Produces(MediaTypeNames.Application.Json)]
-    [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(IReadOnlyList<AirportEntity>))]
+    [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(AllAirportsResponseDto))]
+    [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ExceptionDto))]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ExceptionDto))]
     [HttpGet]
     [Route("all-airports")]
     public async Task<IActionResult> GetAllAirport(

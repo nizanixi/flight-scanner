@@ -14,5 +14,9 @@
 - **Web API** - used for communication with flight APIs by controllers, and for communication to client application.
     - uses CQRS pattern for decoupling controllers from outer infrastructure code.
     - uses Repository pattern for decoupling access to database.
-    - contains various middleware: caching, validation of input IATA code, invalid request oarameter to database filter, URI disconitinuation filter
+    - contains various middleware: caching, validation of input IATA code, invalid request oarameter to database filter, URI disconitinuation filter, global exception handler
 - **UI** - use Blazor Web Assembly as frontend technology
+- **Shared** - contains only DTOs for communication between client application (in this case Blazor Web Assembly) and APIs
+
+## Possible improvements
+- Use authentication between server and client projects

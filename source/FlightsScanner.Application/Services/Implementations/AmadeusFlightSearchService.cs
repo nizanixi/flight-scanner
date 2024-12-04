@@ -1,9 +1,8 @@
-﻿using FlightScanner.Domain.DTOs;
-using FlightScanner.Domain.Entities;
-using FlightScanner.Domain.Exceptions;
-using FlightScanner.Domain.Services;
+﻿using FlightScanner.Domain.Exceptions;
+using FlightScanner.DTOs.Models;
+using FlightScanner.DTOs.Responses;
 using FlightsScanner.Application.Constants;
-using MediatR;
+using FlightsScanner.Application.Services.Contracts;
 using System.Net.Http.Json;
 using System.Web;
 
@@ -21,7 +20,7 @@ public class AmadeusFlightSearchService : IFlightSearchService
         _httpClientFactory = httpClientFactory;
     }
 
-    public async Task<IReadOnlyList<FlightEntityDto>> GetFlights(string departureAirportIataCode, DateTime departureTime, string destinationAirportIataCode, DateTime? returnTripTime, int numberOfPassengers, string currency)
+    public async Task<FoundFlightsResponseDto> GetFlights(string departureAirportIataCode, DateTime departureTime, string destinationAirportIataCode, DateTime? returnTripTime, int numberOfPassengers, string currency)
     {
         var requestUri = $"{AMADEUS_BASE_REQUEST_URI}/{GET_FLIGHTS_ENDPOINT}";
 
@@ -87,6 +86,6 @@ public class AmadeusFlightSearchService : IFlightSearchService
             }
         }
 
-        return flights;
+        return new FoundFlightsResponseDto(flights);
     }
 }

@@ -1,8 +1,8 @@
-﻿using FlightScanner.Domain.DTOs;
-using FlightScanner.Domain.Entities;
-using FlightScanner.Domain.Exceptions;
-using FlightScanner.Domain.Services;
+﻿using FlightScanner.Domain.Exceptions;
+using FlightScanner.DTOs.Models;
+using FlightScanner.DTOs.Responses;
 using FlightsScanner.Application.Constants;
+using FlightsScanner.Application.Services.Contracts;
 using Microsoft.Extensions.Configuration;
 using System.Net.Http.Json;
 
@@ -28,7 +28,7 @@ public class AviationStackFlightSearchService : IFlightSearchService
             ?? throw new ArgumentNullException("Aviation stack API key not found!");
     }
 
-    public async Task<IReadOnlyList<FlightEntityDto>> GetFlights(string departureAirportIataCode, DateTime departureTime, string destinationAirportIataCode, DateTime? returnTripTime, int numberOfPassengers, string currency)
+    public async Task<FoundFlightsResponseDto> GetFlights(string departureAirportIataCode, DateTime departureTime, string destinationAirportIataCode, DateTime? returnTripTime, int numberOfPassengers, string currency)
     {
         var requestUri = $"{AVIATIONSTACK_BASE_REQUEST_URI}?{API_KEY_TERM}={_aviationstackFlightSearchApiKey}";
 
@@ -43,7 +43,7 @@ public class AviationStackFlightSearchService : IFlightSearchService
         var httpResponse = await httpClient.SendAsync(httpRequestMessage);
         httpResponse.EnsureSuccessStatusCode();
 
-        var results = await httpResponse.Content.ReadFromJsonAsync<FoundFlightsCollectionDto>();
+        var results = await httpResponse.Content.ReadFromJsonAsync<AviationFlightsResponseDto>();
 
         if (results?.FlightInfoDtos is null)
         {
@@ -66,6 +66,6 @@ public class AviationStackFlightSearchService : IFlightSearchService
             flights.Add(flightEntity);
         }
 
-        return flights;
+        return new FoundFlightsResponseDto(flights);
     }
 }
