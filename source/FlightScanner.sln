@@ -25,7 +25,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlightScanner.WebApi.UnitTe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlightScanner.Common", "FlightScanner.Common\FlightScanner.Common.csproj", "{E0F5214E-433D-497C-8F0E-A29A1DB4CEBB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlightScanner.WebApi.IntegratoinTests", "FlightScanner.WebApi.IntegratoinTests\FlightScanner.WebApi.IntegratoinTests.csproj", "{DA406468-BC15-4BB3-97CC-5B27FB35432C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlightScanner.WebApi.IntegrationTests", "..\tests\FlightScanner.WebApi.IntegrationTests\FlightScanner.WebApi.IntegrationTests.csproj", "{3A3E8464-ED8A-4A51-AAEC-DFB2F17214E6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -73,10 +73,10 @@ Global
 		{E0F5214E-433D-497C-8F0E-A29A1DB4CEBB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E0F5214E-433D-497C-8F0E-A29A1DB4CEBB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E0F5214E-433D-497C-8F0E-A29A1DB4CEBB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DA406468-BC15-4BB3-97CC-5B27FB35432C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DA406468-BC15-4BB3-97CC-5B27FB35432C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DA406468-BC15-4BB3-97CC-5B27FB35432C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DA406468-BC15-4BB3-97CC-5B27FB35432C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A3E8464-ED8A-4A51-AAEC-DFB2F17214E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A3E8464-ED8A-4A51-AAEC-DFB2F17214E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A3E8464-ED8A-4A51-AAEC-DFB2F17214E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A3E8464-ED8A-4A51-AAEC-DFB2F17214E6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -84,7 +84,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{7454DFA5-E290-4EC5-81C8-D8DF28F76FEE} = {868F9828-5536-4F4F-AEF8-14EFDF29C167}
 		{2AA38773-5340-4988-9C5B-B4E1A3AB9C6F} = {868F9828-5536-4F4F-AEF8-14EFDF29C167}
-		{DA406468-BC15-4BB3-97CC-5B27FB35432C} = {868F9828-5536-4F4F-AEF8-14EFDF29C167}
+		{3A3E8464-ED8A-4A51-AAEC-DFB2F17214E6} = {868F9828-5536-4F4F-AEF8-14EFDF29C167}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {787BD4BE-AE24-4A95-8DEB-9484F8821055}
