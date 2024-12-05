@@ -1,11 +1,11 @@
-﻿using FlightScanner.Common.Constants;
+﻿using System.Net.Mime;
+using FlightScanner.Common.Constants;
 using FlightScanner.DTOs.Exceptions;
 using FlightScanner.DTOs.Responses;
 using FlightScanner.WebApi.Validation;
 using FlightsScanner.Application.Flights.Queries.GetFlights;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using System.Net.Mime;
 
 namespace FlightScanner.WebApi.Controllers;
 

@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc.Filters;
+﻿using FlightScanner.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
-using FlightScanner.Domain.Entities;
+using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace FlightScanner.WebApi.Filters;
 

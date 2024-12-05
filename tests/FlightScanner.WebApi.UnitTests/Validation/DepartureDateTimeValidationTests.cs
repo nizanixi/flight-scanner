@@ -1,6 +1,6 @@
-﻿using FlightScanner.Common.Constants;
+﻿using System.ComponentModel.DataAnnotations;
+using FlightScanner.Common.Constants;
 using FlightScanner.WebApi.Validation;
-using System.ComponentModel.DataAnnotations;
 
 namespace FlightScanner.WebApi.UnitTests.Validation;
 

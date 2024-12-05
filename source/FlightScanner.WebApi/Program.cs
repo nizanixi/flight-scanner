@@ -1,12 +1,12 @@
-﻿using FlightsScanner.Application.Constants;
-using FlightsScanner.Application.Services.Contracts;
+﻿using FlightScanner.DTOs.Models;
 using FlightScanner.Persistence;
-using FlightsScanner.Application.Airports.Queries.GetAirport;
-using FlightsScanner.Application.Services.Implementations;
-using FlightsScanner.Application.Flights.Queries.GetFlights;
-using FlightsScanner.Application.Authentication;
 using FlightScanner.WebApi.Middleware;
-using FlightScanner.DTOs.Models;
+using FlightsScanner.Application.Airports.Queries.GetAirport;
+using FlightsScanner.Application.Authentication;
+using FlightsScanner.Application.Constants;
+using FlightsScanner.Application.Flights.Queries.GetFlights;
+using FlightsScanner.Application.Services.Contracts;
+using FlightsScanner.Application.Services.Implementations;
 
 public class Program
 {

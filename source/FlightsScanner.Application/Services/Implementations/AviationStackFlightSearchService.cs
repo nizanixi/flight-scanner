@@ -1,10 +1,10 @@
-﻿using FlightScanner.Domain.Exceptions;
+﻿using System.Net.Http.Json;
+using FlightScanner.Domain.Exceptions;
 using FlightScanner.DTOs.Models;
 using FlightScanner.DTOs.Responses;
 using FlightsScanner.Application.Constants;
 using FlightsScanner.Application.Services.Contracts;
 using Microsoft.Extensions.Configuration;
-using System.Net.Http.Json;
 
 namespace FlightsScanner.Application.Services.Implementations;
 

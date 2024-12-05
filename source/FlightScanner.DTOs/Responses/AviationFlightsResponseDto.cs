@@ -1,5 +1,5 @@
-﻿using FlightScanner.DTOs.Models.Aviation;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
+using FlightScanner.DTOs.Models.Aviation;
 
 namespace FlightScanner.DTOs.Responses;
 

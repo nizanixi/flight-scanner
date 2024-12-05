@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Components.Web;
-using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using FlightScanner.Client.BlazorWA;
+﻿using FlightScanner.Client.BlazorWA;
+using FlightScanner.Client.BlazorWA.Models;
 using FlightScanner.Client.BlazorWA.Services.Contracts;
 using FlightScanner.Client.BlazorWA.Services.Implementations;
-using FlightScanner.Client.BlazorWA.Models;
+using Microsoft.AspNetCore.Components.Web;
+using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");

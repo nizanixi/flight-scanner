@@ -1,11 +1,11 @@
-﻿using FlightScanner.Domain.Entities;
+﻿using System.Net;
+using System.Net.Http.Json;
+using FlightScanner.Domain.Entities;
 using FlightScanner.Domain.Repositories;
 using FlightScanner.DTOs.Responses;
 using FlightScanner.WebApi.IntegratoinTests.TestInfrastructure;
 using Microsoft.Extensions.DependencyInjection;
 using NSubstitute;
-using System.Net;
-using System.Net.Http.Json;
 
 namespace FlightScanner.WebApi.IntegratoinTests.Controllers;
 
@@ -81,27 +81,27 @@ public class AirportCodesControllerTests
         var expectedErrorTitle = "Forbidden IATA code";
         var expectedErrorMessage = $"Airport with IATA code {closedAirport} is currently closed due to war conditions!";
 
-        var foundMovieResponse = await httpClient.GetAsync($"api/v2/airport?iataCode={closedAirport}");
-        var contentString = await foundMovieResponse.Content.ReadAsStringAsync();
+        var httpResponse = await httpClient.GetAsync($"api/v2/airport?iataCode={closedAirport}");
+        var contentString = await httpResponse.Content.ReadAsStringAsync();
 
         Assert.Multiple(() =>
         {
-            Assert.That(foundMovieResponse.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+            Assert.That(httpResponse.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
             StringAssert.Contains(expectedErrorTitle, contentString);
             StringAssert.Contains(expectedErrorMessage, contentString);
         });
     }
 
     [Test]
-    public async Task GetAirportOverHttp_WhenRequestIsValid_ShouldReceiveExpectedMovie()
+    public async Task GetAirportOverHttp_WhenRequestIsValid_ShouldReceiveExpectedResponse()
     {
         var searchedAirport = "BOS";
         var applicationFactory = new FlightScannerWebApplicationFactory();
         var httpClient = applicationFactory.CreateClient();
 
-        var foundMovieResponse = await httpClient.GetAsync($"api/v2/airport?iataCode={searchedAirport}");
+        var httpResponse = await httpClient.GetAsync($"api/v2/airport?iataCode={searchedAirport}");
 
-        Assert.That(foundMovieResponse.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+        Assert.That(httpResponse.StatusCode, Is.EqualTo(HttpStatusCode.OK));
     }
 
     [Test]

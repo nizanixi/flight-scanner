@@ -1,5 +1,5 @@
-﻿using System.Net.Mime;
-using System.Net;
+﻿using System.Net;
+using System.Net.Mime;
 using FlightScanner.DTOs.Exceptions;
 
 namespace FlightScanner.WebApi.Middleware;

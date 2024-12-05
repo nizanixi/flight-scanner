@@ -1,9 +1,9 @@
-﻿using FlightScanner.Domain.Repositories;
+﻿using System.Reflection;
+using FlightScanner.Domain.Repositories;
 using FlightScanner.Persistence.Database;
 using FlightScanner.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using System.Reflection;
 
 namespace FlightScanner.Persistence;
 

@@ -1,6 +1,6 @@
 ﻿using FlightScanner.Persistence.Database;
-using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
 
 namespace FlightScanner.Persistence.DesignTime;
 

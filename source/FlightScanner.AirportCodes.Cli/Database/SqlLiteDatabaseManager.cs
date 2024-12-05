@@ -1,5 +1,5 @@
-﻿using FlightScanner.AirportCodes.Cli.Models;
-using System.Data.SQLite;
+﻿using System.Data.SQLite;
+using FlightScanner.AirportCodes.Cli.Models;
 
 namespace FlightScanner.AirportCodes.Cli.Database;
 

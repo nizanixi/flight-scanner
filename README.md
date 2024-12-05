@@ -33,7 +33,7 @@ Flight Scanner can be used to search for flights and look for available flights.
     - Write unit and integration tests for some of features
     - Add images for solution architecture, both for project dependencies and logical architecture
     - Add test coverage images
-    - Add automation for build and test stages
+    - Add automation for build, format and test stages
     - Automate generation of SQlite database with IATA codes
 
 ## Usage

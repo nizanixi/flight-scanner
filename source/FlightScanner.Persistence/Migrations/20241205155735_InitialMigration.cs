@@ -2,33 +2,32 @@
 
 #nullable disable
 
-namespace FlightScanner.Persistence.Migrations
+namespace FlightScanner.Persistence.Migrations;
+
+/// <inheritdoc />
+public partial class InitialMigration : Migration
 {
     /// <inheritdoc />
-    public partial class InitialMigration : Migration
+    protected override void Up(MigrationBuilder migrationBuilder)
     {
-        /// <inheritdoc />
-        protected override void Up(MigrationBuilder migrationBuilder)
-        {
-            migrationBuilder.CreateTable(
-                name: "Airports",
-                columns: table => new
-                {
-                    IATA_Code = table.Column<string>(type: "TEXT", nullable: false),
-                    Airport_Name = table.Column<string>(type: "TEXT", nullable: true),
-                    Location = table.Column<string>(type: "TEXT", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Airports", x => x.IATA_Code);
-                });
-        }
+        migrationBuilder.CreateTable(
+            name: "Airports",
+            columns: table => new
+            {
+                IATA_Code = table.Column<string>(type: "TEXT", nullable: false),
+                Airport_Name = table.Column<string>(type: "TEXT", nullable: true),
+                Location = table.Column<string>(type: "TEXT", nullable: true)
+            },
+            constraints: table =>
+            {
+                table.PrimaryKey("PK_Airports", x => x.IATA_Code);
+            });
+    }
 
-        /// <inheritdoc />
-        protected override void Down(MigrationBuilder migrationBuilder)
-        {
-            migrationBuilder.DropTable(
-                name: "Airports");
-        }
+    /// <inheritdoc />
+    protected override void Down(MigrationBuilder migrationBuilder)
+    {
+        migrationBuilder.DropTable(
+            name: "Airports");
     }
 }

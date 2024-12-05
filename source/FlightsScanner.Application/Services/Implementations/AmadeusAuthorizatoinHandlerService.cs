@@ -1,11 +1,11 @@
-﻿using FlightScanner.DTOs.Responses;
+﻿using System.Net.Http.Json;
+using System.Net.Mime;
+using System.Text;
+using FlightScanner.DTOs.Responses;
 using FlightsScanner.Application.Constants;
 using FlightsScanner.Application.Services.Contracts;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
-using System.Net.Http.Json;
-using System.Net.Mime;
-using System.Text;
 
 namespace FlightsScanner.Application.Services.Implementations;
 

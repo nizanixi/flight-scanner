@@ -1,7 +1,7 @@
-﻿using FlightScanner.Client.BlazorWA.Models;
+﻿using System.ComponentModel;
+using FlightScanner.Client.BlazorWA.Models;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.QuickGrid;
-using System.ComponentModel;
 
 namespace FlightScanner.Client.BlazorWA.Components;
 

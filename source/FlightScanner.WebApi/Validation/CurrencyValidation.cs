@@ -1,5 +1,5 @@
-﻿using FlightScanner.Common.Enumerations;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using FlightScanner.Common.Enumerations;
 
 namespace FlightScanner.WebApi.Validation;
 

@@ -1,12 +1,12 @@
-﻿using FlightScanner.DTOs.Responses;
-using FlightScanner.WebApi.IntegratoinTests.TestInfrastructure;
-using NSubstitute;
+﻿using System.Net;
 using System.Net.Http.Json;
-using System.Net;
 using FlightScanner.Common.Constants;
-using Microsoft.Extensions.DependencyInjection;
-using FlightsScanner.Application.Services.Contracts;
 using FlightScanner.DTOs.Models;
+using FlightScanner.DTOs.Responses;
+using FlightScanner.WebApi.IntegratoinTests.TestInfrastructure;
+using FlightsScanner.Application.Services.Contracts;
+using Microsoft.Extensions.DependencyInjection;
+using NSubstitute;
 
 namespace FlightScanner.WebApi.IntegratoinTests.Controllers;
 

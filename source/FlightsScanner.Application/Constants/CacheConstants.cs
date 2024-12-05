@@ -26,7 +26,6 @@ public static class CacheConstants
 
     #region Flights
 
-
     public const int SLIDING_EXPIRATION_FOR_AMADEUS_AUTHORIZATION = 300;
 
     public const int ABSOLUTE_EXPIRATION_FOR_AMADEUS_AUTHORIZATION = 1;

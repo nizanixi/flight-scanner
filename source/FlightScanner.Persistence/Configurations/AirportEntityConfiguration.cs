@@ -1,6 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using FlightScanner.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
-using FlightScanner.Domain.Entities;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace FlightScanner.Persistence.Configurations;
 

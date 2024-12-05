@@ -1,10 +1,10 @@
-﻿using FlightScanner.Client.BlazorWA.Models;
+﻿using System.Net.Http.Json;
+using System.Web;
+using FlightScanner.Client.BlazorWA.Models;
 using FlightScanner.Client.BlazorWA.Services.Contracts;
 using FlightScanner.Common.Constants;
 using FlightScanner.DTOs.Models;
 using FlightScanner.DTOs.Responses;
-using System.Net.Http.Json;
-using System.Web;
 
 namespace FlightScanner.Client.BlazorWA.Services.Implementations;
 

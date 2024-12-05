@@ -24,6 +24,9 @@ jobs:
       
     - name: Build
       run: dotnet build --no-restore "source/FlightScanner.sln"
+
+    - name: Run dotnet format
+      run: dotnet format "source/FlightScanner.sln" --no-restore --verify-no-changes --exclude source/FlightScanner.Client.BlazorWA/Program.cs
       
     - name: Test
       run: dotnet test --no-build --verbosity normal "source/FlightScanner.sln"   

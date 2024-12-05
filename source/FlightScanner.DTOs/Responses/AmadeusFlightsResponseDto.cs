@@ -1,5 +1,5 @@
-﻿using FlightScanner.DTOs.Models.Amadeus;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
+using FlightScanner.DTOs.Models.Amadeus;
 
 namespace FlightScanner.DTOs.Responses;
 

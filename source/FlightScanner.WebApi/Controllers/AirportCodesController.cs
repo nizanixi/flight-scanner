@@ -1,4 +1,5 @@
-﻿using FlightScanner.Domain.Entities;
+﻿using System.Net.Mime;
+using FlightScanner.Domain.Entities;
 using FlightScanner.DTOs.Exceptions;
 using FlightScanner.DTOs.Responses;
 using FlightScanner.WebApi.Filters;
@@ -7,7 +8,6 @@ using FlightsScanner.Application.Airports.Queries.GetAirport;
 using FlightsScanner.Application.Airports.Queries.GetAllAirports;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using System.Net.Mime;
 
 namespace FlightScanner.WebApi.Controllers;
 
