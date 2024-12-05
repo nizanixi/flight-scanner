@@ -5,6 +5,11 @@ namespace FlightScanner.Persistence.Database;
 
 public class AirportsDbContext : DbContext
 {
+    // Parameterless constructor for design-time creation
+    public AirportsDbContext()
+    {
+    }
+
     public AirportsDbContext(DbContextOptions<AirportsDbContext> options)
         : base(options)
     {
