@@ -77,7 +77,16 @@ Project dependencies are expressed through diagram:
 - **Shared** - contains only DTOs for communication between client application (in this case Blazor Web Assembly) and APIs.
 - **Common** - contains things found both on client and server side (constants and enums)
 
-## APIs
+## Client Web UI
+Blazor Web Assembly User Interface:
+
+<br/>
+
+![Blazor Web Assembly User Interface](documentation/images/web-ui/blazor-web-assembly-ui.png)
+
+<br/>
+
+## Server APIs
 Open API Documentation (Swagger) is displayed below:
 
 <br/>
@@ -111,3 +120,4 @@ Below is test coverage from these 3 test projects:
 - Raise test coverage
 - Deploy web assembly to GitHub pages also
 - Enhance user experience by some Blazor control that supports virtualization
+- Display wait indicator while search for flights is in progress
