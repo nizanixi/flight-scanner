@@ -17,6 +17,9 @@
     - contains various middleware: caching, validation of input IATA code, invalid request oarameter to database filter, URI disconitinuation filter, global exception handler
 - **UI** - use Blazor Web Assembly as frontend technology
 - **Shared** - contains only DTOs for communication between client application (in this case Blazor Web Assembly) and APIs
+- **Common** - contains things found both on client and server side like constants, enums...
 
 ## Possible improvements
 - Use authentication between server and client projects
+- Use HybridCache instead of IMemoryCache after uplifting to .NET9
+- Add validation both to server and client side with FluentValidation
