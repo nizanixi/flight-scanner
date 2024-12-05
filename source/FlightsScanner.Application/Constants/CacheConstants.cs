@@ -6,8 +6,6 @@ public static class CacheConstants
 
     #region Airport codes
 
-    public const string AIRPORT_CACHE_KEY = "AIRPORT_CACHE_KEY";
-
     public const int SLIDING_EXPIRATION_FOR_IATA_CODES_IN_SECONDS = 60;
 
     public const int ABSOLUTE_EXPIRATION_FOR_IATA_CODES_IN_MINUTES = 1;
@@ -17,8 +15,6 @@ public static class CacheConstants
     #endregion
 
     #region Flights
-
-    public const string FLIGHT_CACHE_KEY = "FLIGHT_CACHE_KEY";
 
     public const int SLIDING_EXPIRATION_FOR_FLIGHTS_IN_SECONDS = 60;
 
@@ -30,7 +26,6 @@ public static class CacheConstants
 
     #region Flights
 
-    public const string AMADEUS_FLIGHT_SEARCH_API_KEY = "AmadeusFlightSearchApiKey";
 
     public const int SLIDING_EXPIRATION_FOR_AMADEUS_AUTHORIZATION = 300;
 

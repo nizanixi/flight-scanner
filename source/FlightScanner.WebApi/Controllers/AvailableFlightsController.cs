@@ -1,4 +1,5 @@
-﻿using FlightScanner.DTOs.Exceptions;
+﻿using FlightScanner.Common.Constants;
+using FlightScanner.DTOs.Exceptions;
 using FlightScanner.DTOs.Responses;
 using FlightScanner.WebApi.Validation;
 using FlightsScanner.Application.Flights.Queries.GetFlights;
@@ -36,9 +37,9 @@ public class AvailableFlightsController : ControllerBase
     {
         var getFlightsQuery = new GetFlightsQuery(
             departureAirportIataCode: departureAirportIataCode,
-            departureTime: DateTime.Parse(departureTime),
+            departureTime: DateTime.ParseExact(departureTime, DateTimeConstants.DATE_TIME_FORMAT, null),
             destinationAirportIataCode: destinationAirportIataCode,
-            returnTripTime: DateTime.Parse(returnTripTime),
+            returnTripTime: DateTime.ParseExact(returnTripTime, DateTimeConstants.DATE_TIME_FORMAT, null),
             numberOfPassengers: numberOfPassengers,
             currency: currency);
 

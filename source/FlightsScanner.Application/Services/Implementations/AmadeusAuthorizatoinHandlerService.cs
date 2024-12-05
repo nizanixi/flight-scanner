@@ -13,6 +13,7 @@ public class AmadeusAuthorizatoinHandlerService : IAmadeusAuthorizatoinHandlerSe
 {
     private const string AMADUES_API_KEY_CONFIGURATION_KEY = "AmadeusFlightSearchApiKey";
     private const string AMADEUS_API_SECRET_CONFIGURATION_KEY = "AmadeusFlightSearchApiSecret";
+    private const string AMADEUS_FLIGHT_SEARCH_API_KEY = "AmadeusFlightSearchApiKey";
 
     private readonly IHttpClientFactory _httpClientFactory;
     private readonly IMemoryCache _memoryCache;
@@ -40,7 +41,7 @@ public class AmadeusAuthorizatoinHandlerService : IAmadeusAuthorizatoinHandlerSe
     public async Task<string> GetAuthorizationTokenAsync(bool searchCachedToken)
     {
         if (searchCachedToken
-            && _memoryCache.TryGetValue(CacheConstants.AMADEUS_FLIGHT_SEARCH_API_KEY, out string? cachedItem)
+            && _memoryCache.TryGetValue(AMADEUS_FLIGHT_SEARCH_API_KEY, out string? cachedItem)
             && !string.IsNullOrEmpty(cachedItem))
         {
             return cachedItem;
@@ -49,7 +50,7 @@ public class AmadeusAuthorizatoinHandlerService : IAmadeusAuthorizatoinHandlerSe
         var accessToken = await ExecuteHttpPostForGettingAccessToken();
 
         _memoryCache.Set(
-            key: CacheConstants.AMADEUS_FLIGHT_SEARCH_API_KEY,
+            key: AMADEUS_FLIGHT_SEARCH_API_KEY,
             value: accessToken,
             options: _amadeusAuthorizationCacheEntryOptions);
 

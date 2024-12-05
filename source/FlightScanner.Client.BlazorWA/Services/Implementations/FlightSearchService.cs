@@ -1,5 +1,6 @@
 ﻿using FlightScanner.Client.BlazorWA.Models;
 using FlightScanner.Client.BlazorWA.Services.Contracts;
+using FlightScanner.Common.Constants;
 using FlightScanner.DTOs.Models;
 using FlightScanner.DTOs.Responses;
 using System.Net.Http.Json;
@@ -23,11 +24,11 @@ public class FlightSearchService : IFlightSearchService
         var query = HttpUtility.ParseQueryString(uriBuilder.Query);
 
         query["departureAirportIataCode"] = flightSearchVM.DepartureAirportIataCode;
-        query["departureTime"] = flightSearchVM.DepartureDate.ToString("yyyy-MM-dd");
+        query["departureTime"] = flightSearchVM.DepartureDate.ToString(DateTimeConstants.DATE_TIME_FORMAT);
         query["destinationAirportIataCode"] = flightSearchVM.DestionationAirportIataCode;
         if (flightSearchVM.ReturnDate.HasValue)
         {
-            query["returnTripTime"] = flightSearchVM.ReturnDate.Value.ToString("yyyy-MM-dd");
+            query["returnTripTime"] = flightSearchVM.ReturnDate.Value.ToString(DateTimeConstants.DATE_TIME_FORMAT);
         }
         query["numberOfPassengers"] = flightSearchVM.NumberOfPassengers.ToString();
         query["currency"] = flightSearchVM.SelectedCurrency;

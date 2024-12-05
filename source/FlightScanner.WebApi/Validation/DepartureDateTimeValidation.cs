@@ -1,11 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using FlightScanner.Common.Constants;
+using System.ComponentModel.DataAnnotations;
+using System.Globalization;
 
 namespace FlightScanner.WebApi.Validation;
 
 public class DepartureDateTimeValidation : ValidationAttribute
 {
-    private const int HOURS_OFFSET_FOR_BOARDING = 2;
-    private const string DATE_TIME_FORMAT = "MM-DD-YYYY";
+    private const int OFFSET_FOR_BOARDING_IN_HOURS = 2;
 
     protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
     {
@@ -14,14 +15,13 @@ public class DepartureDateTimeValidation : ValidationAttribute
             return new ValidationResult($"Received input {value} is not date time!");
         }
 
-        if (!DateTime.TryParse(inputDateTimeText, out var inputDateTime))
+        if (!DateTime.TryParseExact(inputDateTimeText, DateTimeConstants.DATE_TIME_FORMAT, null, DateTimeStyles.None, out var inputDateTime))
         {
-            return new ValidationResult($"Date time should have this format: {DATE_TIME_FORMAT}!");
+            return new ValidationResult($"Date time should have this format: {DateTimeConstants.DATE_TIME_FORMAT}!");
         }
 
-        var dateTimeWithOffset = DateTime.Now
-            .AddHours(HOURS_OFFSET_FOR_BOARDING);
-        if (inputDateTime < dateTimeWithOffset)
+        var differenceInHours = inputDateTime.Subtract(DateTime.Now).TotalHours;
+        if (differenceInHours < OFFSET_FOR_BOARDING_IN_HOURS)
         {
             return new ValidationResult($"Received date time {value} is greater than allowed!");
         }
