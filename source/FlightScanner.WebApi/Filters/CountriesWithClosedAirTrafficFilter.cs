@@ -35,7 +35,7 @@ public class CountriesWithClosedAirTrafficFilter : ActionFilterAttribute
 
             var problemDetails = new ValidationProblemDetails(context.ModelState)
             {
-                Status = StatusCodes.Status406NotAcceptable
+                Status = StatusCodes.Status400BadRequest
             };
 
             context.Result = new BadRequestObjectResult(problemDetails);

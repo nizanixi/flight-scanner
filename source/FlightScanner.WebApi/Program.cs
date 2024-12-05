@@ -8,7 +8,7 @@ using FlightsScanner.Application.Authentication;
 using FlightScanner.WebApi.Middleware;
 using FlightScanner.DTOs.Models;
 
-internal class Program
+public class Program
 {
     private static void Main(string[] args)
     {

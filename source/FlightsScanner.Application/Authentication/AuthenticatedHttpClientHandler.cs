@@ -27,6 +27,7 @@ public class AuthenticatedHttpClientHandler : DelegatingHandler
             return await base.SendAsync(request, cancellationToken);
         }
 
+        // Cached token is out of date, fetch new one and save it to cache
         token = await _amadeusAuthorizatoinHandlerService.GetAuthorizationTokenAsync(searchCachedToken: false);
 
         request.Headers.Authorization = new AuthenticationHeaderValue(

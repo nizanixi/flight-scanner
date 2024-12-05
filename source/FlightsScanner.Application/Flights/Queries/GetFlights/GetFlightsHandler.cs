@@ -26,7 +26,7 @@ internal class GetFlightsHandler : IRequestHandler<GetFlightsQuery, FoundFlights
 
     public async Task<FoundFlightsResponseDto> Handle(GetFlightsQuery request, CancellationToken cancellationToken)
     {
-        var flightHashCodeKey = request.GetHashCode().ToString();
+        var flightHashCodeKey = CreateUniqueCacheKeyForGetFlightsRequest(request);
         if (_memoryCache.TryGetValue(flightHashCodeKey, out FoundFlightsResponseDto? cachedItem) && cachedItem != null)
         {
             return cachedItem;
@@ -46,5 +46,16 @@ internal class GetFlightsHandler : IRequestHandler<GetFlightsQuery, FoundFlights
             options: _flightItemCacheEntryOptions);
 
         return flights;
+    }
+
+    private static int CreateUniqueCacheKeyForGetFlightsRequest(GetFlightsQuery request)
+    {
+        return HashCode.Combine(
+            request.DepartureAirportIataCode,
+            request.DepartureTime,
+            request.DestinationAirportIataCode,
+            request.ReturnTripTime,
+            request.NumberOfPassengers,
+            request.Currency);
     }
 }
