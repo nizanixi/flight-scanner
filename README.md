@@ -109,3 +109,5 @@ Below is test coverage from these 3 test projects:
 - Use HybridCache instead of IMemoryCache after uplifting to .NET9
 - Add validation both to server and client side with FluentValidation
 - Raise test coverage
+- Deploy web assembly to GitHub pages also
+- Enhance user experience by some Blazor control that supports virtualization
