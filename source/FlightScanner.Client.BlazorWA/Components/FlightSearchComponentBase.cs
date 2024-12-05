@@ -1,5 +1,6 @@
 ﻿using FlightScanner.Client.BlazorWA.Models;
 using FlightScanner.Client.BlazorWA.Services.Contracts;
+using FlightScanner.Common.Enumerations;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 
@@ -23,7 +24,7 @@ public class FlightSearchComponentBase : ComponentBase
 
     protected EditContext FlightSearchEditContext { get; private set; } = null!;
 
-    protected string[] Currencies { get; private set; } = null!;
+    protected Currency[] Currencies { get; } = Enum.GetValues<Currency>();
 
     protected string[]? AllAvailableAirportIataCodes { get; private set; }
 
@@ -39,7 +40,7 @@ public class FlightSearchComponentBase : ComponentBase
     {
         FlightSearchVM = new FlightSearchViewModel()
         {
-            SelectedCurrency = "EUR",
+            SelectedCurrency = Currency.EUR,
             DepartureDate = DateTime.Now.AddDays(1),
             NumberOfPassengers = 1,
             ReturnDate = DateTime.Now.AddDays(7),
@@ -49,13 +50,6 @@ public class FlightSearchComponentBase : ComponentBase
 
         MinimumReturnDate = FlightSearchVM.DepartureDate.AddHours(2).ToString(WEB_CLIENT_DATE_TIME_FORMAT);
         MaximumReturnDate = FlightSearchVM.DepartureDate.AddYears(1).ToString(WEB_CLIENT_DATE_TIME_FORMAT);
-
-        Currencies = new[]
-        {
-            "USD",
-            "EUR",
-            "HRK"
-        };
 
         var airportDtos = await AirportsManagerService.GetAllAirports();
         AllAvailableAirportIataCodes = airportDtos

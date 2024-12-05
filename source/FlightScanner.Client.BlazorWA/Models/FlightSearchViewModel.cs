@@ -1,11 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using FlightScanner.Common.Enumerations;
+using System.ComponentModel.DataAnnotations;
 
 namespace FlightScanner.Client.BlazorWA.Models;
 
 public class FlightSearchViewModel
 {
     [Required(ErrorMessage = "Currency is required!")]
-    public string SelectedCurrency { get; set; } = null!;
+    public Currency SelectedCurrency { get; set; }
 
     [Required(ErrorMessage = "Departure date is required!")]
     public DateTime DepartureDate { get; set; }

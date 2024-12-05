@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using FlightScanner.Common.Enumerations;
+using System.ComponentModel.DataAnnotations;
 
 namespace FlightScanner.WebApi.Validation;
 
@@ -8,12 +9,7 @@ namespace FlightScanner.WebApi.Validation;
 public class CurrencyValidation : ValidationAttribute
 {
     private const int CURRENCY_CODE_LENGTH = 3;
-    private static readonly string[] s_supportedCurrencies = new string[]
-    {
-        "EUR",
-        "USD",
-        "HRK"
-    };
+    private static readonly string[] s_supportedCurrencies = Enum.GetNames<Currency>();
 
     protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
     {
@@ -31,7 +27,8 @@ public class CurrencyValidation : ValidationAttribute
             .Any(currency => string.Equals(currency, currencyCode, StringComparison.OrdinalIgnoreCase));
         if (!isInputCurrencySupported)
         {
-            return new ValidationResult($"Received unsupported currency: {currencyCode}!\nSupported currencies: USD, EUR, HRK.");
+            return new ValidationResult($"Received unsupported currency: {currencyCode}!" +
+                $"\nSupported currencies: {Currency.USD}, {Currency.EUR}, {Currency.HRK}.");
         }
 
         return ValidationResult.Success;

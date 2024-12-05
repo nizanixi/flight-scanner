@@ -31,7 +31,7 @@ public class FlightSearchService : IFlightSearchService
             query["returnTripTime"] = flightSearchVM.ReturnDate.Value.ToString(DateTimeConstants.DATE_TIME_FORMAT);
         }
         query["numberOfPassengers"] = flightSearchVM.NumberOfPassengers.ToString();
-        query["currency"] = flightSearchVM.SelectedCurrency;
+        query["currency"] = flightSearchVM.SelectedCurrency.ToString();
 
         uriBuilder.Query = query.ToString();
 
