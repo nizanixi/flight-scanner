@@ -7,6 +7,8 @@ namespace FlightScanner.Client.BlazorWA.Components;
 
 public class FlightSearchComponentBase : ComponentBase
 {
+    private const string WEB_CLIENT_DATE_TIME_FORMAT = "yyyy-MM-dd";
+
     [Inject]
     public IAirportsManagerService AirportsManagerService { get; set; } = null!;
 
@@ -25,9 +27,9 @@ public class FlightSearchComponentBase : ComponentBase
 
     protected string[]? AllAvailableAirportIataCodes { get; private set; }
 
-    protected string MinimumDepartureDate { get; } = DateTime.Today.ToString("yyyy-MM-dd");
+    protected string MinimumDepartureDate { get; } = DateTime.Today.ToString(WEB_CLIENT_DATE_TIME_FORMAT);
 
-    protected string MaximumDepartureDate { get; } = DateTime.Today.AddYears(1).ToString("yyyy-MM-dd");
+    protected string MaximumDepartureDate { get; } = DateTime.Today.AddYears(1).ToString(WEB_CLIENT_DATE_TIME_FORMAT);
 
     protected string MinimumReturnDate { get; private set; } = null!;
 
@@ -45,8 +47,8 @@ public class FlightSearchComponentBase : ComponentBase
 
         FlightSearchEditContext = new EditContext(FlightSearchVM);
 
-        MinimumReturnDate = FlightSearchVM.DepartureDate.AddHours(2).ToString("yyyy-MM-dd");
-        MaximumReturnDate = FlightSearchVM.DepartureDate.AddYears(1).ToString("yyyy-MM-dd");
+        MinimumReturnDate = FlightSearchVM.DepartureDate.AddHours(2).ToString(WEB_CLIENT_DATE_TIME_FORMAT);
+        MaximumReturnDate = FlightSearchVM.DepartureDate.AddYears(1).ToString(WEB_CLIENT_DATE_TIME_FORMAT);
 
         Currencies = new[]
         {

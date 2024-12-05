@@ -12,6 +12,7 @@ public class AmadeusFlightSearchService : IFlightSearchService
 {
     private const string AMADEUS_BASE_REQUEST_URI = "https://test.api.amadeus.com";
     private const string GET_FLIGHTS_ENDPOINT = "v2/shopping/flight-offers";
+    private const string AMADEUS_API_DATE_TIME_FORMAT = "yyyy-MM-dd";
 
     private readonly IHttpClientFactory _httpClientFactory;
 
@@ -28,11 +29,11 @@ public class AmadeusFlightSearchService : IFlightSearchService
 
         var query = HttpUtility.ParseQueryString(uriBuilder.Query);
         query["originLocationCode"] = departureAirportIataCode;
-        query["departureDate"] = departureTime.ToString("yyyy-MM-dd");
+        query["departureDate"] = departureTime.ToString(AMADEUS_API_DATE_TIME_FORMAT);
         query["destinationLocationCode"] = destinationAirportIataCode;
         if (returnTripTime.HasValue)
         {
-            query["returnDate"] = returnTripTime.Value.ToString("yyyy-MM-dd");
+            query["returnDate"] = returnTripTime.Value.ToString(AMADEUS_API_DATE_TIME_FORMAT);
         }
         query["adults"] = numberOfPassengers.ToString();
         query["currencyCode"] = currency;
