@@ -35,11 +35,6 @@ public class FlightSearchComponentBase : ComponentBase
 
     protected override async Task OnInitializedAsync()
     {
-        var airportDtos = await AirportsManagerService.GetAllAirports();
-        AllAvailableAirportIataCodes = airportDtos
-            .Select(i => i.IataCode)
-            .ToArray();
-
         FlightSearchVM = new FlightSearchViewModel()
         {
             SelectedCurrency = "EUR",
@@ -47,6 +42,8 @@ public class FlightSearchComponentBase : ComponentBase
             NumberOfPassengers = 1,
             ReturnDate = DateTime.Now.AddDays(7),
         };
+
+        FlightSearchEditContext = new EditContext(FlightSearchVM);
 
         MinimumReturnDate = FlightSearchVM.DepartureDate.AddHours(2).ToString("yyyy-MM-dd");
         MaximumReturnDate = FlightSearchVM.DepartureDate.AddYears(1).ToString("yyyy-MM-dd");
@@ -58,7 +55,10 @@ public class FlightSearchComponentBase : ComponentBase
             "HRK"
         };
 
-        FlightSearchEditContext = new EditContext(FlightSearchVM);
+        var airportDtos = await AirportsManagerService.GetAllAirports();
+        AllAvailableAirportIataCodes = airportDtos
+            .Select(i => i.IataCode)
+            .ToArray();
     }
 
     protected async Task SubmitForm()
