@@ -23,5 +23,6 @@ builder.Services.AddBlazorBootstrap();
 builder.Services.AddSingleton<FoundFlightsApplicationState>();
 builder.Services.AddTransient<IAirportsManagerService, AirportsManagerService>();
 builder.Services.AddTransient<IFlightSearchService, FlightSearchService>();
+builder.Services.AddSingleton<IToastNotificationService, ToastNotificationService>();
 
 await builder.Build().RunAsync();
