@@ -1,0 +1,76 @@
+@import '_content/Blazor.Bootstrap/Blazor.Bootstrap.7t9tbfaemk.bundle.scp.css';
+@import '_content/Microsoft.AspNetCore.Components.QuickGrid/Microsoft.AspNetCore.Components.QuickGrid.bundle.scp.css';
+
+/* /Components/FlightSearchComponent.razor.rz.scp.css */
+.currency-selector-group[b-ppbvwgy9cb] {
+    display: flex;
+    justify-content: end;
+    margin-right: 50px;
+    margin-bottom: 10px;
+    align-items: center;
+}
+
+    .currency-selector-group label[b-ppbvwgy9cb] {
+        margin-right: 8px;
+    }
+/* /Layout/MainLayout.razor.rz.scp.css */
+.page[b-12sfkwq41c] {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.main[b-12sfkwq41c] {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%; /* Full screen width for main */
+}
+
+.page-row[b-12sfkwq41c] {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.top-bar[b-12sfkwq41c] {
+    background-color: darkblue;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.25) 25%, rgba(0, 0, 0, 0) 70%);
+    width: 100%;
+    height: 5rem;
+    text-align: center;
+}
+
+    .top-bar label[b-12sfkwq41c] {
+        color: whitesmoke;
+        font-size: xx-large;
+        font-weight: 500;
+    }
+
+.search-form[b-12sfkwq41c] {
+    display: flex;
+    justify-content: center;
+    background-color: skyblue;
+    font-size: 14px;
+    font-weight: bold;
+    color: white;
+    padding: 2rem;
+    border-radius: 20px;
+}
+
+.grid-display[b-12sfkwq41c] {
+    display: flex;
+    justify-content: center;
+    background-color: aliceblue;
+    font-size: 14px;
+    color: black;
+    margin-top: 20px;
+    padding: 2rem;
+}
+
+@media (min-width: 641px) {
+    .page[b-12sfkwq41c] {
+        flex-direction: row;
+    }
+}
