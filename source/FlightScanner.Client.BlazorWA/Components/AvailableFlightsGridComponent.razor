@@ -3,7 +3,17 @@
 @using FlightScanner.Client.BlazorWA.Models
 @using Microsoft.AspNetCore.Components.QuickGrid
 
-@if (FlightOfferVMs != null)
+@if (FoundFlightsApplicationState.IsSearchingOfFlightsInProgress)
+{
+    <div class="spinner-border d-flex justify-content-center m-3"
+         style="width: 3rem; height: 3rem;"
+         role="status">
+    </div>
+    <div>
+        <label style="font-size: 25px;">Searching for flights...</label>
+    </div>
+}
+else if (FlightOfferVMs != null)
 {
     <div>
         <p>

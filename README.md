@@ -120,4 +120,3 @@ Below is test coverage from these 3 test projects:
 - Add validation both to server and client side with FluentValidation
 - Raise test coverage
 - Enhance user experience by some Blazor control that supports virtualization
-- Display wait indicator while search for flights is in progress

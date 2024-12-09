@@ -16,5 +16,17 @@ public class FoundFlightsApplicationState : INotifyPropertyChanged
         }
     }
 
+    private bool _isSearchingOfFlightsInProgress;
+    public bool IsSearchingOfFlightsInProgress
+    {
+        get => _isSearchingOfFlightsInProgress;
+        internal set
+        {
+            _isSearchingOfFlightsInProgress = value;
+
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsSearchingOfFlightsInProgress)));
+        }
+    }
+
     public event PropertyChangedEventHandler? PropertyChanged;
 }

@@ -78,6 +78,8 @@ public class FlightSearchComponentBase : ComponentBase
             return;
         }
 
+        FoundFlightsApplicationState.IsSearchingOfFlightsInProgress = true;
+
         IReadOnlyList<FlightEntityDto> flightEntityDtos;
         try
         {
@@ -90,6 +92,10 @@ public class FlightSearchComponentBase : ComponentBase
                 message: "Error while searching flights from external source. Please try again later.");
 
             return;
+        }
+        finally
+        {
+            FoundFlightsApplicationState.IsSearchingOfFlightsInProgress = false;
         }
 
         FoundFlightsApplicationState.FlightOfferVMs = flightEntityDtos
