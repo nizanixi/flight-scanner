@@ -1,0 +1,41 @@
+name: Deploy Blazor WebAssembly to GitHub Pages
+
+on:
+  workflow_dispatch:
+    # Allows the workflow to be triggered manually
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Install dependencies and build
+        run: |
+          dotnet restore source/FlightScanner.Client.BlazorWA
+          dotnet publish -c Release -o release source/FlightScanner.Client.BlazorWA
+
+      # Change the base-tag in index.html from '/' to '/flight-scanner/' to match GitHub Pages repository subdirectory
+      - name: Change base-tag in index.html from / to /flight-scanner/
+        run: sed -i 's/<base href="\/" \/>/<base href="\/flight-scanner\/" \/>/g' release/wwwroot/index.html
+      
+      # Copy index.html to 404.html to serve the same file when a file/route is not found
+      - name: Copy index.html to 404.html
+        run: cp release/wwwroot/index.html release/wwwroot/404.html
+
+      # Add .nojekyll file to tell GitHub pages not to treat this as a Jekyll project. This allow files and folders starting with an underscore, like e.g. _frameworks
+      - name: Add .nojekyll file
+        run: touch release/wwwroot/.nojekyll
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./release/wwwroot

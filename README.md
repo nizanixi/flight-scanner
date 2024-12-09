@@ -35,6 +35,7 @@ Flight Scanner can be used to search for flights and look for available flights.
     - Add test coverage images
     - Add automation for build, format and test stages
     - Automate generation of SQlite database with IATA codes
+    - Deploy Blazor Web Assembly client to GitHub pages: https://nizanixi.github.io/flight-scanner/
 
 ## Usage
 Application is divided into two parts:
@@ -118,6 +119,5 @@ Below is test coverage from these 3 test projects:
 - Use HybridCache instead of IMemoryCache after uplifting to .NET9
 - Add validation both to server and client side with FluentValidation
 - Raise test coverage
-- Deploy web assembly to GitHub pages also
 - Enhance user experience by some Blazor control that supports virtualization
 - Display wait indicator while search for flights is in progress
