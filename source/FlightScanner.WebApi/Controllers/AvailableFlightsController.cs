@@ -6,6 +6,7 @@ using FlightScanner.WebApi.Validation;
 using FlightsScanner.Application.Flights.Queries.GetFlights;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace FlightScanner.WebApi.Controllers;
 
@@ -28,9 +29,13 @@ public class AvailableFlightsController : ControllerBase
     [Route("flights")]
     public async Task<IActionResult> GetAvailableFlights(
         [FromQuery][IataCodeValidation] string departureAirportIataCode,
-        [FromQuery][DepartureDateTimeValidation] string departureTime,
+        [FromQuery][DepartureDateTimeValidation]
+        [SwaggerParameter($"Date time format should be as following: {DateTimeConstants.DATE_TIME_FORMAT}")]
+        string departureTime,
         [FromQuery][IataCodeValidation] string destinationAirportIataCode,
-        [FromQuery][ArrivalDateTimeValidation] string returnTripTime,
+        [FromQuery][ArrivalDateTimeValidation]
+        [SwaggerParameter($"Date time format should be as following: {DateTimeConstants.DATE_TIME_FORMAT}")]
+        string returnTripTime,
         [FromQuery][PositiveNumberValidation] int numberOfPassengers,
         [FromQuery][CurrencyValidation] string currency,
         CancellationToken cancellationToken)

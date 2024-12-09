@@ -44,12 +44,23 @@ public class DepartureDateTimeValidationTests
     }
 
     [Test]
-    public void GetValidationResult_WithDateTimeExactlyOnBoundary_ReturnsSuccess()
+    public void GetValidationResult_WithDateTimeExactlyOnBoundaryFlightTime_ReturnsSuccess()
     {
         var departureDateTimeValidation = new DepartureDateTimeValidation();
         var boundaryDateTime = DateTime.Now.AddHours(4).ToString(DateTimeConstants.DATE_TIME_FORMAT);
 
         var result = departureDateTimeValidation.GetValidationResult(boundaryDateTime, new ValidationContext(boundaryDateTime));
+
+        Assert.That(result, Is.EqualTo(ValidationResult.Success));
+    }
+
+    [Test]
+    public void GetValidationResult_WithDateTimeExactlyOnBoundaryTimingValues_ReturnsSuccess()
+    {
+        var arrivalDateTimeValidation = new ArrivalDateTimeValidation();
+        var boundaryDateTime = "12-31-2024-23-59";
+
+        var result = arrivalDateTimeValidation.GetValidationResult(boundaryDateTime, new ValidationContext(boundaryDateTime));
 
         Assert.That(result, Is.EqualTo(ValidationResult.Success));
     }

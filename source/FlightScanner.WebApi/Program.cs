@@ -26,7 +26,10 @@ public class Program
     private static void CreateWebBuilder(WebApplicationBuilder builder)
     {
         builder.Services.AddEndpointsApiExplorer();
-        builder.Services.AddSwaggerGen();
+        builder.Services.AddSwaggerGen(options =>
+        {
+            options.EnableAnnotations();
+        });
 
         builder.Configuration
             .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)

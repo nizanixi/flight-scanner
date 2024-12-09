@@ -2,5 +2,5 @@
 
 public class DateTimeConstants
 {
-    public const string DATE_TIME_FORMAT = "MM-dd-yyyy-HH-MM";
+    public const string DATE_TIME_FORMAT = "MM-dd-yyyy-HH-mm";
 }
