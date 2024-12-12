@@ -1,8 +1,8 @@
 ﻿@inherits FlightSearchComponentBase
 
 <EditForm Enhance="true"
-          EditContext="FlightSearchEditContext"
-          OnSubmit="SubmitForm">
+          Model="FlightSearchVM"
+          OnValidSubmit="SubmitValidForm">
     <div>
         <div class="currency-selector-group">
             <label>

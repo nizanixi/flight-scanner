@@ -26,8 +26,6 @@ public class FlightSearchComponentBase : ComponentBase
     [SupplyParameterFromForm]
     protected FlightSearchViewModel FlightSearchVM { get; set; } = null!;
 
-    protected EditContext FlightSearchEditContext { get; private set; } = null!;
-
     protected Currency[] Currencies { get; } = Enum.GetValues<Currency>();
 
     protected string[]? AllAvailableAirportIataCodes { get; private set; }
@@ -36,9 +34,9 @@ public class FlightSearchComponentBase : ComponentBase
 
     protected string MaximumDepartureDate { get; } = DateTime.Today.AddYears(1).ToString(WEB_CLIENT_DATE_TIME_FORMAT);
 
-    protected string MinimumReturnDate { get; private set; } = null!;
+    protected string MinimumReturnDate => FlightSearchVM.DepartureDate.AddHours(2).ToString(WEB_CLIENT_DATE_TIME_FORMAT);
 
-    protected string MaximumReturnDate { get; private set; } = null!;
+    protected string MaximumReturnDate => FlightSearchVM.DepartureDate.AddYears(1).ToString(WEB_CLIENT_DATE_TIME_FORMAT);
 
     protected override async Task OnInitializedAsync()
     {
@@ -49,11 +47,6 @@ public class FlightSearchComponentBase : ComponentBase
             NumberOfPassengers = 1,
             ReturnDate = DateTime.Now.AddDays(7),
         };
-
-        FlightSearchEditContext = new EditContext(FlightSearchVM);
-
-        MinimumReturnDate = FlightSearchVM.DepartureDate.AddHours(2).ToString(WEB_CLIENT_DATE_TIME_FORMAT);
-        MaximumReturnDate = FlightSearchVM.DepartureDate.AddYears(1).ToString(WEB_CLIENT_DATE_TIME_FORMAT);
 
         try
         {
@@ -71,13 +64,9 @@ public class FlightSearchComponentBase : ComponentBase
         }
     }
 
-    protected async Task SubmitForm()
+    protected async Task SubmitValidForm()
     {
-        if (!FlightSearchEditContext.Validate())
-        {
-            return;
-        }
-
+        FoundFlightsApplicationState.FlightOfferVMs = null;
         FoundFlightsApplicationState.IsSearchingOfFlightsInProgress = true;
 
         IReadOnlyList<FlightEntityDto> flightEntityDtos;
