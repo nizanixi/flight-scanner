@@ -28,7 +28,7 @@ public class FlightSearchComponentBase : ComponentBase
 
     protected Currency[] Currencies { get; } = Enum.GetValues<Currency>();
 
-    protected string[]? AllAvailableAirportIataCodes { get; private set; }
+    protected AirportDto[]? AllAvailableAirports { get; private set; }
 
     protected string MinimumDepartureDate { get; } = DateTime.Today.ToString(WEB_CLIENT_DATE_TIME_FORMAT);
 
@@ -50,9 +50,9 @@ public class FlightSearchComponentBase : ComponentBase
 
         try
         {
-            var airportDtos = await AirportsManagerService.GetAllAirports();
-            AllAvailableAirportIataCodes = airportDtos
-                .Select(i => i.IataCode)
+            var foundAirportDtos = await AirportsManagerService.GetAllAirports();
+            AllAvailableAirports = foundAirportDtos
+                .OrderBy(i => i.Location)
                 .ToArray();
         }
         catch (HttpRequestException)

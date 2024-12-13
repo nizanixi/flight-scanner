@@ -25,7 +25,7 @@ public class GetAllAirportsHandler : IRequestHandler<GetAllAirportsQuery, AllAir
         }
 
         var airportResponseDtos = airports
-            .Select(i => new AirportDto(i.IataCode))
+            .Select(i => new AirportDto(i.IataCode, i.AirportName, i.Location))
             .ToArray();
 
         return new AllAirportsResponseDto(airportResponseDtos);

@@ -2,7 +2,7 @@
 
 public class AirportEntity
 {
-    public AirportEntity(string iataCode, string? airportName, string? location)
+    public AirportEntity(string iataCode, string airportName, string location)
     {
         IataCode = iataCode;
         AirportName = airportName;
@@ -11,7 +11,7 @@ public class AirportEntity
 
     public string IataCode { get; }
 
-    public string? AirportName { get; }
+    public string AirportName { get; }
 
-    public string? Location { get; }
+    public string Location { get; }
 }

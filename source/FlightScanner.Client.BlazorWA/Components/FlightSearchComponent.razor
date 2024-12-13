@@ -38,13 +38,13 @@
                     <div>
                         <InputSelect @bind-Value="FlightSearchVM.DepartureAirportIataCode"
                                      class="form-select"
-                                     style="width: fit-content;">
+                                     style="max-width: 270px;">
                             <option value="" selected disabled>Select an option</option>
-                            @if (AllAvailableAirportIataCodes != null)
+                            @if (AllAvailableAirports != null)
                             {
-                                foreach (var iataCode in AllAvailableAirportIataCodes)
+                                foreach (var airport in AllAvailableAirports)
                                 {
-                                    <option value="@iataCode">@iataCode</option>
+                                    <option value="@airport.IataCode" title="@airport.Location">@airport.Location</option>
                                 }
                             }
                         </InputSelect>
@@ -62,13 +62,13 @@
                     <div>
                         <InputSelect @bind-Value="FlightSearchVM.DestionationAirportIataCode"
                                      class="form-select"
-                                     style="width: fit-content;">
+                                     style="max-width: 270px;">
                             <option value="" selected disabled>Select an option</option>
-                            @if (AllAvailableAirportIataCodes != null)
+                            @if (AllAvailableAirports != null)
                             {
-                                foreach (var iataCode in AllAvailableAirportIataCodes)
+                                foreach (var airport in AllAvailableAirports)
                                 {
-                                    <option value="@iataCode">@iataCode</option>
+                                    <option value="@airport.IataCode" title="@airport.Location">@airport.Location</option>
                                 }
                             }
                         </InputSelect>
