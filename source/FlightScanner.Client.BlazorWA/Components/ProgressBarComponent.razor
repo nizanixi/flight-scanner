@@ -1,0 +1,14 @@
+﻿@inherits ProgressBarComponentBase
+
+@if (ProgressBarVM.IsProgressBarVisible)
+{
+    <div class="spinner-border d-flex justify-content-center m-3"
+         style="width: 3rem; height: 3rem;"
+         role="status">
+    </div>
+    <div>
+        <label style="font-size: 25px;">
+            @ProgressBarVM.Text
+        </label>
+    </div>
+}

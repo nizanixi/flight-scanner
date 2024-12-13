@@ -3,17 +3,7 @@
 @using FlightScanner.Client.BlazorWA.Models
 @using Microsoft.AspNetCore.Components.QuickGrid
 
-@if (FoundFlightsApplicationState.IsSearchingOfFlightsInProgress)
-{
-    <div class="spinner-border d-flex justify-content-center m-3"
-         style="width: 3rem; height: 3rem;"
-         role="status">
-    </div>
-    <div>
-        <label style="font-size: 25px;">Searching for flights...</label>
-    </div>
-}
-else if (FlightOfferVMs != null)
+@if (FlightOfferVMs != null)
 {
     <div>
         <p>
@@ -27,7 +17,7 @@ else if (FlightOfferVMs != null)
             <PropertyColumn Title="Departure date"
                             Format="dd-MM-yyyy"
                             Property="@(f => f.DepartureDate)"
-                            Sortable="false" />
+                            Sortable="true" />
 
             <PropertyColumn Title="Arrival airport"
                             Property="@(f => f.ArrivalAirportLocation)"
@@ -35,7 +25,7 @@ else if (FlightOfferVMs != null)
             <PropertyColumn Title="Arrival date"
                             Format="dd-MM-yyyy"
                             Property="@(f => f.ReturnDate)"
-                            Sortable="false" />
+                            Sortable="true" />
 
             <PropertyColumn Title="Number of passengers"
                             Property="@(f => f.NumberOfBookableSeats)"

@@ -16,10 +16,10 @@ public class FlightSearchComponentBase : ComponentBase
     public IAirportsManagerService AirportsManagerService { get; set; } = null!;
 
     [Inject]
-    public IFlightSearchService FlightSearchService { get; set; } = null!;
+    public ApplicationState ApplicationState { get; set; } = null!;
 
     [Inject]
-    public FoundFlightsApplicationState FoundFlightsApplicationState { get; set; } = null!;
+    public ProgressBarViewModel ProgressBarVM { get; set; } = null!;
 
     [Inject]
     public IToastNotificationService ToastNotificationService { get; set; } = null!;
@@ -63,6 +63,8 @@ public class FlightSearchComponentBase : ComponentBase
 
         try
         {
+            ProgressBarVM.DisplayProgressBar("Loading airports...");
+
             var foundAirportDtos = await AirportsManagerService.GetAllAirports();
             AllAvailableAirports = foundAirportDtos
                 .OrderBy(i => i.Location)
@@ -75,44 +77,15 @@ public class FlightSearchComponentBase : ComponentBase
                 message: "Error while getting IATA airport codes from database. " +
                 "No airport codes found or connection to database not established. Please try again later.");
         }
+        finally
+        {
+            ProgressBarVM.HideProgressBar();
+        }
     }
 
     protected async Task SubmitValidForm()
     {
-        FoundFlightsApplicationState.FlightOfferVMs = null;
-        FoundFlightsApplicationState.IsSearchingOfFlightsInProgress = true;
-
-        IReadOnlyList<FlightEntityDto> flightEntityDtos;
-        try
-        {
-            flightEntityDtos = await FlightSearchService.GetAvailableFlights(FlightSearchVM);
-        }
-        catch (HttpRequestException)
-        {
-            ToastNotificationService.DisplayErrorNotification(
-                title: "Error while searching flights",
-                message: "Error while searching flights from external source. Please try again later.");
-
-            return;
-        }
-        finally
-        {
-            FoundFlightsApplicationState.IsSearchingOfFlightsInProgress = false;
-        }
-
-        FoundFlightsApplicationState.FlightOfferVMs = flightEntityDtos
-            .Select(i => new FlightOfferViewModel(
-                departureAirportIataCode: i.DepartureAirportIataCode,
-                departureAirportLocation: i.DepartureAirportLocation,
-                departureDate: i.DepartureDate,
-                arrivalAirportIataCode: i.ArrivalAirportIataCode,
-                arrivalAirportLocation: i.ArrivalAirportLocation,
-                returnDate: i.ReturnDate,
-                numberOfBookableSeats: i.NumberOfBookableSeats,
-                numberOfStops: i.NumberOfStops,
-                currency: i.Currency,
-                price: i.Price))
-            .ToArray();
+        await ApplicationState.OnFlightSearchInvoked.Invoke(FlightSearchVM);
     }
 
     protected ValueTask<ItemsProviderResult<AirportDto>> LoadDepartureAirportsToVirtualizationControl(ItemsProviderRequest request)

@@ -20,9 +20,10 @@ builder.Services.AddScoped(sp =>
 });
 builder.Services.AddBlazorBootstrap();
 
-builder.Services.AddSingleton<FoundFlightsApplicationState>();
+builder.Services.AddSingleton<ApplicationState>();
 builder.Services.AddTransient<IAirportsManagerService, AirportsManagerService>();
 builder.Services.AddTransient<IFlightSearchService, FlightSearchService>();
 builder.Services.AddSingleton<IToastNotificationService, ToastNotificationService>();
+builder.Services.AddSingleton<ProgressBarViewModel>();
 
 await builder.Build().RunAsync();
