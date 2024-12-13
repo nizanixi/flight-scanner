@@ -4,6 +4,9 @@ namespace FlightScanner.DTOs.Models.Amadeus;
 
 public class AmadeusFlightOffersDto
 {
+    [JsonPropertyName("source")]
+    public string SourceOfTheFlightOffer { get; set; } = null!;
+
     [JsonPropertyName("oneWay")]
     public bool OneWay { get; set; }
 

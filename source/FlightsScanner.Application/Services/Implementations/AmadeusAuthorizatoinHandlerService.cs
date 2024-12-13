@@ -61,8 +61,12 @@ public class AmadeusAuthorizatoinHandlerService : IAmadeusAuthorizatoinHandlerSe
     {
         var requestUri = $"{UriConstants.AMADEUS_BASE_REQUEST_URI}/{UriConstants.AMADEUS_AUTH_ENDPOINT}";
 
+        var grantUrl = $"grant_type=client_credentials" +
+                    $"&client_id={_amadeusFlightSearchApiKey}" +
+                    $"&client_secret={_amadeusFlightSearchApiSecret}";
+
         var content = new StringContent(
-            content: $"grant_type=client_credentials&client_id={_amadeusFlightSearchApiKey}&client_secret={_amadeusFlightSearchApiSecret}",
+            content: grantUrl,
             encoding: Encoding.UTF8,
             mediaType: MediaTypeNames.Application.FormUrlEncoded);
 
