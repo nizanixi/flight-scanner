@@ -90,8 +90,10 @@ public class FlightSearchComponentBase : ComponentBase
         FoundFlightsApplicationState.FlightOfferVMs = flightEntityDtos
             .Select(i => new FlightOfferViewModel(
                 departureAirportIataCode: i.DepartureAirportIataCode,
+                departureAirportLocation: i.DepartureAirportLocation,
                 departureDate: i.DepartureDate,
                 arrivalAirportIataCode: i.ArrivalAirportIataCode,
+                arrivalAirportLocation: i.ArrivalAirportLocation,
                 returnDate: i.ReturnDate,
                 numberOfBookableSeats: i.NumberOfBookableSeats,
                 numberOfStops: i.NumberOfStops,

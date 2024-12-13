@@ -22,7 +22,7 @@ else if (FlightOfferVMs != null)
 
         <QuickGrid Items="FlightOfferVMs" Pagination="PaginationModel">
             <PropertyColumn Title="Departure airport"
-                            Property="@(f => f.DepartureAirportIataCode)"
+                            Property="@(f => f.DepartureAirportLocation)"
                             Sortable="false" />
             <PropertyColumn Title="Departure date"
                             Format="dd-MM-yyyy"
@@ -30,7 +30,7 @@ else if (FlightOfferVMs != null)
                             Sortable="false" />
 
             <PropertyColumn Title="Arrival airport"
-                            Property="@(f => f.ArrivalAirportIataCode)"
+                            Property="@(f => f.ArrivalAirportLocation)"
                             Sortable="false" />
             <PropertyColumn Title="Arrival date"
                             Format="dd-MM-yyyy"

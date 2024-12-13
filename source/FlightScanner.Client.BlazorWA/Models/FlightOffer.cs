@@ -4,8 +4,10 @@ public class FlightOfferViewModel
 {
     public FlightOfferViewModel(
         string departureAirportIataCode,
+        string departureAirportLocation,
         DateTime departureDate,
         string arrivalAirportIataCode,
+        string arrivalAirportLocation,
         DateTime? returnDate,
         int numberOfBookableSeats,
         int numberOfStops,
@@ -13,8 +15,10 @@ public class FlightOfferViewModel
         decimal price)
     {
         DepartureAirportIataCode = departureAirportIataCode;
+        DepartureAirportLocation = departureAirportLocation;
         DepartureDate = departureDate;
         ArrivalAirportIataCode = arrivalAirportIataCode;
+        ArrivalAirportLocation = arrivalAirportLocation;
         ReturnDate = returnDate;
         NumberOfBookableSeats = numberOfBookableSeats;
         NumberOfStops = numberOfStops;
@@ -24,9 +28,13 @@ public class FlightOfferViewModel
 
     public string DepartureAirportIataCode { get; }
 
+    public string DepartureAirportLocation { get; }
+
     public DateTime DepartureDate { get; }
 
     public string ArrivalAirportIataCode { get; }
+
+    public string ArrivalAirportLocation { get; }
 
     public DateTime? ReturnDate { get; }
 

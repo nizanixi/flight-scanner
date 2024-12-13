@@ -24,9 +24,13 @@ public class FlightEntityDto
 
     public string DepartureAirportIataCode { get; }
 
+    public string DepartureAirportLocation { get; set; } = null!;
+
     public DateTime DepartureDate { get; }
 
     public string ArrivalAirportIataCode { get; }
+
+    public string ArrivalAirportLocation { get; set; } = null!;
 
     public DateTime? ReturnDate { get; }
 

@@ -1,6 +1,8 @@
 ﻿using System.Net;
 using System.Net.Http.Json;
 using FlightScanner.Common.Constants;
+using FlightScanner.Domain.Entities;
+using FlightScanner.Domain.Repositories;
 using FlightScanner.DTOs.Models;
 using FlightScanner.DTOs.Responses;
 using FlightScanner.WebApi.IntegratoinTests.TestInfrastructure;
@@ -16,6 +18,11 @@ public class AvailableFlightsControllerTests
     [Test]
     public async Task GetFlightsOverHttp_WhenTwoRequestsAreSent_ShouldReceiveObjectFromRepositoryAndCachedObject()
     {
+        var fakeAirportRepository = Substitute.For<IAirportRepository>();
+        _ = fakeAirportRepository.GetAirportWithIataCode(
+            iataCode: Arg.Any<string>(),
+            cancellationToken: Arg.Any<CancellationToken>())
+            .Returns(Task.FromResult(new AirportEntity("", "", "")));
         var fakeFlightSearchService = Substitute.For<IFlightSearchService>();
         var flightEntity = new FlightEntityDto(
             departureAirportIataCode: string.Empty,
@@ -48,6 +55,11 @@ public class AvailableFlightsControllerTests
                         .SingleOrDefault(d => d.ServiceType == typeof(IFlightSearchService))!;
                     services.Remove(flightSearchServiceDescriptor);
                     services.AddScoped(_ => fakeFlightSearchService);
+
+                    var airportRepositoryServiceDescriptor = services
+                        .SingleOrDefault(d => d.ServiceType == typeof(IAirportRepository))!;
+                    services.Remove(airportRepositoryServiceDescriptor);
+                    services.AddScoped(_ => fakeAirportRepository);
                 });
             });
         var httpClient = applicationFactory.CreateClient();
