@@ -9,3 +9,10 @@
     .currency-selector-group label {
         margin-right: 8px;
     }
+
+.text-truncate {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 270px;
+}

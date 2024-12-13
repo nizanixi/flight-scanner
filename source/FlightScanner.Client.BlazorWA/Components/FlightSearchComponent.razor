@@ -35,19 +35,36 @@
                     <label>
                         Departure airport
                     </label>
-                    <div>
-                        <InputSelect @bind-Value="FlightSearchVM.DepartureAirportIataCode"
-                                     class="form-select"
-                                     style="max-width: 270px;">
-                            <option value="" selected disabled>Select an option</option>
-                            @if (AllAvailableAirports != null)
-                            {
-                                foreach (var airport in AllAvailableAirports)
-                                {
-                                    <option value="@airport.IataCode" title="@airport.Location">@airport.Location</option>
-                                }
-                            }
-                        </InputSelect>
+                    <div class="dropdown form-control"
+                         style="padding: 0; height: fit-content;">
+                        <button type="button"
+                                class="btn dropdown-toggle d-flex align-items-center"
+                                title="@SelectedDepartureAirportName"
+                                @onclick="ToggleDepartureAirportDropdown">
+                            <span class="text-truncate">
+                                @SelectedDepartureAirportName
+                            </span>
+                        </button>
+                        @if (AllAvailableAirports != null && IsDepartureAirportDropdownOpen)
+                        {
+                            <div class="dropdown-menu show"
+                                 style="max-height: 250px; overflow-y: auto;">
+                                <input type="text"
+                                       class="form-control mb-2"
+                                       placeholder="Search..."
+                                       @bind="DepartureAirportSearch"
+                                       @bind:event="oninput" />
+                                <Virtualize ItemsProvider="LoadDepartureAirportsToVirtualizationControl"
+                                            Context="airport">
+                                    <a href="#"
+                                       class="dropdown-item text-truncate"
+                                       title="@airport.Location"
+                                       @onclick="() => SelectDepartureAirport(airport)">
+                                        @airport.Location
+                                    </a>
+                                </Virtualize>
+                            </div>
+                        }
                     </div>
                 </div>
 
@@ -59,19 +76,36 @@
                     <label>
                         Destination airport
                     </label>
-                    <div>
-                        <InputSelect @bind-Value="FlightSearchVM.DestionationAirportIataCode"
-                                     class="form-select"
-                                     style="max-width: 270px;">
-                            <option value="" selected disabled>Select an option</option>
-                            @if (AllAvailableAirports != null)
-                            {
-                                foreach (var airport in AllAvailableAirports)
-                                {
-                                    <option value="@airport.IataCode" title="@airport.Location">@airport.Location</option>
-                                }
-                            }
-                        </InputSelect>
+                    <div class="dropdown form-control"
+                         style="padding: 0; height: fit-content;">
+                        <button type="button"
+                                class="btn dropdown-toggle d-flex align-items-center"
+                                title="@SelectedDestinationAirportName"
+                                @onclick="ToggleDestinationAirportDropdown">
+                            <span class="text-truncate">
+                                @SelectedDestinationAirportName
+                            </span>
+                        </button>
+                        @if (AllAvailableAirports != null && IsDestinationAirportDropdownOpen)
+                        {
+                            <div class="dropdown-menu show"
+                                 style="max-height: 250px; overflow-y: auto;">
+                                <input type="text"
+                                    class="form-control mb-2"
+                                    placeholder="Search..."
+                                    @bind="DestinationAirportSearch"
+                                    @bind:event="oninput" />
+                                <Virtualize ItemsProvider="LoadDestinationAirportsToVirtualizationControl"
+                                            Context="airport">
+                                    <a href="#"
+                                       class="dropdown-item text-truncate"
+                                       title="@airport.Location"
+                                       @onclick="() => SelectDestinationAirport(airport)">
+                                        @airport.Location
+                                    </a>
+                                </Virtualize>
+                            </div>
+                        }
                     </div>
                 </div>
 
