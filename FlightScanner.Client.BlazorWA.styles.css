@@ -13,6 +13,13 @@
     .currency-selector-group label[b-ppbvwgy9cb] {
         margin-right: 8px;
     }
+
+.text-truncate[b-ppbvwgy9cb] {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 270px;
+}
 /* /Layout/MainLayout.razor.rz.scp.css */
 .page[b-12sfkwq41c] {
     position: relative;
