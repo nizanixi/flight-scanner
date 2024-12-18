@@ -1,0 +1,20 @@
+# For more info on HTTP files go to https://aka.ms/vs/httpfile
+
+GET {{FlightSearchBackendBaseAddress}}/{{GetAllAirportsEndpoint}}/
+Accept: application/json
+
+###
+
+# SPU IATA code is for Split airport
+@departureAirportIataCode=SPU
+# Use tomorrow as departure time date
+@departureTime={{$datetime "MM-dd-yyyy-HH-mm" +1 d}}
+# STR IATA code is for Stuttgart airport
+@destinationAirportIataCode=STR
+# Search trip with return date 5 days from today
+@returnTripTime={{$datetime "MM-dd-yyyy-HH-mm" +5 d}}
+@numberOfPassengers=1
+@currency=EUR
+
+GET {{FlightSearchBackendBaseAddress}}/{{GetFlightEndpoint}}?departureAirportIataCode={{departureAirportIataCode}}&departureTime={{departureTime}}&destinationAirportIataCode={{destinationAirportIataCode}}&returnTripTime={{returnTripTime}}&numberOfPassengers={{numberOfPassengers}}&currency={{currency}}
+Accept: application/json

@@ -15,7 +15,6 @@ public class AmadeusFlightSearchService : IFlightSearchService
     private const string AMADEUS_API_DATE_TIME_FORMAT = "yyyy-MM-dd";
     private const int DEPARTURE_AIRPORT = 1;
     private const int DESTINATION_AIRPORT = 1;
-    private const int ALREADY_INCLUDED_ROUTES_COUNT = DEPARTURE_AIRPORT + DESTINATION_AIRPORT;
 
     private readonly IHttpClientFactory _httpClientFactory;
     private readonly AmadeusEndpointConfiguration _amadeusEndpointConfiguration;
@@ -68,7 +67,13 @@ public class AmadeusFlightSearchService : IFlightSearchService
             // Second value in flightOffer.FlightRoutes is going back route
             var flightRouteInSearchedDirection = flightOffer.FlightRoutes.First();
 
-            var numberOfStops = flightRouteInSearchedDirection.RouteSegments.Count - ALREADY_INCLUDED_ROUTES_COUNT;
+            var numOfAirportsIncludedInRouteSegments = flightOffer.OneWay switch
+            {
+                true => DEPARTURE_AIRPORT,
+                false => DEPARTURE_AIRPORT + DESTINATION_AIRPORT,
+            };
+
+            var numberOfStops = flightRouteInSearchedDirection.RouteSegments.Count - numOfAirportsIncludedInRouteSegments;
 
             var departureIataCode = flightRouteInSearchedDirection.RouteSegments.First().DepartureAirport.IataCode;
             var departureDateTime = flightRouteInSearchedDirection.RouteSegments.First().DepartureAirport.DateTime;
