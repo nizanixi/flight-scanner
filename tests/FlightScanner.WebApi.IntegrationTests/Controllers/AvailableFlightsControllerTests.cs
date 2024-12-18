@@ -44,7 +44,8 @@ public class AvailableFlightsControllerTests
             destinationAirportIataCode: Arg.Any<string>(),
             returnTripTime: Arg.Any<DateTime>(),
             numberOfPassengers: Arg.Any<int>(),
-            currency: Arg.Any<string>())
+            currency: Arg.Any<string>(),
+            cancellationToken: Arg.Any<CancellationToken>())
             .Returns(foundFlightsDto);
         var applicationFactory = new FlightScannerWebApplicationFactory()
             .WithWebHostBuilder(builder =>

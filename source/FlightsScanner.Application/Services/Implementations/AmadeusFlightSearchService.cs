@@ -26,7 +26,7 @@ public class AmadeusFlightSearchService : IFlightSearchService
         _amadeusEndpointConfiguration = amadeusEndpointConfiguration;
     }
 
-    public async Task<FoundFlightsResponseDto> GetFlights(string departureAirportIataCode, DateTime departureTime, string destinationAirportIataCode, DateTime? returnTripTime, int numberOfPassengers, string currency)
+    public async Task<FoundFlightsResponseDto> GetFlights(string departureAirportIataCode, DateTime departureTime, string destinationAirportIataCode, DateTime? returnTripTime, int numberOfPassengers, string currency, CancellationToken cancellationToken)
     {
         var requestUri = $"{_amadeusEndpointConfiguration.BaseUri}/{_amadeusEndpointConfiguration.GetFlightEndpoint}";
 
@@ -48,10 +48,10 @@ public class AmadeusFlightSearchService : IFlightSearchService
 
         var httpClient = _httpClientFactory.CreateClient(HttpClientConstants.AMADEUS_CLIENT_NAME);
         httpClient.DefaultRequestHeaders.Add(HttpHeaderConstants.ACCEPT_TYPE, HttpHeaderConstants.AMADEUS_JSON_TYPE);
-        var httpResponse = await httpClient.SendAsync(httpRequestMessage);
+        var httpResponse = await httpClient.SendAsync(httpRequestMessage, cancellationToken);
         httpResponse.EnsureSuccessStatusCode();
 
-        var results = await httpResponse.Content.ReadFromJsonAsync<AmadeusFlightsResponseDto>();
+        var results = await httpResponse.Content.ReadFromJsonAsync<AmadeusFlightsResponseDto>(cancellationToken);
 
         if (results?.FlightOffers is null)
         {

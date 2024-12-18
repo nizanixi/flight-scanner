@@ -21,7 +21,7 @@ public class AviationStackFlightSearchService : IFlightSearchService
         _aviationEndpointConfiguration = aviationEndpointConfiguration;
     }
 
-    public async Task<FoundFlightsResponseDto> GetFlights(string departureAirportIataCode, DateTime departureTime, string destinationAirportIataCode, DateTime? returnTripTime, int numberOfPassengers, string currency)
+    public async Task<FoundFlightsResponseDto> GetFlights(string departureAirportIataCode, DateTime departureTime, string destinationAirportIataCode, DateTime? returnTripTime, int numberOfPassengers, string currency, CancellationToken cancellationToken)
     {
         var requestUri = $"{_aviationEndpointConfiguration.BaseUri}?{_aviationEndpointConfiguration.AccessKeyHeader}={_aviationEndpointConfiguration.AviationFlightSearchApiKey}";
 
@@ -33,10 +33,10 @@ public class AviationStackFlightSearchService : IFlightSearchService
         httpRequestMessage.Headers.Add(_aviationEndpointConfiguration.ArrivalIataCodeHeader, destinationAirportIataCode);
 
         var httpClient = _httpClientFactory.CreateClient(HttpClientConstants.DEFAULT_HTTP_CLIENT_NAME);
-        var httpResponse = await httpClient.SendAsync(httpRequestMessage);
+        var httpResponse = await httpClient.SendAsync(httpRequestMessage, cancellationToken);
         httpResponse.EnsureSuccessStatusCode();
 
-        var results = await httpResponse.Content.ReadFromJsonAsync<AviationFlightsResponseDto>();
+        var results = await httpResponse.Content.ReadFromJsonAsync<AviationFlightsResponseDto>(cancellationToken);
 
         if (results?.FlightInfoDtos is null)
         {

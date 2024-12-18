@@ -38,7 +38,7 @@ public class AirportRepository : IAirportRepository
         var airports = await _airportsDbContext
             .Airports
             .AsNoTracking()
-            .ToListAsync();
+            .ToListAsync(cancellationToken);
 
         if (airports == null)
         {

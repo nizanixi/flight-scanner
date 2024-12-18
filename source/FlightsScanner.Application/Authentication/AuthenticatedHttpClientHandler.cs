@@ -15,7 +15,7 @@ public class AuthenticatedHttpClientHandler : DelegatingHandler
 
     protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
     {
-        var token = await _amadeusAuthorizatoinHandlerService.GetAuthorizationTokenAsync(searchCachedToken: true);
+        var token = await _amadeusAuthorizatoinHandlerService.GetAuthorizationTokenAsync(searchCachedToken: true, cancellationToken);
 
         request.Headers.Authorization = new AuthenticationHeaderValue(
             scheme: HttpHeaderConstants.BEARER_AUTHORIZATION_SCHEME,
@@ -29,7 +29,7 @@ public class AuthenticatedHttpClientHandler : DelegatingHandler
         }
 
         // Cached token is out of date, fetch new one and save it to cache
-        token = await _amadeusAuthorizatoinHandlerService.GetAuthorizationTokenAsync(searchCachedToken: false);
+        token = await _amadeusAuthorizatoinHandlerService.GetAuthorizationTokenAsync(searchCachedToken: false, cancellationToken);
 
         request.Headers.Authorization = new AuthenticationHeaderValue(
             scheme: HttpHeaderConstants.BEARER_AUTHORIZATION_SCHEME,

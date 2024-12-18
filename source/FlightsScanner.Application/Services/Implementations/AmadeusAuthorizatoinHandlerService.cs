@@ -30,7 +30,7 @@ public class AmadeusAuthorizatoinHandlerService : IAmadeusAuthorizatoinHandlerSe
             .SetSize(CacheConstants.AMADEUS_AUTHORIZATION_CACHE_SIZE);
     }
 
-    public async Task<string> GetAuthorizationTokenAsync(bool searchCachedToken)
+    public async Task<string> GetAuthorizationTokenAsync(bool searchCachedToken, CancellationToken cancellationToken)
     {
         if (searchCachedToken
             && _memoryCache.TryGetValue(_amadeusEndpointConfiguration.AmadeusFlightSearchApiKey, out string? cachedItem)
@@ -39,7 +39,7 @@ public class AmadeusAuthorizatoinHandlerService : IAmadeusAuthorizatoinHandlerSe
             return cachedItem;
         }
 
-        var accessToken = await ExecuteHttpPostForGettingAccessToken();
+        var accessToken = await ExecuteHttpPostForGettingAccessToken(cancellationToken);
 
         _memoryCache.Set(
             key: _amadeusEndpointConfiguration.AmadeusFlightSearchApiKey,
@@ -49,7 +49,7 @@ public class AmadeusAuthorizatoinHandlerService : IAmadeusAuthorizatoinHandlerSe
         return accessToken;
     }
 
-    private async Task<string> ExecuteHttpPostForGettingAccessToken()
+    private async Task<string> ExecuteHttpPostForGettingAccessToken(CancellationToken cancellationToken)
     {
         var requestUri = $"{_amadeusEndpointConfiguration.BaseUri}/{_amadeusEndpointConfiguration.AuthenticationEndpoint}";
 
@@ -65,9 +65,9 @@ public class AmadeusAuthorizatoinHandlerService : IAmadeusAuthorizatoinHandlerSe
         var httpClient = _httpClientFactory.CreateClient(HttpClientConstants.DEFAULT_HTTP_CLIENT_NAME);
         httpClient.DefaultRequestHeaders.Add(HttpHeaderConstants.ACCEPT_TYPE, MediaTypeNames.Application.Json);
 
-        var httpResponse = await httpClient.PostAsync(requestUri, content);
+        var httpResponse = await httpClient.PostAsync(requestUri, content, cancellationToken);
         httpResponse.EnsureSuccessStatusCode();
-        var amadeusAuthorizationResponse = await httpResponse.Content.ReadFromJsonAsync<AmadeusAuthorizationResponseDto>();
+        var amadeusAuthorizationResponse = await httpResponse.Content.ReadFromJsonAsync<AmadeusAuthorizationResponseDto>(cancellationToken);
 
         if (amadeusAuthorizationResponse == null)
         {

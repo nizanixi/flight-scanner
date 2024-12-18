@@ -50,7 +50,8 @@ internal class GetFlightsHandler : IRequestHandler<GetFlightsQuery, FoundFlights
             request.DestinationAirportIataCode,
             request.ReturnTripTime,
             request.NumberOfPassengers,
-            request.Currency);
+            request.Currency,
+            cancellationToken);
 
         await MapAirportIataCodesToAirportLocations(flights.FlightEntityDtos, cancellationToken);
 
