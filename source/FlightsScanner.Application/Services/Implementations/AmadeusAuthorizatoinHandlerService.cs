@@ -15,19 +15,12 @@ public class AmadeusAuthorizatoinHandlerService : IAmadeusAuthorizatoinHandlerSe
     private readonly IHttpClientFactory _httpClientFactory;
     private readonly AmadeusEndpointConfiguration _amadeusEndpointConfiguration;
     private readonly IMemoryCache _memoryCache;
-    private readonly MemoryCacheEntryOptions _amadeusAuthorizationCacheEntryOptions;
 
     public AmadeusAuthorizatoinHandlerService(IHttpClientFactory httpClientFactory, AmadeusEndpointConfiguration amadeusEndpointConfiguration, IMemoryCache memoryCache)
     {
         _httpClientFactory = httpClientFactory;
         _amadeusEndpointConfiguration = amadeusEndpointConfiguration;
         _memoryCache = memoryCache;
-
-        _amadeusAuthorizationCacheEntryOptions = new MemoryCacheEntryOptions()
-            .SetSlidingExpiration(TimeSpan.FromSeconds(CacheConstants.SLIDING_EXPIRATION_FOR_AMADEUS_AUTHORIZATION))
-            .SetAbsoluteExpiration(TimeSpan.FromHours(CacheConstants.ABSOLUTE_EXPIRATION_FOR_AMADEUS_AUTHORIZATION))
-            .SetPriority(CacheItemPriority.High)
-            .SetSize(CacheConstants.AMADEUS_AUTHORIZATION_CACHE_SIZE);
     }
 
     public async Task<string> GetAuthorizationTokenAsync(CancellationToken cancellationToken)
@@ -38,17 +31,23 @@ public class AmadeusAuthorizatoinHandlerService : IAmadeusAuthorizatoinHandlerSe
             return cachedItem;
         }
 
-        var accessToken = await ExecuteHttpPostForGettingAccessToken(cancellationToken);
+        var amadeusAuthorizationDto = await ExecuteHttpPostForGettingAccessToken(cancellationToken);
+
+        var cacheSettings = new MemoryCacheEntryOptions()
+            .SetSlidingExpiration(TimeSpan.FromSeconds(amadeusAuthorizationDto.ExpiresIn))
+            .SetAbsoluteExpiration(TimeSpan.FromHours(amadeusAuthorizationDto.ExpiresIn))
+            .SetPriority(CacheItemPriority.High)
+            .SetSize(CacheConstants.AMADEUS_AUTHORIZATION_CACHE_SIZE);
 
         _memoryCache.Set(
             key: _amadeusEndpointConfiguration.AmadeusFlightSearchApiKey,
-            value: accessToken,
-            options: _amadeusAuthorizationCacheEntryOptions);
+            value: amadeusAuthorizationDto.AccessToken,
+            options: cacheSettings);
 
-        return accessToken;
+        return amadeusAuthorizationDto.AccessToken;
     }
 
-    private async Task<string> ExecuteHttpPostForGettingAccessToken(CancellationToken cancellationToken)
+    private async Task<AmadeusAuthorizationResponseDto> ExecuteHttpPostForGettingAccessToken(CancellationToken cancellationToken)
     {
         var requestUri = $"{_amadeusEndpointConfiguration.BaseUri}/{_amadeusEndpointConfiguration.AuthenticationEndpoint}";
 
@@ -73,6 +72,6 @@ public class AmadeusAuthorizatoinHandlerService : IAmadeusAuthorizatoinHandlerSe
             throw new Exception();
         }
 
-        return amadeusAuthorizationResponse.AccessToken;
+        return amadeusAuthorizationResponse;
     }
 }
