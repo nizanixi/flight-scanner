@@ -1,7 +1,7 @@
 {
   "mainAssemblyName": "FlightScanner.Client.BlazorWA",
   "resources": {
-    "hash": "sha256-upi49AeEsFh8FphTT4JrpSnrOAX6/8nNBYEWXB/E7sI=",
+    "hash": "sha256-oKy9jKPcCR5xpYtP6b8G2wqwnQ/qoSDbRaTCNzAxuvI=",
     "jsModuleNative": {
       "dotnet.native.8.0.11.n1sf6xr5tz.js": "sha256-VdKq87/z5NIxZKmuM+fv38XF+RcEb/bg3jVBwQSfwP4="
     },
@@ -18,9 +18,9 @@
     },
     "assembly": {
       "BlazorBootstrap.wasm": "sha256-oXgPBxQIMTQHVXUTwY/QUe7+g4uUxfm/kdDCUXRqxZ4=",
-      "FlightScanner.Client.BlazorWA.wasm": "sha256-T9Rkgd8Q2ZU3FG/xECgrUjbyKLfR5qWF0lLt8+FvoRE=",
-      "FlightScanner.Common.wasm": "sha256-WJj1BaXajCxXNT0A44uZ9pGKgVaeJKfqXEMNH8ib7fc=",
-      "FlightScanner.DTOs.wasm": "sha256-DYnfrmjr+pw865NjIc817l1S1lm2zz7j7NHP82XHd0w=",
+      "FlightScanner.Client.BlazorWA.wasm": "sha256-Z/84oNVz413x55Ni7HuKiz5/7kzSA3pq+4sWb+VQR9I=",
+      "FlightScanner.Common.wasm": "sha256-B1NP8JmDD8b++qvIvo2V024zKJRIp705ait9s7C72V8=",
+      "FlightScanner.DTOs.wasm": "sha256-jxlSPFc/L4zP85SsEEY8MaK6vSW455VgKUOils3vFfY=",
       "Microsoft.AspNetCore.Components.Forms.wasm": "sha256-kdfa9qzcdA9tjuwEbSXtHqokOsnAaNiQzlWty8pTsKc=",
       "Microsoft.AspNetCore.Components.QuickGrid.wasm": "sha256-J2eA08ErHdLpTTcykYYJlflvk+/VbPQ61UcVMem5omg=",
       "Microsoft.AspNetCore.Components.wasm": "sha256-jLIXTeKSVSdtkoK+QoJGlVq7sR0Ybj/kJ8YoTSkxLAg=",
@@ -75,7 +75,6 @@
   "debugLevel": 0,
   "linkerEnabled": true,
   "appsettings": [
-    "../appsettings.Development.json",
     "../appsettings.json"
   ],
   "globalizationMode": "sharded",
