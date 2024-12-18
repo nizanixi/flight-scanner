@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using FlightScanner.Common.Constants;
+using FlightScanner.Common.Policies;
 using FlightScanner.Domain.Repositories;
 using FlightScanner.DTOs.Models;
 using FlightScanner.Persistence.Database;
@@ -18,6 +19,8 @@ using Microsoft.Extensions.Caching.Memory;
 public class Program
 {
     private const string CORS_POLICY_NAME = "BlazorClientFrontend";
+    private const int HTTP_RETRY_IN_SECONDS = 20;
+    private const int HTTP_TIMEOUT_IN_SECONDS = 60;
 
     private static void Main(string[] args)
     {
@@ -94,14 +97,25 @@ public class Program
                 typeof(FlightEntityDto).Assembly);
         });
 
-        builder.Services.AddHttpClient(HttpClientConstants.DEFAULT_HTTP_CLIENT_NAME);
+        builder.Services.AddHttpClient(HttpClientConstants.DEFAULT_HTTP_CLIENT_NAME)
+            .ConfigureHttpClient(provider =>
+            {
+                provider.Timeout = TimeSpan.FromSeconds(HTTP_TIMEOUT_IN_SECONDS);
+            })
+            .AddPolicyHandler(HttpPoliciesFactory.CreateRetryPolicyWithSameRetryTime(HTTP_RETRY_IN_SECONDS))
+            .AddPolicyHandler(HttpPoliciesFactory.CreateCircuitBreakingPolicyForTooManyRequests());
         builder.Services.AddHttpClient(HttpClientConstants.AMADEUS_CLIENT_NAME)
+            .ConfigureHttpClient(provider =>
+            {
+                provider.Timeout = TimeSpan.FromSeconds(HTTP_TIMEOUT_IN_SECONDS);
+            })
             .AddHttpMessageHandler(provider =>
             {
                 var amadeusAuthorizatoinHandlerService = provider.GetRequiredService<IAmadeusAuthorizatoinHandlerService>();
 
                 return new AuthenticatedHttpClientHandler(amadeusAuthorizatoinHandlerService);
-            });
+            })
+            .AddPolicyHandler(HttpPoliciesFactory.CreateRetryPolicyWithSameRetryTime(HTTP_RETRY_IN_SECONDS));
     }
 
     private static void ConfigureMiddleware(WebApplication app)

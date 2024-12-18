@@ -1,6 +1,7 @@
 ﻿using System.Net.Http.Json;
 using System.Web;
 using FlightScanner.Client.BlazorWA.Configurations;
+using FlightScanner.Client.BlazorWA.Constants;
 using FlightScanner.Client.BlazorWA.Models;
 using FlightScanner.Client.BlazorWA.Services.Contracts;
 using FlightScanner.Common.Constants;
@@ -11,12 +12,12 @@ namespace FlightScanner.Client.BlazorWA.Services.Implementations;
 
 public class FlightSearchService : IFlightSearchService
 {
-    private readonly HttpClient _httpClient;
+    private readonly IHttpClientFactory _httpClientFactory;
     private readonly IBlazorWAConfiguration _configuration;
 
-    public FlightSearchService(HttpClient httpClient, IBlazorWAConfiguration configuration)
+    public FlightSearchService(IHttpClientFactory httpClientFactory, IBlazorWAConfiguration configuration)
     {
-        _httpClient = httpClient;
+        _httpClientFactory = httpClientFactory;
         _configuration = configuration;
     }
 
@@ -41,7 +42,9 @@ public class FlightSearchService : IFlightSearchService
 
         var httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, uriBuilder.Uri);
 
-        var response = await _httpClient.SendAsync(httpRequestMessage);
+        var httpClient = _httpClientFactory.CreateClient(HttpConstants.BACKEND_HTTP_CLIENT_NAME);
+
+        var response = await httpClient.SendAsync(httpRequestMessage);
         _ = response.EnsureSuccessStatusCode();
 
         var foundFlightsDto = await response.Content.ReadFromJsonAsync<FoundFlightsResponseDto>();

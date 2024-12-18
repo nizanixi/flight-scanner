@@ -30,10 +30,9 @@ public class AmadeusAuthorizatoinHandlerService : IAmadeusAuthorizatoinHandlerSe
             .SetSize(CacheConstants.AMADEUS_AUTHORIZATION_CACHE_SIZE);
     }
 
-    public async Task<string> GetAuthorizationTokenAsync(bool searchCachedToken, CancellationToken cancellationToken)
+    public async Task<string> GetAuthorizationTokenAsync(CancellationToken cancellationToken)
     {
-        if (searchCachedToken
-            && _memoryCache.TryGetValue(_amadeusEndpointConfiguration.AmadeusFlightSearchApiKey, out string? cachedItem)
+        if (_memoryCache.TryGetValue(_amadeusEndpointConfiguration.AmadeusFlightSearchApiKey, out string? cachedItem)
             && !string.IsNullOrEmpty(cachedItem))
         {
             return cachedItem;
