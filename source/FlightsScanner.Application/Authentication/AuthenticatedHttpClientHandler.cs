@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using System.Net.Http.Headers;
+using FlightScanner.Common.Constants;
 using FlightsScanner.Application.Services.Contracts;
 
 namespace FlightsScanner.Application.Authentication;
@@ -17,7 +18,7 @@ public class AuthenticatedHttpClientHandler : DelegatingHandler
         var token = await _amadeusAuthorizatoinHandlerService.GetAuthorizationTokenAsync(searchCachedToken: true);
 
         request.Headers.Authorization = new AuthenticationHeaderValue(
-            scheme: "Bearer",
+            scheme: HttpHeaderConstants.BEARER_AUTHORIZATION_SCHEME,
             parameter: token);
 
         var response = await base.SendAsync(request, cancellationToken);
@@ -31,7 +32,7 @@ public class AuthenticatedHttpClientHandler : DelegatingHandler
         token = await _amadeusAuthorizatoinHandlerService.GetAuthorizationTokenAsync(searchCachedToken: false);
 
         request.Headers.Authorization = new AuthenticationHeaderValue(
-            scheme: "Bearer",
+            scheme: HttpHeaderConstants.BEARER_AUTHORIZATION_SCHEME,
             parameter: token);
 
         return await base.SendAsync(request, cancellationToken);

@@ -8,6 +8,8 @@ namespace FlightScanner.Client.BlazorWA.Components;
 
 public class AvailableFlightsGridComponentBase : ComponentBase
 {
+    private const string UNDEFINED_CURRENCY_TITLE = "Unknown currency";
+
     [Inject]
     public ApplicationState ApplicationState { get; set; } = null!;
 
@@ -39,15 +41,13 @@ public class AvailableFlightsGridComponentBase : ComponentBase
     {
         ApplicationState.OnFlightSearchInvoked = OnFlightSearchInvoked;
 
-        CurrencyTitle = FlightOfferVMs?.First().Currency ?? "NaN";
+        CurrencyTitle = FlightOfferVMs?.First().Currency ?? UNDEFINED_CURRENCY_TITLE;
 
         return base.OnInitializedAsync();
     }
 
     private async Task OnFlightSearchInvoked(FlightSearchViewModel flightSearchVM)
     {
-        CurrencyTitle = FlightOfferVMs?.First().Currency ?? "NaN";
-
         AllFoundFlightOfferVMs = null;
 
         ProgressBarVM.DisplayProgressBar("Searching for flights...");
@@ -83,6 +83,8 @@ public class AvailableFlightsGridComponentBase : ComponentBase
                 currency: i.Currency,
                 price: i.Price))
             .ToArray();
+
+        CurrencyTitle = AllFoundFlightOfferVMs?.FirstOrDefault()?.Currency ?? UNDEFINED_CURRENCY_TITLE;
 
         StateHasChanged();
     }

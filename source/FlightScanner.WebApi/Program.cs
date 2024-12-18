@@ -1,5 +1,10 @@
-﻿using FlightScanner.DTOs.Models;
-using FlightScanner.Persistence;
+﻿using System.Reflection;
+using FlightScanner.Common.Constants;
+using FlightScanner.Domain.Repositories;
+using FlightScanner.DTOs.Models;
+using FlightScanner.Persistence.Database;
+using FlightScanner.Persistence.Repositories;
+using FlightScanner.WebApi.Configurations;
 using FlightScanner.WebApi.Middleware;
 using FlightsScanner.Application.Airports.Queries.GetAirport;
 using FlightsScanner.Application.Authentication;
@@ -7,9 +12,13 @@ using FlightsScanner.Application.Constants;
 using FlightsScanner.Application.Flights.Queries.GetFlights;
 using FlightsScanner.Application.Services.Contracts;
 using FlightsScanner.Application.Services.Implementations;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 
 public class Program
 {
+    private const string CORS_POLICY_NAME = "BlazorClientFrontend";
+
     private static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
@@ -31,13 +40,18 @@ public class Program
             options.EnableAnnotations();
         });
 
+        builder.Services.AddSingleton<IWebApiConfiguration, WebApiConfiguration>();
+
+        var environmentName = Environment.GetEnvironmentVariable(EnvironmentVariableNamesConstants.ASP_NET_CORE_ENVIRONMENT) ?? string.Empty;
+
         builder.Configuration
             .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+            .AddJsonFile(path: $"appsettings.{environmentName}.json", optional: true)
             .AddUserSecrets<Program>();
 
         builder.Services.AddCors(options =>
         {
-            options.AddDefaultPolicy(builder =>
+            options.AddPolicy(CORS_POLICY_NAME, builder =>
             {
                 builder
                 .AllowAnyOrigin()
@@ -48,14 +62,27 @@ public class Program
 
         builder.Services.AddControllers();
 
-        builder.Services.AddInfrastructureProjectServices();
+        AddPersistence(builder.Services);
 
         builder.Services.AddMemoryCache(options =>
         {
             options.SizeLimit = CacheConstants.CACHE_LIMIT;
         });
-        builder.Services.AddScoped<IFlightSearchService, AmadeusFlightSearchService>();
-        builder.Services.AddScoped<IAmadeusAuthorizatoinHandlerService, AmadeusAuthorizatoinHandlerService>();
+        builder.Services.AddScoped<IFlightSearchService, AmadeusFlightSearchService>(sp =>
+        {
+            var httpClientFactory = sp.GetService<IHttpClientFactory>()!;
+            var amadeusEndpointConfiguration = sp.GetService<IWebApiConfiguration>()!.AmadeusEndpointConfiguration;
+
+            return new AmadeusFlightSearchService(httpClientFactory, amadeusEndpointConfiguration);
+        });
+        builder.Services.AddScoped<IAmadeusAuthorizatoinHandlerService, AmadeusAuthorizatoinHandlerService>(sp =>
+        {
+            var httpClientFactory = sp.GetService<IHttpClientFactory>()!;
+            var amadeusEndpointConfiguration = sp.GetService<IWebApiConfiguration>()!.AmadeusEndpointConfiguration;
+            var memoryCache = sp.GetService<IMemoryCache>()!;
+
+            return new AmadeusAuthorizatoinHandlerService(httpClientFactory, amadeusEndpointConfiguration, memoryCache);
+        });
 
         builder.Services.AddTransient<GlobalExceptionHandlerMiddleware>();
 
@@ -90,8 +117,34 @@ public class Program
 
         app.MapControllers();
 
-        app.UseCors();
+        app.UseCors(CORS_POLICY_NAME);
 
         app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
+    }
+
+    private static void AddPersistence(IServiceCollection services)
+    {
+        services.AddScoped<IAirportRepository, AirportRepository>();
+
+        services.AddDbContext<AirportsDbContext>((serviceProvider, optionsBuilder) =>
+        {
+            var configuration = serviceProvider.GetRequiredService<IWebApiConfiguration>();
+
+            var databaseFilePath = Path.Combine(
+                Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!,
+                configuration.DatabaseConfiguration.DatabaseFolder,
+                configuration.DatabaseConfiguration.DatabaseName);
+
+            optionsBuilder.UseSqlite(
+                connectionString: $"Data Source={databaseFilePath}",
+                sqlOptionsAction =>
+                {
+                    sqlOptionsAction.CommandTimeout(configuration.DatabaseConfiguration.CommandTimeoutInSeconds);
+                });
+
+            optionsBuilder.EnableDetailedErrors(configuration.DatabaseConfiguration.EnableDetailedErrors);
+            optionsBuilder.EnableSensitiveDataLogging(configuration.DatabaseConfiguration.EnableSensitiveDataLogging);
+            optionsBuilder.UseQueryTrackingBehavior(configuration.DatabaseConfiguration.QueryTrackingBehavior);
+        });
     }
 }

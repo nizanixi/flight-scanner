@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using System.Net.Http.Json;
+using FlightScanner.Common.Constants;
 using FlightScanner.Domain.Entities;
 using FlightScanner.Domain.Repositories;
 using FlightScanner.DTOs.Responses;
@@ -60,7 +61,7 @@ public class AirportCodesControllerTests
         var iataCodeWithInvalidLength = "ABCD";
         var applicationFactory = new FlightScannerWebApplicationFactory();
         var httpClient = applicationFactory.CreateClient();
-        var expectedErrorMessage = $"IATA code has invalid length of {iataCodeWithInvalidLength.Length}. IATA code should have 3 text characters.";
+        var expectedErrorMessage = $"IATA code has invalid length of {iataCodeWithInvalidLength.Length}. IATA code should have {IataCodeConstants.IATA_CODE_LENGTH} text characters.";
 
         var foundMovieResponse = await httpClient.GetAsync($"api/v2/airport?iataCode={iataCodeWithInvalidLength}");
         var contentString = await foundMovieResponse.Content.ReadAsStringAsync();

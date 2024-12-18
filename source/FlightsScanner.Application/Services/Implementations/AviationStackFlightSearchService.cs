@@ -2,42 +2,35 @@
 using FlightScanner.Domain.Exceptions;
 using FlightScanner.DTOs.Models;
 using FlightScanner.DTOs.Responses;
+using FlightsScanner.Application.Configurations;
 using FlightsScanner.Application.Constants;
 using FlightsScanner.Application.Services.Contracts;
-using Microsoft.Extensions.Configuration;
 
 namespace FlightsScanner.Application.Services.Implementations;
 
 public class AviationStackFlightSearchService : IFlightSearchService
 {
-    private const string AVIATIONSTACK_FLIGHT_SEARCH_CONFIGURATION_KEY = "AviationStackFlightSearchApiKey";
-    private const string AVIATIONSTACK_BASE_REQUEST_URI = "https://api.aviationstack.com/v1/flights";
-    private const string API_KEY_TERM = "access_key";
-    private const string DEPARTURE_AIRPORT_IATA_CODE_HEADER = "dep_iata";
-    private const string ARRIVAL_AIRPORT_IATA_CODE_HEADER = "arr_iata";
-    private const string DEPARTURE_DATE_HEADER = "flight_date";
     private const string AVIATION_STACK_DATE_TIME_FORMAT = "YYYY-MM-DD";
 
+    private readonly AviationEndpointConfiguration _aviationEndpointConfiguration;
     private readonly IHttpClientFactory _httpClientFactory;
-    private readonly string _aviationstackFlightSearchApiKey;
 
-    public AviationStackFlightSearchService(IConfiguration configuration, IHttpClientFactory httpClientFactory)
+    public AviationStackFlightSearchService(AviationEndpointConfiguration aviationEndpointConfiguration, IHttpClientFactory httpClientFactory)
     {
         _httpClientFactory = httpClientFactory;
-        _aviationstackFlightSearchApiKey = configuration[AVIATIONSTACK_FLIGHT_SEARCH_CONFIGURATION_KEY]
-            ?? throw new ArgumentNullException("Aviation stack API key not found!");
+        _aviationEndpointConfiguration = aviationEndpointConfiguration;
     }
 
     public async Task<FoundFlightsResponseDto> GetFlights(string departureAirportIataCode, DateTime departureTime, string destinationAirportIataCode, DateTime? returnTripTime, int numberOfPassengers, string currency)
     {
-        var requestUri = $"{AVIATIONSTACK_BASE_REQUEST_URI}?{API_KEY_TERM}={_aviationstackFlightSearchApiKey}";
+        var requestUri = $"{_aviationEndpointConfiguration.BaseUri}?{_aviationEndpointConfiguration.AccessKeyHeader}={_aviationEndpointConfiguration.AviationFlightSearchApiKey}";
 
         var httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, requestUri);
 
-        httpRequestMessage.Headers.Add(API_KEY_TERM, _aviationstackFlightSearchApiKey);
-        httpRequestMessage.Headers.Add(DEPARTURE_AIRPORT_IATA_CODE_HEADER, departureAirportIataCode);
-        httpRequestMessage.Headers.Add(DEPARTURE_DATE_HEADER, departureTime.ToString(AVIATION_STACK_DATE_TIME_FORMAT));
-        httpRequestMessage.Headers.Add(ARRIVAL_AIRPORT_IATA_CODE_HEADER, destinationAirportIataCode);
+        httpRequestMessage.Headers.Add(_aviationEndpointConfiguration.AccessKeyHeader, _aviationEndpointConfiguration.AviationFlightSearchApiKey);
+        httpRequestMessage.Headers.Add(_aviationEndpointConfiguration.DepartureIataCodeHeader, departureAirportIataCode);
+        httpRequestMessage.Headers.Add(_aviationEndpointConfiguration.FlightDateHeader, departureTime.ToString(AVIATION_STACK_DATE_TIME_FORMAT));
+        httpRequestMessage.Headers.Add(_aviationEndpointConfiguration.ArrivalIataCodeHeader, destinationAirportIataCode);
 
         var httpClient = _httpClientFactory.CreateClient(HttpClientConstants.DEFAULT_HTTP_CLIENT_NAME);
         var httpResponse = await httpClient.SendAsync(httpRequestMessage);

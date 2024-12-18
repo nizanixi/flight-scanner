@@ -1,8 +1,10 @@
 ﻿using System.Net.Http.Json;
 using System.Web;
+using FlightScanner.Common.Constants;
 using FlightScanner.Domain.Exceptions;
 using FlightScanner.DTOs.Models;
 using FlightScanner.DTOs.Responses;
+using FlightsScanner.Application.Configurations;
 using FlightsScanner.Application.Constants;
 using FlightsScanner.Application.Services.Contracts;
 
@@ -10,42 +12,42 @@ namespace FlightsScanner.Application.Services.Implementations;
 
 public class AmadeusFlightSearchService : IFlightSearchService
 {
-    private const string AMADEUS_BASE_REQUEST_URI = "https://test.api.amadeus.com";
-    private const string GET_FLIGHTS_ENDPOINT = "v2/shopping/flight-offers";
     private const string AMADEUS_API_DATE_TIME_FORMAT = "yyyy-MM-dd";
     private const int DEPARTURE_AIRPORT = 1;
     private const int DESTINATION_AIRPORT = 1;
     private const int ALREADY_INCLUDED_ROUTES_COUNT = DEPARTURE_AIRPORT + DESTINATION_AIRPORT;
 
     private readonly IHttpClientFactory _httpClientFactory;
+    private readonly AmadeusEndpointConfiguration _amadeusEndpointConfiguration;
 
-    public AmadeusFlightSearchService(IHttpClientFactory httpClientFactory)
+    public AmadeusFlightSearchService(IHttpClientFactory httpClientFactory, AmadeusEndpointConfiguration amadeusEndpointConfiguration)
     {
         _httpClientFactory = httpClientFactory;
+        _amadeusEndpointConfiguration = amadeusEndpointConfiguration;
     }
 
     public async Task<FoundFlightsResponseDto> GetFlights(string departureAirportIataCode, DateTime departureTime, string destinationAirportIataCode, DateTime? returnTripTime, int numberOfPassengers, string currency)
     {
-        var requestUri = $"{AMADEUS_BASE_REQUEST_URI}/{GET_FLIGHTS_ENDPOINT}";
+        var requestUri = $"{_amadeusEndpointConfiguration.BaseUri}/{_amadeusEndpointConfiguration.GetFlightEndpoint}";
 
         var uriBuilder = new UriBuilder(requestUri);
 
         var query = HttpUtility.ParseQueryString(uriBuilder.Query);
-        query["originLocationCode"] = departureAirportIataCode;
-        query["departureDate"] = departureTime.ToString(AMADEUS_API_DATE_TIME_FORMAT);
-        query["destinationLocationCode"] = destinationAirportIataCode;
+        query[_amadeusEndpointConfiguration.OriginLocationCodeQueryString] = departureAirportIataCode;
+        query[_amadeusEndpointConfiguration.DepartureDateQueryString] = departureTime.ToString(AMADEUS_API_DATE_TIME_FORMAT);
+        query[_amadeusEndpointConfiguration.DestinationLocationCodeQueryString] = destinationAirportIataCode;
         if (returnTripTime.HasValue)
         {
-            query["returnDate"] = returnTripTime.Value.ToString(AMADEUS_API_DATE_TIME_FORMAT);
+            query[_amadeusEndpointConfiguration.ReturnDateQueryString] = returnTripTime.Value.ToString(AMADEUS_API_DATE_TIME_FORMAT);
         }
-        query["adults"] = numberOfPassengers.ToString();
-        query["currencyCode"] = currency;
+        query[_amadeusEndpointConfiguration.AdultsQueryString] = numberOfPassengers.ToString();
+        query[_amadeusEndpointConfiguration.CurrencyCodeQueryString] = currency;
         uriBuilder.Query = query.ToString();
 
         var httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, uriBuilder.Uri);
 
         var httpClient = _httpClientFactory.CreateClient(HttpClientConstants.AMADEUS_CLIENT_NAME);
-        httpClient.DefaultRequestHeaders.Add("Accept", "application/vnd.amadeus+json");
+        httpClient.DefaultRequestHeaders.Add(HttpHeaderConstants.ACCEPT_TYPE, HttpHeaderConstants.AMADEUS_JSON_TYPE);
         var httpResponse = await httpClient.SendAsync(httpRequestMessage);
         httpResponse.EnsureSuccessStatusCode();
 

@@ -1,35 +1,27 @@
 ﻿using System.Net.Http.Json;
 using System.Net.Mime;
 using System.Text;
+using FlightScanner.Common.Constants;
 using FlightScanner.DTOs.Responses;
+using FlightsScanner.Application.Configurations;
 using FlightsScanner.Application.Constants;
 using FlightsScanner.Application.Services.Contracts;
 using Microsoft.Extensions.Caching.Memory;
-using Microsoft.Extensions.Configuration;
 
 namespace FlightsScanner.Application.Services.Implementations;
 
 public class AmadeusAuthorizatoinHandlerService : IAmadeusAuthorizatoinHandlerService
 {
-    private const string AMADUES_API_KEY_CONFIGURATION_KEY = "AmadeusFlightSearchApiKey";
-    private const string AMADEUS_API_SECRET_CONFIGURATION_KEY = "AmadeusFlightSearchApiSecret";
-    private const string AMADEUS_FLIGHT_SEARCH_API_KEY = "AmadeusFlightSearchApiKey";
-
     private readonly IHttpClientFactory _httpClientFactory;
+    private readonly AmadeusEndpointConfiguration _amadeusEndpointConfiguration;
     private readonly IMemoryCache _memoryCache;
-    private readonly string _amadeusFlightSearchApiKey;
-    private readonly string _amadeusFlightSearchApiSecret;
     private readonly MemoryCacheEntryOptions _amadeusAuthorizationCacheEntryOptions;
 
-    public AmadeusAuthorizatoinHandlerService(IHttpClientFactory httpClientFactory, IConfiguration configuration, IMemoryCache memoryCache)
+    public AmadeusAuthorizatoinHandlerService(IHttpClientFactory httpClientFactory, AmadeusEndpointConfiguration amadeusEndpointConfiguration, IMemoryCache memoryCache)
     {
         _httpClientFactory = httpClientFactory;
+        _amadeusEndpointConfiguration = amadeusEndpointConfiguration;
         _memoryCache = memoryCache;
-
-        _amadeusFlightSearchApiKey = configuration[AMADUES_API_KEY_CONFIGURATION_KEY]
-            ?? throw new ArgumentNullException("Aviation stack API key not found!");
-        _amadeusFlightSearchApiSecret = configuration[AMADEUS_API_SECRET_CONFIGURATION_KEY]
-            ?? throw new ArgumentNullException("Aviation stack API key not found!");
 
         _amadeusAuthorizationCacheEntryOptions = new MemoryCacheEntryOptions()
             .SetSlidingExpiration(TimeSpan.FromSeconds(CacheConstants.SLIDING_EXPIRATION_FOR_AMADEUS_AUTHORIZATION))
@@ -41,7 +33,7 @@ public class AmadeusAuthorizatoinHandlerService : IAmadeusAuthorizatoinHandlerSe
     public async Task<string> GetAuthorizationTokenAsync(bool searchCachedToken)
     {
         if (searchCachedToken
-            && _memoryCache.TryGetValue(AMADEUS_FLIGHT_SEARCH_API_KEY, out string? cachedItem)
+            && _memoryCache.TryGetValue(_amadeusEndpointConfiguration.AmadeusFlightSearchApiKey, out string? cachedItem)
             && !string.IsNullOrEmpty(cachedItem))
         {
             return cachedItem;
@@ -50,7 +42,7 @@ public class AmadeusAuthorizatoinHandlerService : IAmadeusAuthorizatoinHandlerSe
         var accessToken = await ExecuteHttpPostForGettingAccessToken();
 
         _memoryCache.Set(
-            key: AMADEUS_FLIGHT_SEARCH_API_KEY,
+            key: _amadeusEndpointConfiguration.AmadeusFlightSearchApiKey,
             value: accessToken,
             options: _amadeusAuthorizationCacheEntryOptions);
 
@@ -59,11 +51,11 @@ public class AmadeusAuthorizatoinHandlerService : IAmadeusAuthorizatoinHandlerSe
 
     private async Task<string> ExecuteHttpPostForGettingAccessToken()
     {
-        var requestUri = $"{UriConstants.AMADEUS_BASE_REQUEST_URI}/{UriConstants.AMADEUS_AUTH_ENDPOINT}";
+        var requestUri = $"{_amadeusEndpointConfiguration.BaseUri}/{_amadeusEndpointConfiguration.AuthenticationEndpoint}";
 
-        var grantUrl = $"grant_type=client_credentials" +
-                    $"&client_id={_amadeusFlightSearchApiKey}" +
-                    $"&client_secret={_amadeusFlightSearchApiSecret}";
+        var grantUrl = $"{_amadeusEndpointConfiguration.GrantTypeHeader}={_amadeusEndpointConfiguration.ClientCredentialsGrantType}" +
+                    $"&{_amadeusEndpointConfiguration.ClientIdHeader}={_amadeusEndpointConfiguration.AmadeusFlightSearchApiKey}" +
+                    $"&{_amadeusEndpointConfiguration.ClientSecretHeader}={_amadeusEndpointConfiguration.AmadeusFlightSearchApiSecret}";
 
         var content = new StringContent(
             content: grantUrl,
@@ -71,7 +63,7 @@ public class AmadeusAuthorizatoinHandlerService : IAmadeusAuthorizatoinHandlerSe
             mediaType: MediaTypeNames.Application.FormUrlEncoded);
 
         var httpClient = _httpClientFactory.CreateClient(HttpClientConstants.DEFAULT_HTTP_CLIENT_NAME);
-        httpClient.DefaultRequestHeaders.Add("Accept", MediaTypeNames.Application.Json);
+        httpClient.DefaultRequestHeaders.Add(HttpHeaderConstants.ACCEPT_TYPE, MediaTypeNames.Application.Json);
 
         var httpResponse = await httpClient.PostAsync(requestUri, content);
         httpResponse.EnsureSuccessStatusCode();
