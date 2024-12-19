@@ -20,13 +20,13 @@ jobs:
         dotnet-version: 8.0.x
 
     - name: Restore dependencies
-      run: dotnet restore "source/FlightScanner.sln"
+      run: dotnet restore "FlightScanner.sln"
       
     - name: Build
-      run: dotnet build --no-restore "source/FlightScanner.sln"
+      run: dotnet build --no-restore "FlightScanner.sln"
 
     - name: Run dotnet format
-      run: dotnet format "source/FlightScanner.sln" --no-restore --verify-no-changes --exclude source/FlightScanner.Client.BlazorWA/Program.cs
+      run: dotnet format "FlightScanner.sln" --no-restore --verify-no-changes --exclude source/FlightScanner.Client.BlazorWA/Program.cs
       
     - name: Test
-      run: dotnet test --no-build --verbosity normal "source/FlightScanner.sln"   
+      run: dotnet test --no-build --verbosity normal "FlightScanner.sln"
