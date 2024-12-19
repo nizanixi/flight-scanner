@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace FlightScanner.DTOs.Responses;
+namespace FlightScanner.Infrastructure.DTOs.Responses;
 
 public class AmadeusAuthorizationResponseDto
 {

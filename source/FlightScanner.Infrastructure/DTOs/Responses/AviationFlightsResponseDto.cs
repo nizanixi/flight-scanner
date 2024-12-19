@@ -1,7 +1,7 @@
 ﻿using System.Text.Json.Serialization;
-using FlightScanner.DTOs.Models.Aviation;
+using FlightScanner.Infrastructure.DTOs.Models.Aviation;
 
-namespace FlightScanner.DTOs.Responses;
+namespace FlightScanner.Infrastructure.DTOs.Responses;
 
 public class AviationFlightsResponseDto
 {

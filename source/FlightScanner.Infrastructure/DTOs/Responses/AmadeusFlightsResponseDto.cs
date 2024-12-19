@@ -1,7 +1,7 @@
 ﻿using System.Text.Json.Serialization;
-using FlightScanner.DTOs.Models.Amadeus;
+using FlightScanner.Infrastructure.DTOs.Models.Amadeus;
 
-namespace FlightScanner.DTOs.Responses;
+namespace FlightScanner.Infrastructure.DTOs.Responses;
 
 public class AmadeusFlightsResponseDto
 {

@@ -3,7 +3,6 @@ using System.Net.Http.Json;
 using FlightScanner.Common.Constants;
 using FlightScanner.Domain.Entities;
 using FlightScanner.Domain.Models;
-using FlightScanner.DTOs.Models;
 using FlightScanner.DTOs.Responses;
 using FlightScanner.WebApi.IntegratoinTests.TestInfrastructure;
 using FlightsScanner.Application.Interfaces.HttpClients;

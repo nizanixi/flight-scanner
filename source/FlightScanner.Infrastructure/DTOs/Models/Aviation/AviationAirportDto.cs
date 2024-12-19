@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace FlightScanner.DTOs.Models.Aviation;
+namespace FlightScanner.Infrastructure.DTOs.Models.Aviation;
 
 public class AviationAirportDto
 {

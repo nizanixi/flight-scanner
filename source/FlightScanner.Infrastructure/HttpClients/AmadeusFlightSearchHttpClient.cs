@@ -3,9 +3,9 @@ using System.Web;
 using FlightScanner.Common.Constants;
 using FlightScanner.Domain.Exceptions;
 using FlightScanner.Domain.Models;
-using FlightScanner.DTOs.Responses;
 using FlightScanner.Infrastructure.Configurations;
 using FlightScanner.Infrastructure.Constants;
+using FlightScanner.Infrastructure.DTOs.Responses;
 using FlightsScanner.Application.Interfaces.HttpClients;
 
 namespace FlightScanner.Infrastructure.HttpClients;

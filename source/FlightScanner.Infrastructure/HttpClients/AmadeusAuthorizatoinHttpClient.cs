@@ -2,9 +2,9 @@
 using System.Net.Mime;
 using System.Text;
 using FlightScanner.Common.Constants;
-using FlightScanner.DTOs.Responses;
 using FlightScanner.Infrastructure.Configurations;
 using FlightScanner.Infrastructure.Constants;
+using FlightScanner.Infrastructure.DTOs.Responses;
 using FlightsScanner.Application.Constants;
 using FlightsScanner.Application.Interfaces.HttpClients;
 using Microsoft.Extensions.Caching.Memory;
