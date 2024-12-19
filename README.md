@@ -47,22 +47,23 @@ Application is divided into two parts:
 Start both server and client side projects. Server side project has Swagger just for demonstrational purposes. Select flight on client side and find your flight.
 
 ## Architecture
-Architectural core concepts are expressed through logical diagram:
-
-<br/>
+<details closed>
+<summary>Logical architecture diagram</summary>
+<br>
 
 ![Logical architecture](documentation/images/architecture/logical-architecture.png)
+</details>
 
-<br/>
-
-Project dependencies are expressed through diagram:
-
-<br/>
+<details closed>
+<summary>Project dependencies diagram</summary>
+<br>
 
 ![Project dependencies](documentation/images/architecture/project-dependencies.png)
+</details>
 
-<br/>
+<br>
 
+Project summaries:
 - **CLI project** - scrapes data from Wikipedia page and exports it to database file. This is done since IATA codes sholdn't be taken from resource that almost everyone can edit. This database file can afterwards be used on server side of application.
     - CLI application has clean decoupling of input received from CLI UI and business logic, which enables good testability.
     - SQLite is used as database because of simlicity. There is no need for separate server installation, it's stored in single file which simplifies deployment and enhances it's portability. It also has support for Entity Framework which will afterwards be used as database manager.
@@ -79,40 +80,44 @@ Project dependencies are expressed through diagram:
 - **Common** - contains things found both on client and server side (constants and enums)
 
 ## Client Web UI
-Blazor Web Assembly User Interface:
-
-<br/>
+<details closed>
+<summary>Blazor Web Assembly User Interface</summary>
+<br>
 
 ![Blazor Web Assembly User Interface](documentation/images/web-ui/blazor-web-assembly-ui.png)
-
-<br/>
+</details>
 
 ## Server APIs
-Open API Documentation (Swagger) is displayed below:
-
-<br/>
+<details closed>
+<summary>Open API Documentation (Swagger)</summary>
+<br>
 
 ![Swagger documentation](documentation/images/apis/apis-display-in-swagger.png)
-
-<br/>
+</details>
 
 ## Tests
 Below is test coverage from these 3 test projects:
 
-### Code Coverage for CLI project integration tests
+<details closed>
+<summary>Code Coverage for CLI project integration tests</summary>
+<br>
+
 ![Code Coverage for CLI project integration tests](documentation/images/test-reports/CLI%20project%20-%20Integration%20tests.png)
+</details>
 
-<br/>
+<details closed>
+<summary>Code Coverage for Web API project unit tests</summary>
+<br>
 
-### Code Coverage for Web API project unit tests
 ![Code Coverage for Web API project unit tests](documentation/images/test-reports/WebApi%20project%20-%20Unit%20tests.png)
+</details>
 
-<br/>
+<details closed>
+<summary>Code Coverage for Web API project integration tests</summary>
+<br>
 
-### Code Coverage for Web API project integration tests
 ![Code Coverage for Web API project integration tests](documentation/images/test-reports/WebApi%20project%20-%20Integration%20tests.png)
-
-<br/>
+</details>
 
 ## Possible improvements
 - Use authentication between server and client projects

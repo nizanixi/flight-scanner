@@ -1,7 +1,7 @@
 ﻿using FlightScanner.Domain.Exceptions;
-using FlightScanner.Domain.Repositories;
 using FlightScanner.DTOs.Models;
 using FlightScanner.DTOs.Responses;
+using FlightsScanner.Application.Interfaces.Repositories;
 using MediatR;
 
 namespace FlightsScanner.Application.Airports.Queries.GetAllAirports;

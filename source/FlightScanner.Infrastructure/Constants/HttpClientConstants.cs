@@ -1,4 +1,4 @@
-﻿namespace FlightsScanner.Application.Constants;
+﻿namespace FlightScanner.Infrastructure.Constants;
 
 public static class HttpClientConstants
 {

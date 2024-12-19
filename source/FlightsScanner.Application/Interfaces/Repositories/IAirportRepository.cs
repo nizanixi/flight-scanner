@@ -1,7 +1,6 @@
-﻿
-using FlightScanner.Domain.Entities;
+﻿using FlightScanner.Domain.Entities;
 
-namespace FlightScanner.Domain.Repositories;
+namespace FlightsScanner.Application.Interfaces.Repositories;
 
 public interface IAirportRepository
 {

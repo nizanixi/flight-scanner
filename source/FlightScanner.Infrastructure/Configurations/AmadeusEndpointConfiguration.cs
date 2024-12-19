@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 
-namespace FlightsScanner.Application.Configurations;
+namespace FlightScanner.Infrastructure.Configurations;
 
 public class AmadeusEndpointConfiguration
 {

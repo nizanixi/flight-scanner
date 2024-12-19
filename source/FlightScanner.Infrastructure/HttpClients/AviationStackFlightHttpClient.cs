@@ -2,20 +2,20 @@
 using FlightScanner.Domain.Exceptions;
 using FlightScanner.DTOs.Models;
 using FlightScanner.DTOs.Responses;
-using FlightsScanner.Application.Configurations;
-using FlightsScanner.Application.Constants;
-using FlightsScanner.Application.Services.Contracts;
+using FlightScanner.Infrastructure.Configurations;
+using FlightScanner.Infrastructure.Constants;
+using FlightsScanner.Application.Interfaces.HttpClients;
 
-namespace FlightsScanner.Application.Services.Implementations;
+namespace FlightScanner.Infrastructure.HttpClients;
 
-public class AviationStackFlightSearchService : IFlightSearchService
+public class AviationStackFlightHttpClient : IFlightSearchHttpClient
 {
     private const string AVIATION_STACK_DATE_TIME_FORMAT = "YYYY-MM-DD";
 
     private readonly AviationEndpointConfiguration _aviationEndpointConfiguration;
     private readonly IHttpClientFactory _httpClientFactory;
 
-    public AviationStackFlightSearchService(AviationEndpointConfiguration aviationEndpointConfiguration, IHttpClientFactory httpClientFactory)
+    public AviationStackFlightHttpClient(AviationEndpointConfiguration aviationEndpointConfiguration, IHttpClientFactory httpClientFactory)
     {
         _httpClientFactory = httpClientFactory;
         _aviationEndpointConfiguration = aviationEndpointConfiguration;

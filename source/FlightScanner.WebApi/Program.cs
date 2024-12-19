@@ -1,18 +1,19 @@
 ﻿using System.Reflection;
 using FlightScanner.Common.Constants;
 using FlightScanner.Common.Policies;
-using FlightScanner.Domain.Repositories;
 using FlightScanner.DTOs.Models;
+using FlightScanner.Infrastructure.Authorization;
+using FlightScanner.Infrastructure.Constants;
+using FlightScanner.Infrastructure.HttpClients;
 using FlightScanner.Persistence.Database;
 using FlightScanner.Persistence.Repositories;
 using FlightScanner.WebApi.Configurations;
 using FlightScanner.WebApi.Middleware;
 using FlightsScanner.Application.Airports.Queries.GetAirport;
-using FlightsScanner.Application.Authentication;
 using FlightsScanner.Application.Constants;
 using FlightsScanner.Application.Flights.Queries.GetFlights;
-using FlightsScanner.Application.Services.Contracts;
-using FlightsScanner.Application.Services.Implementations;
+using FlightsScanner.Application.Interfaces.HttpClients;
+using FlightsScanner.Application.Interfaces.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 
@@ -71,20 +72,20 @@ public class Program
         {
             options.SizeLimit = CacheConstants.CACHE_LIMIT;
         });
-        builder.Services.AddScoped<IFlightSearchService, AmadeusFlightSearchService>(sp =>
+        builder.Services.AddScoped<IFlightSearchHttpClient, AmadeusFlightSearchHttpClient>(sp =>
         {
             var httpClientFactory = sp.GetService<IHttpClientFactory>()!;
             var amadeusEndpointConfiguration = sp.GetService<IWebApiConfiguration>()!.AmadeusEndpointConfiguration;
 
-            return new AmadeusFlightSearchService(httpClientFactory, amadeusEndpointConfiguration);
+            return new AmadeusFlightSearchHttpClient(httpClientFactory, amadeusEndpointConfiguration);
         });
-        builder.Services.AddScoped<IAmadeusAuthorizatoinHandlerService, AmadeusAuthorizatoinHandlerService>(sp =>
+        builder.Services.AddScoped<IAmadeusAuthorizatoinHttpClient, AmadeusAuthorizatoinHttpClient>(sp =>
         {
             var httpClientFactory = sp.GetService<IHttpClientFactory>()!;
             var amadeusEndpointConfiguration = sp.GetService<IWebApiConfiguration>()!.AmadeusEndpointConfiguration;
             var memoryCache = sp.GetService<IMemoryCache>()!;
 
-            return new AmadeusAuthorizatoinHandlerService(httpClientFactory, amadeusEndpointConfiguration, memoryCache);
+            return new AmadeusAuthorizatoinHttpClient(httpClientFactory, amadeusEndpointConfiguration, memoryCache);
         });
 
         builder.Services.AddTransient<GlobalExceptionHandlerMiddleware>();
@@ -111,9 +112,9 @@ public class Program
             })
             .AddHttpMessageHandler(provider =>
             {
-                var amadeusAuthorizatoinHandlerService = provider.GetRequiredService<IAmadeusAuthorizatoinHandlerService>();
+                var amadeusAuthorizatoinHttpClient = provider.GetRequiredService<IAmadeusAuthorizatoinHttpClient>();
 
-                return new AuthenticatedHttpClientHandler(amadeusAuthorizatoinHandlerService);
+                return new AuthorizationHttpClientHandler(amadeusAuthorizatoinHttpClient);
             })
             .AddPolicyHandler(HttpPoliciesFactory.CreateRetryPolicyWithSameRetryTime(HTTP_RETRY_IN_SECONDS));
     }

@@ -1,8 +1,8 @@
-﻿using FlightScanner.Domain.Repositories;
-using FlightScanner.DTOs.Models;
+﻿using FlightScanner.DTOs.Models;
 using FlightScanner.DTOs.Responses;
 using FlightsScanner.Application.Constants;
-using FlightsScanner.Application.Services.Contracts;
+using FlightsScanner.Application.Interfaces.HttpClients;
+using FlightsScanner.Application.Interfaces.Repositories;
 using MediatR;
 using Microsoft.Extensions.Caching.Memory;
 
@@ -10,15 +10,15 @@ namespace FlightsScanner.Application.Flights.Queries.GetFlights;
 
 internal class GetFlightsHandler : IRequestHandler<GetFlightsQuery, FoundFlightsResponseDto>
 {
-    private readonly IFlightSearchService _flightSearchService;
+    private readonly IFlightSearchHttpClient _flightSearchHttpClient;
     private readonly IMemoryCache _memoryCache;
     private readonly IAirportRepository _airportRepository;
     private readonly MemoryCacheEntryOptions _flightItemCacheEntryOptions;
     private readonly MemoryCacheEntryOptions _iataCodesWithAirportsCacheEntryOptions;
 
-    public GetFlightsHandler(IFlightSearchService flightSearchService, IMemoryCache memoryCache, IAirportRepository airportRepository)
+    public GetFlightsHandler(IFlightSearchHttpClient flightSearchHttpClient, IMemoryCache memoryCache, IAirportRepository airportRepository)
     {
-        _flightSearchService = flightSearchService;
+        _flightSearchHttpClient = flightSearchHttpClient;
         _memoryCache = memoryCache;
         _airportRepository = airportRepository;
 
@@ -44,7 +44,7 @@ internal class GetFlightsHandler : IRequestHandler<GetFlightsQuery, FoundFlights
             return cachedItem;
         }
 
-        var flights = await _flightSearchService.GetFlights(
+        var flights = await _flightSearchHttpClient.GetFlights(
             request.DepartureAirportIataCode,
             request.DepartureTime,
             request.DestinationAirportIataCode,

@@ -4,13 +4,13 @@ using FlightScanner.Common.Constants;
 using FlightScanner.Domain.Exceptions;
 using FlightScanner.DTOs.Models;
 using FlightScanner.DTOs.Responses;
-using FlightsScanner.Application.Configurations;
-using FlightsScanner.Application.Constants;
-using FlightsScanner.Application.Services.Contracts;
+using FlightScanner.Infrastructure.Configurations;
+using FlightScanner.Infrastructure.Constants;
+using FlightsScanner.Application.Interfaces.HttpClients;
 
-namespace FlightsScanner.Application.Services.Implementations;
+namespace FlightScanner.Infrastructure.HttpClients;
 
-public class AmadeusFlightSearchService : IFlightSearchService
+public class AmadeusFlightSearchHttpClient : IFlightSearchHttpClient
 {
     private const string AMADEUS_API_DATE_TIME_FORMAT = "yyyy-MM-dd";
     private const int DEPARTURE_AIRPORT = 1;
@@ -19,7 +19,7 @@ public class AmadeusFlightSearchService : IFlightSearchService
     private readonly IHttpClientFactory _httpClientFactory;
     private readonly AmadeusEndpointConfiguration _amadeusEndpointConfiguration;
 
-    public AmadeusFlightSearchService(IHttpClientFactory httpClientFactory, AmadeusEndpointConfiguration amadeusEndpointConfiguration)
+    public AmadeusFlightSearchHttpClient(IHttpClientFactory httpClientFactory, AmadeusEndpointConfiguration amadeusEndpointConfiguration)
     {
         _httpClientFactory = httpClientFactory;
         _amadeusEndpointConfiguration = amadeusEndpointConfiguration;

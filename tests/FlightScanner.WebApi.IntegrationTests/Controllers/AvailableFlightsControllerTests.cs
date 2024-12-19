@@ -2,11 +2,11 @@
 using System.Net.Http.Json;
 using FlightScanner.Common.Constants;
 using FlightScanner.Domain.Entities;
-using FlightScanner.Domain.Repositories;
 using FlightScanner.DTOs.Models;
 using FlightScanner.DTOs.Responses;
 using FlightScanner.WebApi.IntegratoinTests.TestInfrastructure;
-using FlightsScanner.Application.Services.Contracts;
+using FlightsScanner.Application.Interfaces.HttpClients;
+using FlightsScanner.Application.Interfaces.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 using NSubstitute;
 
@@ -23,7 +23,7 @@ public class AvailableFlightsControllerTests
             iataCode: Arg.Any<string>(),
             cancellationToken: Arg.Any<CancellationToken>())
             .Returns(Task.FromResult(new AirportEntity("", "", "")));
-        var fakeFlightSearchService = Substitute.For<IFlightSearchService>();
+        var fakeFlightSearchHttpClient = Substitute.For<IFlightSearchHttpClient>();
         var flightEntity = new FlightEntityDto(
             departureAirportIataCode: string.Empty,
             departureDate: default,
@@ -38,7 +38,7 @@ public class AvailableFlightsControllerTests
             .Select(_ => flightEntity)
             .ToList();
         var foundFlightsDto = new FoundFlightsResponseDto(flightsCollection);
-        _ = fakeFlightSearchService.GetFlights(
+        _ = fakeFlightSearchHttpClient.GetFlights(
             departureAirportIataCode: Arg.Any<string>(),
             departureTime: Arg.Any<DateTime>(),
             destinationAirportIataCode: Arg.Any<string>(),
@@ -52,10 +52,10 @@ public class AvailableFlightsControllerTests
             {
                 builder.ConfigureServices(services =>
                 {
-                    var flightSearchServiceDescriptor = services
-                        .SingleOrDefault(d => d.ServiceType == typeof(IFlightSearchService))!;
-                    services.Remove(flightSearchServiceDescriptor);
-                    services.AddScoped(_ => fakeFlightSearchService);
+                    var flightSearchHttpClientDescriptor = services
+                        .SingleOrDefault(d => d.ServiceType == typeof(IFlightSearchHttpClient))!;
+                    services.Remove(flightSearchHttpClientDescriptor);
+                    services.AddScoped(_ => fakeFlightSearchHttpClient);
 
                     var airportRepositoryServiceDescriptor = services
                         .SingleOrDefault(d => d.ServiceType == typeof(IAirportRepository))!;
@@ -73,7 +73,7 @@ public class AvailableFlightsControllerTests
         var secondResponse = await httpClient.GetAsync(flightSearchUri);
         var flightsFoundOnSecondRequest = await secondResponse.Content.ReadFromJsonAsync<FoundFlightsResponseDto>();
 
-        var callInfo = fakeFlightSearchService.ReceivedCalls();
+        var callInfo = fakeFlightSearchHttpClient.ReceivedCalls();
 
         Assert.Multiple(() =>
         {

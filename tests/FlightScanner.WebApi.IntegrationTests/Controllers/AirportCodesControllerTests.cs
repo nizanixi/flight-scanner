@@ -2,9 +2,9 @@
 using System.Net.Http.Json;
 using FlightScanner.Common.Constants;
 using FlightScanner.Domain.Entities;
-using FlightScanner.Domain.Repositories;
 using FlightScanner.DTOs.Responses;
 using FlightScanner.WebApi.IntegratoinTests.TestInfrastructure;
+using FlightsScanner.Application.Interfaces.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 using NSubstitute;
 

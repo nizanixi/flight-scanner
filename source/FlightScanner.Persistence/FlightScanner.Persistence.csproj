@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FlightScanner.Domain\FlightScanner.Domain.csproj" />
+    <ProjectReference Include="..\FlightsScanner.Application\FlightsScanner.Application.csproj" />
   </ItemGroup>
 
   <ItemGroup>

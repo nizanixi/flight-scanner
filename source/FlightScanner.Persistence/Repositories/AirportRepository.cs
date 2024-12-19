@@ -1,7 +1,7 @@
 ﻿using FlightScanner.Domain.Entities;
 using FlightScanner.Domain.Exceptions;
-using FlightScanner.Domain.Repositories;
 using FlightScanner.Persistence.Database;
+using FlightsScanner.Application.Interfaces.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace FlightScanner.Persistence.Repositories;

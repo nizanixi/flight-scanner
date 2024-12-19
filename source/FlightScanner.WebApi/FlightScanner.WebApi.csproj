@@ -18,6 +18,7 @@
   <ItemGroup>
     <ProjectReference Include="..\FlightScanner.Common\FlightScanner.Common.csproj" />
     <ProjectReference Include="..\FlightScanner.DTOs\FlightScanner.DTOs.csproj" />
+    <ProjectReference Include="..\FlightScanner.Infrastructure\FlightScanner.Infrastructure.csproj" />
     <ProjectReference Include="..\FlightScanner.Persistence\FlightScanner.Persistence.csproj" />
     <ProjectReference Include="..\FlightsScanner.Application\FlightsScanner.Application.csproj" />
   </ItemGroup>

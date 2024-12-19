@@ -1,4 +1,4 @@
-﻿using FlightsScanner.Application.Configurations;
+﻿using FlightScanner.Infrastructure.Configurations;
 
 namespace FlightScanner.WebApi.Configurations;
 

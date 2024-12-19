@@ -3,20 +3,21 @@ using System.Net.Mime;
 using System.Text;
 using FlightScanner.Common.Constants;
 using FlightScanner.DTOs.Responses;
-using FlightsScanner.Application.Configurations;
+using FlightScanner.Infrastructure.Configurations;
+using FlightScanner.Infrastructure.Constants;
 using FlightsScanner.Application.Constants;
-using FlightsScanner.Application.Services.Contracts;
+using FlightsScanner.Application.Interfaces.HttpClients;
 using Microsoft.Extensions.Caching.Memory;
 
-namespace FlightsScanner.Application.Services.Implementations;
+namespace FlightScanner.Infrastructure.HttpClients;
 
-public class AmadeusAuthorizatoinHandlerService : IAmadeusAuthorizatoinHandlerService
+public class AmadeusAuthorizatoinHttpClient : IAmadeusAuthorizatoinHttpClient
 {
     private readonly IHttpClientFactory _httpClientFactory;
     private readonly AmadeusEndpointConfiguration _amadeusEndpointConfiguration;
     private readonly IMemoryCache _memoryCache;
 
-    public AmadeusAuthorizatoinHandlerService(IHttpClientFactory httpClientFactory, AmadeusEndpointConfiguration amadeusEndpointConfiguration, IMemoryCache memoryCache)
+    public AmadeusAuthorizatoinHttpClient(IHttpClientFactory httpClientFactory, AmadeusEndpointConfiguration amadeusEndpointConfiguration, IMemoryCache memoryCache)
     {
         _httpClientFactory = httpClientFactory;
         _amadeusEndpointConfiguration = amadeusEndpointConfiguration;

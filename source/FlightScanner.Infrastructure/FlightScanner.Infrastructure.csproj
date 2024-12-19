@@ -7,13 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MediatR" Version="12.4.1" />
     <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="9.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="9.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="9.0.0" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\FlightScanner.Common\FlightScanner.Common.csproj" />
     <ProjectReference Include="..\FlightScanner.Domain\FlightScanner.Domain.csproj" />
     <ProjectReference Include="..\FlightScanner.DTOs\FlightScanner.DTOs.csproj" />
+    <ProjectReference Include="..\FlightsScanner.Application\FlightsScanner.Application.csproj" />
   </ItemGroup>
 
 </Project>

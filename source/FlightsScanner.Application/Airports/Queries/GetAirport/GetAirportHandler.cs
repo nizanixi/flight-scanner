@@ -1,7 +1,7 @@
 ﻿using FlightScanner.Domain.Entities;
 using FlightScanner.Domain.Exceptions;
-using FlightScanner.Domain.Repositories;
 using FlightsScanner.Application.Constants;
+using FlightsScanner.Application.Interfaces.Repositories;
 using MediatR;
 using Microsoft.Extensions.Caching.Memory;
 
