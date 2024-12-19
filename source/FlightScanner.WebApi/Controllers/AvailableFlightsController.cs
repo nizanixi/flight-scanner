@@ -2,6 +2,7 @@
 using FlightScanner.Common.Constants;
 using FlightScanner.DTOs.Exceptions;
 using FlightScanner.DTOs.Responses;
+using FlightScanner.WebApi.Mappings;
 using FlightScanner.WebApi.Validation;
 using FlightsScanner.Application.Flights.Queries.GetFlights;
 using MediatR;
@@ -48,9 +49,15 @@ public class AvailableFlightsController : ControllerBase
             numberOfPassengers: numberOfPassengers,
             currency: currency);
 
-        var flightOffers = await _sender.Send(
+        var flightOfferInformations = await _sender.Send(
             request: getFlightsQuery,
             cancellationToken: cancellationToken);
+
+        var flightOfferDtos = flightOfferInformations
+            .Select(DomainToDtoMapper.MapToFlightDto)
+            .ToArray();
+
+        var flightOffers = new FoundFlightsResponseDto(flightOfferDtos);
 
         return Ok(flightOffers);
     }

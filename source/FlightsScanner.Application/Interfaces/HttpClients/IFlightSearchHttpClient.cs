@@ -1,8 +1,8 @@
-﻿using FlightScanner.DTOs.Responses;
+﻿using FlightScanner.Domain.Models;
 
 namespace FlightsScanner.Application.Interfaces.HttpClients;
 
 public interface IFlightSearchHttpClient
 {
-    Task<FoundFlightsResponseDto> GetFlights(string departureAirportIataCode, DateTime departureTime, string destinationAirportIataCode, DateTime? returnTripTime, int numberOfPassengers, string currency, CancellationToken cancellationToken);
+    Task<IReadOnlyList<FlightInformation>> GetFlights(string departureAirportIataCode, DateTime departureTime, string destinationAirportIataCode, DateTime? returnTripTime, int numberOfPassengers, string currency, CancellationToken cancellationToken);
 }

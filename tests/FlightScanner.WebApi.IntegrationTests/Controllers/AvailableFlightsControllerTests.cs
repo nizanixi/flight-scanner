@@ -2,6 +2,7 @@
 using System.Net.Http.Json;
 using FlightScanner.Common.Constants;
 using FlightScanner.Domain.Entities;
+using FlightScanner.Domain.Models;
 using FlightScanner.DTOs.Models;
 using FlightScanner.DTOs.Responses;
 using FlightScanner.WebApi.IntegratoinTests.TestInfrastructure;
@@ -24,7 +25,7 @@ public class AvailableFlightsControllerTests
             cancellationToken: Arg.Any<CancellationToken>())
             .Returns(Task.FromResult(new AirportEntity("", "", "")));
         var fakeFlightSearchHttpClient = Substitute.For<IFlightSearchHttpClient>();
-        var flightEntity = new FlightEntityDto(
+        var flightInformation = new FlightInformation(
             departureAirportIataCode: string.Empty,
             departureDate: default,
             arrivalAirportIataCode: string.Empty,
@@ -35,9 +36,8 @@ public class AvailableFlightsControllerTests
             price: default);
         var expectedNumberOfFlights = 10;
         var flightsCollection = Enumerable.Range(1, expectedNumberOfFlights)
-            .Select(_ => flightEntity)
+            .Select(_ => flightInformation)
             .ToList();
-        var foundFlightsDto = new FoundFlightsResponseDto(flightsCollection);
         _ = fakeFlightSearchHttpClient.GetFlights(
             departureAirportIataCode: Arg.Any<string>(),
             departureTime: Arg.Any<DateTime>(),
@@ -46,7 +46,7 @@ public class AvailableFlightsControllerTests
             numberOfPassengers: Arg.Any<int>(),
             currency: Arg.Any<string>(),
             cancellationToken: Arg.Any<CancellationToken>())
-            .Returns(foundFlightsDto);
+            .Returns(flightsCollection);
         var applicationFactory = new FlightScannerWebApplicationFactory()
             .WithWebHostBuilder(builder =>
             {

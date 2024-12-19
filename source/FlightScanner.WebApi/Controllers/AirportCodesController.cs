@@ -3,6 +3,7 @@ using FlightScanner.Domain.Entities;
 using FlightScanner.DTOs.Exceptions;
 using FlightScanner.DTOs.Responses;
 using FlightScanner.WebApi.Filters;
+using FlightScanner.WebApi.Mappings;
 using FlightScanner.WebApi.Validation;
 using FlightsScanner.Application.Airports.Queries.GetAirport;
 using FlightsScanner.Application.Airports.Queries.GetAllAirports;
@@ -50,9 +51,15 @@ public class AirportCodesController : ControllerBase
     public async Task<IActionResult> GetAllAirport(
         CancellationToken cancellationToken)
     {
-        var airportsResponse = await _sender.Send(
+        var airportEntities = await _sender.Send(
             request: new GetAllAirportsQuery(),
             cancellationToken: cancellationToken);
+
+        var airportDtos = airportEntities
+            .Select(DomainToDtoMapper.MapToAirportDto)
+            .ToArray();
+
+        var airportsResponse = new AllAirportsResponseDto(airportDtos);
 
         return Ok(airportsResponse);
     }

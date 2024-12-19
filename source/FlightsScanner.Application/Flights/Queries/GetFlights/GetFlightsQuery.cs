@@ -1,9 +1,9 @@
-﻿using FlightScanner.DTOs.Responses;
+﻿using FlightScanner.Domain.Models;
 using MediatR;
 
 namespace FlightsScanner.Application.Flights.Queries.GetFlights;
 
-public class GetFlightsQuery : IRequest<FoundFlightsResponseDto>
+public class GetFlightsQuery : IRequest<IReadOnlyList<FlightInformation>>
 {
     public GetFlightsQuery(
         string departureAirportIataCode,

@@ -2,7 +2,7 @@
 using System.Web;
 using FlightScanner.Common.Constants;
 using FlightScanner.Domain.Exceptions;
-using FlightScanner.DTOs.Models;
+using FlightScanner.Domain.Models;
 using FlightScanner.DTOs.Responses;
 using FlightScanner.Infrastructure.Configurations;
 using FlightScanner.Infrastructure.Constants;
@@ -25,7 +25,7 @@ public class AmadeusFlightSearchHttpClient : IFlightSearchHttpClient
         _amadeusEndpointConfiguration = amadeusEndpointConfiguration;
     }
 
-    public async Task<FoundFlightsResponseDto> GetFlights(string departureAirportIataCode, DateTime departureTime, string destinationAirportIataCode, DateTime? returnTripTime, int numberOfPassengers, string currency, CancellationToken cancellationToken)
+    public async Task<IReadOnlyList<FlightInformation>> GetFlights(string departureAirportIataCode, DateTime departureTime, string destinationAirportIataCode, DateTime? returnTripTime, int numberOfPassengers, string currency, CancellationToken cancellationToken)
     {
         var requestUri = $"{_amadeusEndpointConfiguration.BaseUri}/{_amadeusEndpointConfiguration.GetFlightEndpoint}";
 
@@ -57,7 +57,7 @@ public class AmadeusFlightSearchHttpClient : IFlightSearchHttpClient
             throw new InvalidResponseException("Flight search didn't find any flights!");
         }
 
-        var flights = new List<FlightEntityDto>();
+        var flights = new List<FlightInformation>();
         foreach (var flightOffer in results.FlightOffers)
         {
             var price = flightOffer.Price.Total;
@@ -89,7 +89,7 @@ public class AmadeusFlightSearchHttpClient : IFlightSearchHttpClient
                 }
             }
 
-            var flightEntity = new FlightEntityDto(
+            var flightInformation = new FlightInformation(
                 departureAirportIataCode: departureIataCode,
                 departureDate: departureDateTime,
                 arrivalAirportIataCode: destinationAirportIataCode,
@@ -99,9 +99,9 @@ public class AmadeusFlightSearchHttpClient : IFlightSearchHttpClient
                 currency: flightCurrency,
                 price: price);
 
-            flights.Add(flightEntity);
+            flights.Add(flightInformation);
         }
 
-        return new FoundFlightsResponseDto(flights);
+        return flights;
     }
 }

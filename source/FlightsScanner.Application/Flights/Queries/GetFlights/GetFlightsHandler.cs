@@ -1,5 +1,4 @@
-﻿using FlightScanner.DTOs.Models;
-using FlightScanner.DTOs.Responses;
+﻿using FlightScanner.Domain.Models;
 using FlightsScanner.Application.Constants;
 using FlightsScanner.Application.Interfaces.HttpClients;
 using FlightsScanner.Application.Interfaces.Repositories;
@@ -8,7 +7,7 @@ using Microsoft.Extensions.Caching.Memory;
 
 namespace FlightsScanner.Application.Flights.Queries.GetFlights;
 
-internal class GetFlightsHandler : IRequestHandler<GetFlightsQuery, FoundFlightsResponseDto>
+internal class GetFlightsHandler : IRequestHandler<GetFlightsQuery, IReadOnlyList<FlightInformation>>
 {
     private readonly IFlightSearchHttpClient _flightSearchHttpClient;
     private readonly IMemoryCache _memoryCache;
@@ -35,10 +34,10 @@ internal class GetFlightsHandler : IRequestHandler<GetFlightsQuery, FoundFlights
             .SetSize(CacheConstants.IATA_CODE_CACHE_SIZE);
     }
 
-    public async Task<FoundFlightsResponseDto> Handle(GetFlightsQuery request, CancellationToken cancellationToken)
+    public async Task<IReadOnlyList<FlightInformation>> Handle(GetFlightsQuery request, CancellationToken cancellationToken)
     {
         var flightHashCodeKey = CreateUniqueCacheKeyForGetFlightsRequest(request);
-        if (_memoryCache.TryGetValue(flightHashCodeKey, out FoundFlightsResponseDto? cachedItem)
+        if (_memoryCache.TryGetValue(flightHashCodeKey, out IReadOnlyList<FlightInformation>? cachedItem)
             && cachedItem != null)
         {
             return cachedItem;
@@ -53,7 +52,7 @@ internal class GetFlightsHandler : IRequestHandler<GetFlightsQuery, FoundFlights
             request.Currency,
             cancellationToken);
 
-        await MapAirportIataCodesToAirportLocations(flights.FlightEntityDtos, cancellationToken);
+        await MapAirportIataCodesToAirportLocations(flights, cancellationToken);
 
         _memoryCache.Set(
             key: flightHashCodeKey,
@@ -74,7 +73,7 @@ internal class GetFlightsHandler : IRequestHandler<GetFlightsQuery, FoundFlights
             request.Currency);
     }
 
-    private async Task MapAirportIataCodesToAirportLocations(IEnumerable<FlightEntityDto> flightEntityDtos, CancellationToken cancellationToken)
+    private async Task MapAirportIataCodesToAirportLocations(IEnumerable<FlightInformation> flightEntityDtos, CancellationToken cancellationToken)
     {
         var allIataAirportCodes = flightEntityDtos
             .SelectMany(f => new[] { f.DepartureAirportIataCode, f.ArrivalAirportIataCode })

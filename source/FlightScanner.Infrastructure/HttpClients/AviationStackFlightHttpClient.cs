@@ -1,6 +1,6 @@
 ﻿using System.Net.Http.Json;
 using FlightScanner.Domain.Exceptions;
-using FlightScanner.DTOs.Models;
+using FlightScanner.Domain.Models;
 using FlightScanner.DTOs.Responses;
 using FlightScanner.Infrastructure.Configurations;
 using FlightScanner.Infrastructure.Constants;
@@ -21,7 +21,7 @@ public class AviationStackFlightHttpClient : IFlightSearchHttpClient
         _aviationEndpointConfiguration = aviationEndpointConfiguration;
     }
 
-    public async Task<FoundFlightsResponseDto> GetFlights(string departureAirportIataCode, DateTime departureTime, string destinationAirportIataCode, DateTime? returnTripTime, int numberOfPassengers, string currency, CancellationToken cancellationToken)
+    public async Task<IReadOnlyList<FlightInformation>> GetFlights(string departureAirportIataCode, DateTime departureTime, string destinationAirportIataCode, DateTime? returnTripTime, int numberOfPassengers, string currency, CancellationToken cancellationToken)
     {
         var requestUri = $"{_aviationEndpointConfiguration.BaseUri}?{_aviationEndpointConfiguration.AccessKeyHeader}={_aviationEndpointConfiguration.AviationFlightSearchApiKey}";
 
@@ -43,10 +43,10 @@ public class AviationStackFlightHttpClient : IFlightSearchHttpClient
             throw new InvalidResponseException("Flight search didn't find any flights!");
         }
 
-        var flights = new List<FlightEntityDto>();
+        var flights = new List<FlightInformation>();
         foreach (var flight in results.FlightInfoDtos)
         {
-            var flightEntity = new FlightEntityDto(
+            var flightInformation = new FlightInformation(
                 departureAirportIataCode: flight.DepartureAirport.IataCode,
                 departureDate: DateTime.Parse(flight.DepartureAirport.Sheduled),
                 arrivalAirportIataCode: flight.ArrivalAirport.IataCode,
@@ -56,9 +56,9 @@ public class AviationStackFlightHttpClient : IFlightSearchHttpClient
                 currency: string.Empty,
                 price: default);
 
-            flights.Add(flightEntity);
+            flights.Add(flightInformation);
         }
 
-        return new FoundFlightsResponseDto(flights);
+        return flights;
     }
 }
