@@ -137,8 +137,9 @@ Below is test coverage from these 3 test projects:
 
 ## Possible improvements
 - Use authentication between server and client projects
+    - Add validation both to server and client side with FluentValidation
 - Use HybridCache instead of IMemoryCache after uplifting to .NET9
-- Add validation both to server and client side with FluentValidation
+- Add any kind of logger (Serilog)
 - Raise test coverage
 - Add deployment for backend server
 - Use React as frontend technology
