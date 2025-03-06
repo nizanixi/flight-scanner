@@ -16,10 +16,12 @@ namespace FlightScanner.WebApi.Controllers;
 public class AvailableFlightsController : ControllerBase
 {
     private readonly ISender _sender;
+    private readonly ILogger<AvailableFlightsController> _logger;
 
-    public AvailableFlightsController(ISender sender)
+    public AvailableFlightsController(ISender sender, ILogger<AvailableFlightsController> logger)
     {
         _sender = sender;
+        _logger = logger;
     }
 
     [Produces(MediaTypeNames.Application.Json)]
@@ -41,6 +43,8 @@ public class AvailableFlightsController : ControllerBase
         [FromQuery][CurrencyValidation] string currency,
         CancellationToken cancellationToken)
     {
+        _logger.LogInformation("HTTP request for getting available flights");
+
         var getFlightsQuery = new GetFlightsQuery(
             departureAirportIataCode: departureAirportIataCode,
             departureTime: DateTime.ParseExact(departureTime, DateTimeConstants.DATE_TIME_FORMAT, null),

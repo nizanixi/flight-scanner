@@ -25,7 +25,7 @@ public class GlobalExceptionHandlerMiddleware : IMiddleware
         }
         catch (Exception exception)
         {
-            _logger.LogError(exception, $"An error occurred while processing your request: {exception.Message}");
+            _logger.LogError(exception, "An error occurred while processing request: {@exception.Message}", exception);
 
             context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
             context.Response.ContentType = MediaTypeNames.Application.Json;

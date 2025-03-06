@@ -18,10 +18,12 @@ namespace FlightScanner.WebApi.Controllers;
 public class AirportCodesController : ControllerBase
 {
     private readonly ISender _sender;
+    private readonly ILogger<AirportCodesController> _logger;
 
-    public AirportCodesController(ISender sender)
+    public AirportCodesController(ISender sender, ILogger<AirportCodesController> logger)
     {
         _sender = sender;
+        _logger = logger;
     }
 
     [Produces(MediaTypeNames.Application.Json)]
@@ -35,6 +37,8 @@ public class AirportCodesController : ControllerBase
         [FromQuery][IataCodeValidation] string iataCode,
         CancellationToken cancellationToken)
     {
+        _logger.LogInformation("HTTP request for getting airport with IATA code {iataCode}", iataCode);
+
         var foundAirport = await _sender.Send(
             request: new GetAirportQuery(iataCode),
             cancellationToken: cancellationToken);
@@ -51,6 +55,8 @@ public class AirportCodesController : ControllerBase
     public async Task<IActionResult> GetAllAirport(
         CancellationToken cancellationToken)
     {
+        _logger.LogInformation("HTTP request for getting all airports");
+
         var airportEntities = await _sender.Send(
             request: new GetAllAirportsQuery(),
             cancellationToken: cancellationToken);

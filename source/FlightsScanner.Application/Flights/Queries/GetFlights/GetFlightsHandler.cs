@@ -4,6 +4,7 @@ using FlightsScanner.Application.Interfaces.HttpClients;
 using FlightsScanner.Application.Interfaces.Repositories;
 using MediatR;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Logging;
 
 namespace FlightsScanner.Application.Flights.Queries.GetFlights;
 
@@ -12,14 +13,16 @@ internal class GetFlightsHandler : IRequestHandler<GetFlightsQuery, IReadOnlyLis
     private readonly IFlightSearchHttpClient _flightSearchHttpClient;
     private readonly IMemoryCache _memoryCache;
     private readonly IAirportRepository _airportRepository;
+    private readonly ILogger<GetFlightsHandler> _logger;
     private readonly MemoryCacheEntryOptions _flightItemCacheEntryOptions;
     private readonly MemoryCacheEntryOptions _iataCodesWithAirportsCacheEntryOptions;
 
-    public GetFlightsHandler(IFlightSearchHttpClient flightSearchHttpClient, IMemoryCache memoryCache, IAirportRepository airportRepository)
+    public GetFlightsHandler(IFlightSearchHttpClient flightSearchHttpClient, IMemoryCache memoryCache, IAirportRepository airportRepository, ILogger<GetFlightsHandler> logger)
     {
         _flightSearchHttpClient = flightSearchHttpClient;
         _memoryCache = memoryCache;
         _airportRepository = airportRepository;
+        _logger = logger;
 
         _flightItemCacheEntryOptions = new MemoryCacheEntryOptions()
             .SetSlidingExpiration(TimeSpan.FromSeconds(CacheConstants.SLIDING_EXPIRATION_FOR_FLIGHTS_IN_SECONDS))
@@ -36,6 +39,8 @@ internal class GetFlightsHandler : IRequestHandler<GetFlightsQuery, IReadOnlyLis
 
     public async Task<IReadOnlyList<FlightInformation>> Handle(GetFlightsQuery request, CancellationToken cancellationToken)
     {
+        _logger.LogInformation("Handling flight information request.");
+
         var flightHashCodeKey = CreateUniqueCacheKeyForGetFlightsRequest(request);
         if (_memoryCache.TryGetValue(flightHashCodeKey, out IReadOnlyList<FlightInformation>? cachedItem)
             && cachedItem != null)

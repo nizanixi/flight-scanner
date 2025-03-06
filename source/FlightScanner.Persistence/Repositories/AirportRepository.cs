@@ -3,16 +3,19 @@ using FlightScanner.Domain.Exceptions;
 using FlightScanner.Persistence.Database;
 using FlightsScanner.Application.Interfaces.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace FlightScanner.Persistence.Repositories;
 
 public class AirportRepository : IAirportRepository
 {
     private readonly AirportsDbContext _airportsDbContext;
+    private readonly ILogger<AirportRepository> _logger;
 
-    public AirportRepository(AirportsDbContext airportsDbContext)
+    public AirportRepository(AirportsDbContext airportsDbContext, ILogger<AirportRepository> logger)
     {
         _airportsDbContext = airportsDbContext;
+        _logger = logger;
     }
 
     public async Task<AirportEntity> GetAirportWithIataCode(string iataCode, CancellationToken cancellationToken)
@@ -30,6 +33,8 @@ public class AirportRepository : IAirportRepository
             throw new NotFoundException(typeof(AirportEntity), iataCode);
         }
 
+        _logger.LogInformation("Airport {iataCode} successfully fetched from database.", airport.IataCode);
+
         return airport;
     }
 
@@ -44,6 +49,8 @@ public class AirportRepository : IAirportRepository
         {
             throw new NotFoundException(typeof(AirportEntity), "Airports");
         }
+
+        _logger.LogInformation("All airports successfully fetched from database.");
 
         return airports;
     }

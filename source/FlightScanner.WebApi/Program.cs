@@ -16,6 +16,8 @@ using FlightsScanner.Application.Interfaces.HttpClients;
 using FlightsScanner.Application.Interfaces.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Logging.Configuration;
+using Serilog;
 
 public class Program
 {
@@ -65,6 +67,18 @@ public class Program
         });
 
         builder.Services.AddControllers();
+
+        builder.Services.AddLogging(loggingBuilder =>
+        {
+            loggingBuilder.AddSerilog();
+
+            loggingBuilder.AddConfiguration();
+        });
+
+        builder.Host.UseSerilog((context, services, configuration) =>
+        {
+            configuration.ReadFrom.Configuration(context.Configuration);
+        });
 
         AddPersistence(builder.Services);
 
