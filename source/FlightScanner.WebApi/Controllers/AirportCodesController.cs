@@ -1,6 +1,6 @@
 ﻿using System.Net.Mime;
-using FlightScanner.Domain.Entities;
 using FlightScanner.DTOs.Exceptions;
+using FlightScanner.DTOs.Models;
 using FlightScanner.DTOs.Responses;
 using FlightScanner.WebApi.Filters;
 using FlightScanner.WebApi.Mappings;
@@ -27,7 +27,7 @@ public class AirportCodesController : ControllerBase
     }
 
     [Produces(MediaTypeNames.Application.Json)]
-    [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(AirportEntity))]
+    [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(AirportDto))]
     [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ExceptionDto))]
     [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ExceptionDto))]
     [HttpGet]
@@ -43,7 +43,9 @@ public class AirportCodesController : ControllerBase
             request: new GetAirportQuery(iataCode),
             cancellationToken: cancellationToken);
 
-        return Ok(foundAirport);
+        var airportDto = foundAirport.MapToAirportDto();
+
+        return Ok(airportDto);
     }
 
     [Produces(MediaTypeNames.Application.Json)]

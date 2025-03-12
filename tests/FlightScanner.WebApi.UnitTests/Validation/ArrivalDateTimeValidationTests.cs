@@ -58,7 +58,7 @@ public class ArrivalDateTimeValidationTests
     public void GetValidationResult_WithDateTimeExactlyOnBoundaryTimingValues_ReturnsSuccess()
     {
         var arrivalDateTimeValidation = new ArrivalDateTimeValidation();
-        var boundaryDateTime = "12-31-2024-23-59";
+        var boundaryDateTime = $"12-31-{DateTime.Now.Year}-23-59";
 
         var result = arrivalDateTimeValidation.GetValidationResult(boundaryDateTime, new ValidationContext(boundaryDateTime));
 

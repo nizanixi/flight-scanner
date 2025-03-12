@@ -14,6 +14,10 @@ using FlightsScanner.Application.Constants;
 using FlightsScanner.Application.Flights.Queries.GetFlights;
 using FlightsScanner.Application.Interfaces.HttpClients;
 using FlightsScanner.Application.Interfaces.Repositories;
+using FlightsScanner.Application.PipelineBehaviors;
+using FluentValidation;
+using FluentValidation.AspNetCore;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging.Configuration;
@@ -79,6 +83,11 @@ public class Program
         {
             configuration.ReadFrom.Configuration(context.Configuration);
         });
+
+        builder.Services.AddValidatorsFromAssemblies([
+            typeof(GetAirportQueryValidator).Assembly]);
+        builder.Services.AddFluentValidationAutoValidation();
+        builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationPipeline<,>));
 
         AddPersistence(builder.Services);
 

@@ -1,4 +1,4 @@
-﻿using FlightScanner.Domain.Entities;
+﻿using FlightScanner.DTOs.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
@@ -22,7 +22,7 @@ public class CountriesWithClosedAirTrafficFilter : ActionFilterAttribute
             return;
         }
 
-        if (result.Value is not AirportEntity airport)
+        if (result.Value is not AirportDto airport)
         {
             return;
         }
