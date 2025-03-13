@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using FlightScanner.Client.BlazorWA.Validation;
 using FlightScanner.Common.Constants;
 using FlightScanner.Common.Enumerations;
 
@@ -7,10 +6,8 @@ namespace FlightScanner.Client.BlazorWA.Models;
 
 public class FlightSearchViewModel
 {
-    [Required(ErrorMessage = "Currency is required!")]
     public Currency SelectedCurrency { get; set; }
 
-    [Required(ErrorMessage = "Departure date is required!")]
     public DateTime DepartureDate { get; set; }
 
     [Required(ErrorMessage = "Departure airport IATA code is required!")]
@@ -21,10 +18,7 @@ public class FlightSearchViewModel
     [StringLength(IataCodeConstants.IATA_CODE_LENGTH, ErrorMessage = "IATA code not valid, it must have at least 3 characters!")]
     public string DestionationAirportIataCode { get; set; } = null!;
 
-    [ReturnDateValidation(nameof(DepartureDate))]
     public DateTime? ReturnDate { get; set; }
 
-    [Required(ErrorMessage = "Number of passengers is required!")]
-    [Range(1, 9)]
     public int NumberOfPassengers { get; set; }
 }

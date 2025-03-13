@@ -4,8 +4,10 @@ using FlightScanner.Client.BlazorWA.Constants;
 using FlightScanner.Client.BlazorWA.Models;
 using FlightScanner.Client.BlazorWA.Services.Contracts;
 using FlightScanner.Client.BlazorWA.Services.Implementations;
+using FlightScanner.Client.BlazorWA.Validation;
 using FlightScanner.Common.Constants;
 using FlightScanner.Common.Policies;
+using FluentValidation;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 
@@ -24,6 +26,8 @@ builder.Services.AddHttpClient(HttpConstants.BACKEND_HTTP_CLIENT_NAME, (serviceP
 })
 .AddPolicyHandler(HttpPoliciesFactory.CreateRetryPolicyWithSameRetryTime(HttpConstants.HTTP_RETRY_IN_SECONDS));
 builder.Services.AddBlazorBootstrap();
+
+builder.Services.AddValidatorsFromAssemblyContaining<FlightSearchViewModelValidator>();
 
 builder.Services.AddSingleton<ApplicationState>();
 builder.Services.AddTransient<IAirportsManagerService, AirportsManagerService>();

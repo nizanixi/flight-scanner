@@ -16,6 +16,7 @@
                     <option value="@currency">@currency</option>
                 }
             </InputSelect>
+            <ValidationMessage For="@(() => FlightSearchVM.SelectedCurrency)" />
         </div>
 
         <div>
@@ -29,6 +30,7 @@
                                class="form-control"
                                min="@MinimumDepartureDate"
                                max="@MaximumDepartureDate" />
+                    <ValidationMessage For="@(() => FlightSearchVM.DepartureDate)" />
                 </div>
 
                 <div class="col">
@@ -66,6 +68,7 @@
                             </div>
                         }
                     </div>
+                    <ValidationMessage For="@(() => FlightSearchVM.DepartureAirportIataCode)" />
                 </div>
 
                 <div class="col align-content-center">
@@ -106,6 +109,7 @@
                                 </Virtualize>
                             </div>
                         }
+                        <ValidationMessage For="@(() => FlightSearchVM.DestionationAirportIataCode)" />
                     </div>
                 </div>
 
@@ -118,6 +122,7 @@
                                class="form-control"
                                min="@MinimumReturnDate"
                                max="@MaximumReturnDate" />
+                    <ValidationMessage For="@(() => FlightSearchVM.ReturnDate)" />
                 </div>
 
                 <div class="col">
@@ -127,6 +132,8 @@
                     <InputNumber @bind-Value="FlightSearchVM.NumberOfPassengers"
                                  class="form-control"
                                  style="width: fit-content;" />
+
+                    <ValidationMessage For="@(() => FlightSearchVM.NumberOfPassengers)" />
                 </div>
 
                 <div class="col align-content-end">
@@ -142,8 +149,7 @@
         </div>
     </div>
 
-    <DataAnnotationsValidator />
-    <ValidationSummary />
+    <FluentValidationValidator />
 </EditForm>
 
 <Toasts Messages="@ToastNotificationService.ToastMessages"
