@@ -2,6 +2,11 @@
 Flight Scanner can be used to search for flights and look for available flights.
 
 ## Requirements
+
+<details closed>
+<summary>What is implemeted?</summary>
+<br>
+
 * [x] Use IATA airport codes from [Wikipedia](https://en.wikipedia.org/wiki/List_of_airports_by_IATA_code:_A)
 * [x] Search flights from Amadeus service
     * [x] Use this data for searching of flights:
@@ -13,7 +18,7 @@ Flight Scanner can be used to search for flights and look for available flights.
         - currency
 * [x] Display results to user
     * [x] Blazor Web Assembly
-    * [x] Display this data for flights:
+    * [x] Display data for flights:
         - departure airport IATA code
         - departure date
         - destination airport IATA code
@@ -25,6 +30,7 @@ Flight Scanner can be used to search for flights and look for available flights.
 * [x] Save retrieved data locally and send it in case of repeated search -> cache
 - Additional work:
     - Enforce decoupling of different application logic to improve testability
+    - Add logging to application
     - Implement various middleware for APIs:
         - Validation of input parameters
         - Global exception handler middleware
@@ -35,16 +41,18 @@ Flight Scanner can be used to search for flights and look for available flights.
     - Add test coverage images
     - Add automation for build, format and test stages
     - Automate generation of SQlite database with IATA codes
-    - Deploy Blazor Web Assembly client to GitHub pages: https://nizanixi.github.io/flight-scanner/
+    - Deploy Blazor Web Assembly client to GitHub 
+    - Add validation both to server and client side with FluentValidation
+
+</details>
 
 ## Usage
-Application is divided into two parts:
-- server - all applicaion logic is contained decoupled from frontend display. This enables further expansion to other frontend technologies, like mobile.
-- client - Blazor Web Assembly is selected for frontend technology.
 
-**Note**: Before first usage, database with IATA codes needs to be generated. This can be done from CLI project or with by manually running GitHub action *create-database-from-cli-project.yml*. If created by GitHub action, download it from artifacts.
+**Note**: Before first usage, database with IATA codes needs to be generated. This can be done from CLI project or by manually running GitHub action *create-database-from-cli-project.yml*. If created by GitHub action, download it from artifacts. Copy databse to folder *source\FlightScanner.Persistence\Data*.
 
-Start both server and client side projects. Server side project has Swagger just for demonstrational purposes. Select flight on client side and find your flight.
+Start both server and client side projects. 
+- Client side project is SWA running on https://nizanixi.github.io/flight-scanner/
+- Server side project can be started by executing script 'start-flight-scanner-server.ps1' inside Web API project
 
 ## Architecture
 <details closed>
@@ -68,9 +76,10 @@ Start both server and client side projects. Server side project has Swagger just
 ![Logical architecture](documentation/images/architecture/logical-architecture.png)
 </details>
 
+<details closed>
+<summary>Project summaries</summary>
 <br>
 
-Project summaries:
 - **CLI project** - scrapes data from Wikipedia page and exports it to database file. This is done since IATA codes sholdn't be taken from resource that almost everyone can edit. This database file can afterwards be used on server side of application.
     - CLI application has clean decoupling of input received from CLI UI and business logic, which enables good testability.
     - SQLite is used as database because of simlicity. There is no need for separate server installation, it's stored in single file which simplifies deployment and enhances it's portability. It also has support for Entity Framework which will afterwards be used as database manager.
@@ -79,7 +88,8 @@ Project summaries:
     - implements communication to SQLite database.
     - uses Repository pattern to decouple access to database from application logic.
 - **Application** - contains CQRS implementation and interfaces for HTTP clients and repositories.
-- **Web API** - handles incoming HTTP requests by controllers.
+- **Web API** - contains applicaion logic decoupled from frontend display, which enables further expansion to other frontend technologies, like mobile. Server side project has Swagger just for demonstrational purposes.
+    - handles incoming HTTP requests by controllers.
     - uses CQRS pattern for decoupling controllers from outer infrastructure code.
     - contains various filters, validators and middleware: 
         - validation of input IATA code, input currency code, date validators
@@ -94,6 +104,8 @@ Project summaries:
 - **Infrastructure** - implements external API integrations.
     - contains DTO models for external APIs, which are held here to hide them for overusage in other layers.
     - caches user input for faster reuse of common requests.
+    
+</details>
 
 ## Client Web UI
 <details closed>
@@ -137,9 +149,5 @@ Below is test coverage from these 3 test projects:
 
 ## Possible improvements
 - Use authentication between server and client projects
-    - Add validation both to server and client side with FluentValidation
-- Use HybridCache instead of IMemoryCache after uplifting to .NET9
-- Add any kind of logger (Serilog)
 - Raise test coverage
-- Add deployment for backend server
 - Use React as frontend technology
