@@ -87,6 +87,7 @@ public class Program
         builder.Services.AddValidatorsFromAssemblies([
             typeof(GetAirportQueryValidator).Assembly]);
         builder.Services.AddFluentValidationAutoValidation();
+        builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggerPipeline<,>));
         builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationPipeline<,>));
 
         AddPersistence(builder.Services);

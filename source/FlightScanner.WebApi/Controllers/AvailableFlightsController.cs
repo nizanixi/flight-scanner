@@ -43,7 +43,7 @@ public class AvailableFlightsController : ControllerBase
         [FromQuery][CurrencyValidation] string currency,
         CancellationToken cancellationToken)
     {
-        _logger.LogInformation("HTTP request for getting available flights");
+        _logger.LogInformation("HTTP request for getting available flights.");
 
         var getFlightsQuery = new GetFlightsQuery(
             departureAirportIataCode: departureAirportIataCode,
